@@ -68,6 +68,8 @@ module counterPillars(c, offset=0) {
                 translate([0,0,31 + offset])
                     rotate([90,0,0])
                     cylinder(h=11,r=20,center=true);
+                translate([-10, -7.5,0])
+                cube([20,15,60]);
             }
         }
     }
@@ -103,22 +105,6 @@ module seat(s, ltrs=[], rtls=[], rtrs=[], ltls=[]) {
                 for (w = rtls) bridgeLeftRight(w[0],vEnd);
                 for (w = rtrs) bridgeRightRight(w[0],vEnd);
                 for (w = ltls) bridgeLeftLeft(w[0],vEnd);
-            }
-            union () {
-                for ( i = [0 : num-1] ) coinPlusE(v + [0,i],offset);
-            }
-        }
-    }
-}
-
-module counterSeat(s) {
-    v = s[0];
-    offset = s[1];
-    num = s[2];
-    color("Silver"){
-        difference() {
-            union() {
-                for ( i = [0 : num-1] ) counterPillars(v + [0,i], offset);
             }
             union () {
                 for ( i = [0 : num-1] ) coinPlusE(v + [0,i],offset);
@@ -240,6 +226,8 @@ module box() {
                     num = s[2];
                     for ( i = [0 : num-1] ) coinPlusE(v + [0,i],offset);
                 }
+                translate(coordsToPos(s23[0]) + [-7,-3.2, 35])
+                    cube([14,6.4,40]);
                 translate(coordsToPos(s24[0]) + [-14,-3.2, 35])
                     cube([28,6.4,40]);
                 translate(coordsToPos(s25[0]) + [-17,-3.2, 35])
@@ -279,8 +267,13 @@ module box() {
 /* $fa = 1; */
 /* $fs = 0.4; */
 
-/* seats(); */
-coins();
-box();
+seats();
+/* coins(); */
+translate([250,0,60])
+    rotate([0,180,0]) {
+    /* coins(); */
+    box();
+}
+
 
 
