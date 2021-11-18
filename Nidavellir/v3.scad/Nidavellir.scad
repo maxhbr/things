@@ -2,6 +2,7 @@ width = 46.5;
 toLeft = [-37/2,0,0];
 toRight = [37/2,0,0];
 e=0.25;
+numStep = 1;
 
 function coordsToPos(c) = [c.x * width, c.y * 8,0];
 
@@ -63,7 +64,7 @@ module coins() {
         v = s[0];
         offset=s[1];
         num=s[2];
-        for ( i = [0 : num-1] ) coin(v + [0,i],offset);
+        for ( i = [0 : num-1] ) coin(v + [0,i],offset - i * numStep);
     }
 }
 
@@ -73,8 +74,8 @@ module coins() {
 
 module bridgeSupport(v) {
     translate(v){
-        cylinder(h=3,r=5, center=false);
-        cylinder(h=10,r=1.5, center=false);
+        cylinder(h=1,r=3, center=false);
+        cylinder(h=10,r=1, center=false);
     }
 }
 
@@ -124,7 +125,7 @@ module seat(s, ltrs=[], rtls=[], rtrs=[], ltls=[]) {
     num = s[2];
     difference() {
         union() {
-            for ( i = [0 : num-1] ) pillars(v + [0,i], offset);
+            for ( i = [0 : num-1] ) pillars(v + [0,i], offset - i * numStep);
 
             vEnd = [v.x, v.y + num -1];
             for (w = ltrs) bridgeLeftRight(vEnd,w[0]);
@@ -133,7 +134,7 @@ module seat(s, ltrs=[], rtls=[], rtrs=[], ltls=[]) {
             for (w = ltls) bridgeLeftLeft(w[0],vEnd);
         }
         union () {
-            for ( i = [0 : num-1] ) coinPlusE(v + [0,i],offset);
+            for ( i = [0 : num-1] ) coinPlusE(v + [0,i],offset - i * numStep);
         }
     }
 }
@@ -194,8 +195,8 @@ module boxSupport() {
     intersection() {
         rotate([0,0,-45])
             difference() {
-                translate([-12.5,-12.5,1])
-                    cube([25,25,59]);
+                translate([-14,-14,1])
+                    cube([28,28,59]);
                 translate([-6,-6,-0.5])
                     cube([25,25,61]);
             }
@@ -211,9 +212,8 @@ module boxSupports() {
             boxSupport();
         translate([-e * 1.4,0,0.9])
             union() {
-                seat(s5, ltrs=[], rtls=[s10], ltls=[s10]);
-                seat(s10, ltrs=[s14], rtls=[s15], ltls=[s14]);
-                seat(s14, ltrs=[], rtls=[s19]);
+                seat(s5, ltrs=[], rtls=[], ltls=[s10]);
+                seat([s10[0],s10[1]+3,s10[2]], ltrs=[], rtls=[], ltls=[s14]);
             }
     }
     difference() {
@@ -221,9 +221,8 @@ module boxSupports() {
             boxSupport();
         translate([e * 1.4,0,0.9])
             union() {
-                seat(s9, ltrs=[s13], rtls=[], rtrs=[s13]);
-                seat(s13, ltrs=[s17], rtls=[s18], rtrs=[s18]);
-                seat(s18, ltrs=[s22], rtls=[]);
+                seat(s9, ltrs=[], rtls=[], rtrs=[s13]);
+                seat([s13[0],s13[1]+3,s13[2]], ltrs=[s17], rtls=[], rtrs=[s18]);
             }
     }
 }
@@ -251,7 +250,7 @@ module box() {
                     v = s[0];
                     num = s[2];
                     for ( i = [0 : num-1] ) {
-                        translate(coordsToPos(v) + [-(width + 4) / 2, -5,56])
+                        translate(coordsToPos(v + [0,i]) + [-(width + 4) / 2, -5,56])
                             cube([width+4,10,4]);
                     }
                 }
@@ -268,7 +267,7 @@ module box() {
                 v = s[0];
                 offset = s[1];
                 num = s[2];
-                for ( i = [0 : num-1] ) counterPillars(v + [0,i], offset);
+                for ( i = [0 : num-1] ) counterPillars(v + [0,i], offset - i * numStep);
             }
 
             translate([97,107,0])
@@ -287,7 +286,7 @@ module box() {
                 v = s[0];
                 offset = s[1];
                 num = s[2];
-                for ( i = [0 : num-1] ) coinPlusE(v + [0,i],offset);
+                for ( i = [0 : num-1] ) coinPlusE(v + [0,i],offset - i  * numStep);
             }
             translate(coordsToPos(s23[0]) + [-7,-3.2, 35])
                 cube([14,6.4,40]);
@@ -332,9 +331,14 @@ module noPart(c=undef){
     }
 }
 
+
 part("seats.stl",c="Silver") seats();
 noPart(c="Gold") coins();
-translate([250,0,60]) rotate([0,180,0])
-    part("box.stl",c="Tan") box();
+part("box.stl",c="Tan") box();
 
+noPart(c="Tan") translate([250,0,60]) rotate([0,180,0]) box();
+
+noPart(c="Silver")
+    translate([-250,0,0])
+    seats();
 
