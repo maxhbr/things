@@ -336,9 +336,7 @@ part("seats.stl",c="Silver") seats();
 noPart(c="Gold") coins();
 part("box.stl",c="Tan") box();
 
-noPart(c="Tan") translate([250,0,60]) rotate([0,180,0]) box();
+noPart(c="Tan") translate([-250,0,60]) rotate([0,180,0]) box();
 
-noPart(c="Silver")
-    translate([-250,0,0])
-    seats();
+noPart(c="Silver") translate([250,0,0]) seats();
 
