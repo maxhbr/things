@@ -311,9 +311,6 @@ module box() {
 /* == Main ================================================================= */
 /* ========================================================================= */
 
-/* $fa = 1; */
-/* $fs = 0.4; */
-
 justOnePart="";
 
 module part(partName,c=undef){
@@ -321,6 +318,8 @@ module part(partName,c=undef){
         color(c=c)
             children();
     } else if (justOnePart == partName) {
+        $fa = 1;
+        $fs = 0.4;
         color(c=c)
             children();
     }
