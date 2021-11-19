@@ -239,10 +239,8 @@ module boxSupportGaps() {
 }
 
 module box() {
-    boxH = 60;
-    boxW = 235;
-    boxD = 130;
-    wall = 2;
+    thicknesF = 2;
+    thicknesB = 4;
     difference() {
         union() {
             hull() {
@@ -250,18 +248,19 @@ module box() {
                     v = s[0];
                     num = s[2];
                     for ( i = [0 : num-1] ) {
-                        translate(coordsToPos(v + [0,i]) + [-(width + 4) / 2, -5,56])
-                            cube([width+4,10,4]);
+                        translate(coordsToPos(v + [0,i]) + 
+                                [-(width + 4) / 2, -5,60 - thicknesF])
+                            cube([width+4,10,thicknesF]);
                     }
                 }
                 translate([97,107,0])
                     rotate([0,0,-45])
-                    translate([-width/2,-5,56])
-                    cube([width,10,4]);
+                    translate([-width/2,-5,60 - thicknesB])
+                    cube([width,10,thicknesB]);
                 translate([-97,107,0])
                     rotate([0,0,45])
-                    translate([-width/2,-5,56])
-                    cube([width,10,4]);
+                    translate([-width/2,-5,60 - thicknesB])
+                    cube([width,10,thicknesB]);
             }
             for (s=ss) {
                 v = s[0];
