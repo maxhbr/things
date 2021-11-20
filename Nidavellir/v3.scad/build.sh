@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-file="Nidavellir.scad"
-
 buildPart() (
     set -x
-    openscad -o "$1" "$file" -D 'justOnePart="'"$1"'"'
+    openscad -o "$1"\
+        "Nidavellir.scad" \
+        -D 'justOnePart="'"$1"'"'
 )
 
 render() {
@@ -12,7 +12,8 @@ render() {
         --projection=perspective \
         --colorscheme Tomorrow \
         "$@" \
-        NidavellirComplete.scad
+        NidavellirComplete.scad \
+        -D 'highRes=true'
 }
 
 time buildPart Nidavellir-Bank.stl &

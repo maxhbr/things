@@ -1,3 +1,5 @@
+use <../../assets/Roboto-Medium.ttf>
+
 width = 46.5;
 toLeft = [-37/2,0,0];
 toRight = [37/2,0,0];
@@ -125,11 +127,15 @@ module pillars(c, offset=0, text=undef) {
                             cube(40, center=true);
                     }
                 }
+                textDepth = 0.3;
                 color("DimGray") 
-                translate(toLeft + [4.5,-4.7,14 + offset])
+                translate(toLeft + [3.5,-5 + textDepth,14 + offset])
                     rotate([90,0,0])
-                    linear_extrude(1)
-                    text(text, font = "Liberation Sans", size = 4, halign = "right");
+                        linear_extrude(1)
+                            text(text,
+                                    font = "Roboto:style=Medium",
+                                    size = 4,
+                                    halign = "right");
             }
         }
     }
@@ -332,6 +338,7 @@ module box() {
 /* == Main ================================================================= */
 /* ========================================================================= */
 
+highRes=false;
 justOnePart="";
 
 module part(partName){
@@ -349,7 +356,6 @@ module noPart(){
         children();
     }
 }
-
 
 part("Nidavellir-Bank.stl") seats();
 noPart() coins();

@@ -1,5 +1,8 @@
 include <./Nidavellir.scad>
 
+$fa = 1;
+$fs = 0.4;
+
 translate([94.5,3,2]) {
     noPart()
         color(c="Honeydew")
