@@ -12,7 +12,7 @@ render() {
         --projection=perspective \
         --colorscheme Tomorrow \
         "$@" \
-        NidavellirComplete.scad \
+        NidavellirAssembly.scad \
         -D 'highRes=true'
 }
 
