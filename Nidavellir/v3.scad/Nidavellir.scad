@@ -351,9 +351,9 @@ module noPart(){
 }
 
 
-part("seats.stl") seats();
+part("Nidavellir-Bank.stl") seats();
 noPart() coins();
-part("box.stl") box();
+part("Nidavellir-BankLid.stl") box();
 
 noPart() translate([-250,0,60]) rotate([0,180,0]) box();
 
