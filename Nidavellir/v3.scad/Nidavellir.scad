@@ -47,7 +47,12 @@ ss=[s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s
 /* ========================================================================= */
 
 module coin(c, offset=0) {
-    translate(coordsToPos(c) + [0,0,31 + offset])
+    color("Gold")
+        translate(coordsToPos(c) + [0,0,31 + offset])
+        rotate([90,0,0])
+        cylinder(h=2,r=40/2,center=true);
+    color("GhostWhite", alpha = 0.4)
+        translate(coordsToPos(c) + [0,0,31 + offset])
         rotate([90,0,0])
         cylinder(h=6,r=44.5/2,center=true);
 }
@@ -332,7 +337,7 @@ module noPart(c=undef){
 
 
 part("seats.stl",c="Silver") seats();
-noPart(c="Gold") coins();
+noPart() coins();
 part("box.stl",c="Tan") box();
 
 noPart(c="Tan") translate([-250,0,60]) rotate([0,180,0]) box();

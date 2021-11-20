@@ -10,4 +10,8 @@ buildPart() (
 buildPart seats.stl
 buildPart box.stl
 
-openscad --imgsize=2000,2000 --projection=perspective -o Nidavellir.png Nidavellir.scad
+openscad --imgsize=2000,2000 \
+    --projection=perspective \
+    --colorscheme Tomorrow \
+    -o Nidavellir.png \
+    NidavellirComplete.scad
