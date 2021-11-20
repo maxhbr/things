@@ -85,9 +85,11 @@ module bridgeSupport(v) {
 }
 
 module bridge(v,w) {
-    hull() {
-        bridgeSupport(v);
-        bridgeSupport(w);
+    color(c="Silver") {
+        hull() {
+            bridgeSupport(v);
+            bridgeSupport(w);
+        }
     }
 }
 
@@ -103,34 +105,49 @@ module bridgeLeftLeft(c1, c2) {
     bridge(coordsToPos(c1) + toLeft,coordsToPos(c2) + toLeft);
 }
 
-module pillars(c, offset=0) {
+module pillars(c, offset=0, text=undef) {
     pillarH = 25 + offset;
     translate(coordsToPos(c)) {
         difference() {
-            union() {
+            color(c="Silver") {
                 translate(toRight)
                     linear_extrude(height = pillarH, convexity = 10, twist = 0)
                     polygon(points=[[5,-5],[-5,-5],[-5,5],[5,5],[6.5,3.5],[6.5,-3.5]]);
                 translate(toLeft) 
                     linear_extrude(height = pillarH, convexity = 10, twist = 0)
                     polygon(points=[[5,-5],[-5,-5],[-6.5,-3.5],[-6.5,3.5],[-5,5],[5,5]]);
-            }
-            translate([0,0,pillarH+8]) {
-                rotate([0,45,0])
-                cube(40, center=true);
-            }
 
+            }
+            union() {
+                color(c="Silver") {
+                    translate([0,0,pillarH+8]) {
+                        rotate([0,45,0])
+                            cube(40, center=true);
+                    }
+                }
+                color("DimGray") 
+                translate(toLeft + [4.5,-4.7,14 + offset])
+                    rotate([90,0,0])
+                    linear_extrude(1)
+                    text(text, font = "Liberation Sans", size = 4, halign = "right");
+            }
         }
     }
 }
 
-module seat(s, ltrs=[], rtls=[], rtrs=[], ltls=[]) {
+module seat(s, ltrs=[], rtls=[], rtrs=[], ltls=[], text=undef) {
     v = s[0];
     offset = s[1];
     num = s[2];
     difference() {
         union() {
-            for ( i = [0 : num-1] ) pillars(v + [0,i], offset - i * numStep);
+            for ( i = [0 : num-1] ) { 
+                if (i == 0) {
+                    pillars(v + [0,i], offset - i * numStep, text=text);
+                } else {
+                    pillars(v + [0,i], offset - i * numStep);
+                }
+            }
 
             vEnd = [v.x, v.y + num -1];
             for (w = ltrs) bridgeLeftRight(vEnd,w[0]);
@@ -138,38 +155,38 @@ module seat(s, ltrs=[], rtls=[], rtrs=[], ltls=[]) {
             for (w = rtrs) bridgeRightRight(w[0],vEnd);
             for (w = ltls) bridgeLeftLeft(w[0],vEnd);
         }
-        union () {
+        color(c="Silver") {
             for ( i = [0 : num-1] ) coinPlusE(v + [0,i],offset - i * numStep);
         }
     }
 }
 
 module seats() {
-    seat(s5, ltrs=[], rtls=[s10], ltls=[s10]);
-    seat(s6, ltrs=[s10], rtls=[s11]);
-    seat(s7, ltrs=[s11], rtls=[s12]);
-    seat(s8, ltrs=[s12], rtls=[s13]);
-    seat(s9, ltrs=[s13], rtls=[], rtrs=[s13]);
+        seat(s5, ltrs=[], rtls=[s10], ltls=[s10], text="5");
+        seat(s6, ltrs=[s10], rtls=[s11], text="6");
+        seat(s7, ltrs=[s11], rtls=[s12], text="7");
+        seat(s8, ltrs=[s12], rtls=[s13], text="8");
+        seat(s9, ltrs=[s13], rtls=[], rtrs=[s13], text="9");
 
-    seat(s10, ltrs=[s14], rtls=[s15], ltls=[s14]);
-    seat(s11, ltrs=[s15], rtls=[s16]);
-    seat(s12, ltrs=[s16], rtls=[s17]);
-    seat(s13, ltrs=[s17], rtls=[s18], rtrs=[s18]);
+        seat(s10, ltrs=[s14], rtls=[s15], ltls=[s14], text="10");
+        seat(s11, ltrs=[s15], rtls=[s16], text="11");
+        seat(s12, ltrs=[s16], rtls=[s17], text="12");
+        seat(s13, ltrs=[s17], rtls=[s18], rtrs=[s18], text="13");
 
-    seat(s14, ltrs=[], rtls=[s19]);
-    seat(s15, ltrs=[s19], rtls=[s20]);
-    seat(s16, ltrs=[s20], rtls=[s21]);
-    seat(s17, ltrs=[s21], rtls=[s22]);
-    seat(s18, ltrs=[s22], rtls=[]);
+        seat(s14, ltrs=[], rtls=[s19], text="14");
+        seat(s15, ltrs=[s19], rtls=[s20], text="15");
+        seat(s16, ltrs=[s20], rtls=[s21], text="16");
+        seat(s17, ltrs=[s21], rtls=[s22], text="17");
+        seat(s18, ltrs=[s22], rtls=[], text="18");
 
-    seat(s19, ltrs=[], rtls=[s23]);
-    seat(s20, ltrs=[s23], rtls=[s24]);
-    seat(s21, ltrs=[s24], rtls=[s25]);
-    seat(s22, ltrs=[s25], rtls=[]);
+        seat(s19, ltrs=[], rtls=[s23], text="19");
+        seat(s20, ltrs=[s23], rtls=[s24], text="20");
+        seat(s21, ltrs=[s24], rtls=[s25], text="21");
+        seat(s22, ltrs=[s25], rtls=[], text="22");
 
-    seat(s23);
-    seat(s24);
-    seat(s25);
+        seat(s23, text="23");
+        seat(s24, text="24");
+        seat(s25, text="25");
 }
 
 /* ========================================================================= */
@@ -246,6 +263,7 @@ module boxSupportGaps() {
 module box() {
     thicknesF = 2;
     thicknesB = 4;
+    color(c="Tan")
     difference() {
         union() {
             hull() {
@@ -316,31 +334,28 @@ module box() {
 
 justOnePart="";
 
-module part(partName,c=undef){
+module part(partName){
     if (justOnePart == ""){
-        color(c=c)
-            children();
+        children();
     } else if (justOnePart == partName) {
         $fa = 1;
         $fs = 0.4;
-        color(c=c)
-            children();
+        children();
     }
 }
 
-module noPart(c=undef){
+module noPart(){
     if (justOnePart == ""){
-        color(c=c)
-            children();
+        children();
     }
 }
 
 
-part("seats.stl",c="Silver") seats();
+part("seats.stl") seats();
 noPart() coins();
-part("box.stl",c="Tan") box();
+part("box.stl") box();
 
-noPart(c="Tan") translate([-250,0,60]) rotate([0,180,0]) box();
+noPart() translate([-250,0,60]) rotate([0,180,0]) box();
 
-noPart(c="Silver") translate([250,0,0]) seats();
+noPart() translate([250,0,0]) seats();
 

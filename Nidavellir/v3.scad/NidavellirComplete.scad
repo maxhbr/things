@@ -1,10 +1,12 @@
 include <./Nidavellir.scad>
 
 translate([94.5,3,2]) {
-    noPart(c="Honeydew")
+    noPart()
+        color(c="Honeydew")
         import("../v1/Nidavellir-Cards.stl", convexity=3);
     translate([0,12,0]) {
-        noPart(c="AliceBlue")
+        noPart()
+            color(c="AliceBlue")
             import("../v1/Nidavellir-StartCoins.stl", convexity=3);
         noPart() {
             translate([-137,144,4]) coin([0,0]);
