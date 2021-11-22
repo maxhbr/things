@@ -22,3 +22,4 @@ It has sufficient space to fit [Nidavellir: Thingvellir](https://boardgamegeek.c
 ![render](./v3.scad/Nidavellir-1.png)
 ![render](./v3.scad/Nidavellir-2.png)
 ![render](./v3.scad/Nidavellir-3.png)
+![render](./v3.scad/Nidavellir-4.png)

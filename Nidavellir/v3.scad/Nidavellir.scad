@@ -110,24 +110,35 @@ module bridgeLeftLeft(c1, c2) {
 
 module pillars(c, offset=0, text=undef) {
     pillarH = 25 + offset;
+    off=10;
     translate(coordsToPos(c)) {
         difference() {
             color(c="Silver") {
-                translate(toRight)
-                    linear_extrude(height = pillarH, convexity = 10, twist = 0)
-                    polygon(points=[[5,-5],[-5,-5],[-5,5],[5,5],[6.5,3.5],[6.5,-3.5]]);
-                translate(toLeft) 
-                    linear_extrude(height = pillarH, convexity = 10, twist = 0)
-                    polygon(points=[[5,-5],[-5,-5],[-6.5,-3.5],[-6.5,3.5],[-5,5],[5,5]]);
+                difference() {
+                    translate(toRight)
+                        linear_extrude(height = pillarH, convexity = 10, twist = 0)
+                        polygon(points=[[5,-5],[-5,-5],[-5,5],[5,5],[6.5,3.5],[6.5,-3.5]]);
+                    translate([0,0,pillarH+8])
+                        rotate([0,45-off,0])
+                        cube(40, center=true);
+                    translate([0,0,pillarH+10.5])
+                        rotate([0,45+off,0])
+                        cube(40, center=true);
+                }
+                difference() {
+                    translate(toLeft) 
+                        linear_extrude(height = pillarH, convexity = 10, twist = 0)
+                        polygon(points=[[5,-5],[-5,-5],[-6.5,-3.5],[-6.5,3.5],[-5,5],[5,5]]);
+                    translate([0,0,pillarH+8])
+                        rotate([0,45+off,0])
+                        cube(40, center=true);
+                    translate([0,0,pillarH+10.5])
+                        rotate([0,45-off,0])
+                        cube(40, center=true);
+                }
 
             }
             union() {
-                color(c="Silver") {
-                    translate([0,0,pillarH+8]) {
-                        rotate([0,45,0])
-                            cube(40, center=true);
-                    }
-                }
                 textDepth = 0.5;
                 color("DimGray") 
                 translate(toLeft + [3.5,-5 + textDepth,14 + offset])
