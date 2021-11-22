@@ -2,17 +2,19 @@
 
 buildPart() (
     set -x
-    openscad -o "$1"\
+    openscad --hardwarnings \
+        -o "$1"\
         "Nidavellir.scad" \
         -D 'justOnePart="'"$1"'"'
 )
 
 render() {
-    openscad --imgsize=3840,2160 \
+    openscad --hardwarnings \
+        --imgsize=3840,2160 \
         --projection=perspective \
         --colorscheme Tomorrow \
         "$@" \
-        NidavellirAssembly.scad \
+        NidavellirComplete.scad \
         -D 'highRes=true'
 }
 

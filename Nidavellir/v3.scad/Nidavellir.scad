@@ -1,6 +1,7 @@
 use <../../assets/Roboto-Medium.ttf>
 
 width = 46.5;
+boxH = 60;
 toLeft = [-37/2,0,0];
 toRight = [37/2,0,0];
 e=0.35;
@@ -200,7 +201,6 @@ module bank() {
 /* ========================================================================= */
 
 module counterPillars(c, offset=0) {
-    boxH = 60;
     cPillarH = 25 - offset;
     translate(coordsToPos(c)) {
         difference() {
@@ -213,7 +213,7 @@ module counterPillars(c, offset=0) {
                     rotate([90,0,0])
                     cylinder(h=11,r=20,center=true);
                 translate([-10, -7.5,0])
-                cube([20,15,60]);
+                cube([20,15,boxH]);
             }
         }
     }
@@ -224,12 +224,12 @@ module boxSupport() {
         rotate([0,0,-45])
             difference() {
                 translate([-14,-14,1])
-                    cube([28,28,59]);
+                    cube([28,28,boxH - 1]);
                 translate([-6,-6,-0.5])
-                    cube([25,25,61]);
+                    cube([25,25,boxH + 1]);
             }
         translate([-15,-15,-0.5])
-            cube([16,30,61]);
+            cube([16,30,boxH + 1]);
     }
 }
 
@@ -258,13 +258,13 @@ module boxSupports() {
     /* Supports 2 */
     difference() {
         translate(coordsToPos([-2.5,12.5]) + toRight + [-5,-4.75,1])
-            cube([10,9.5,59]);
+            cube([10,9.5,boxH-1]);
         translate([-e * 1.4,0,0.9])
             seat(s19);
     }
     difference() {
         translate(coordsToPos([2.5,12]) + toLeft + [-5,-4.75,1])
-            cube([10,9.5,59]);
+            cube([10,9.5,boxH-1]);
         translate([e * 1.4,0,0.9])
             seat(s22);
     }
@@ -272,13 +272,13 @@ module boxSupports() {
     /* Supports 3 */
     difference() {
         translate(coordsToPos([-2,15]) + toRight + [-5,-4.75,1])
-            cube([10,9.5,59]);
+            cube([10,9.5,boxH-1]);
         translate([-e * 1.4,0,0.9])
             seat(s23);
     }
     difference() {
         translate(coordsToPos([2,15]) + toLeft + [-5,-4.75,1])
-            cube([10,9.5,59]);
+            cube([10,9.5,boxH-1]);
         translate([e * 1.4,0,0.9])
             seat(s25);
     }
@@ -288,13 +288,13 @@ module boxSupports() {
         union() {
             difference() {
                 translate(coordsToPos([0,15.5]) + toRight + [-(6+2),-3.3,1])
-                    cube([12,6.3,59]);
+                    cube([12,6.3,boxH-1]);
                 translate([-e * 1.4,0,0.9])
                     seat(s25);
             }
             difference() {
                 translate(coordsToPos([0,15.5]) + toLeft + [-(6-2),-3.3,1])
-                    cube([12,6.3,59]);
+                    cube([12,6.3,boxH-1]);
                 translate([e * 1.4,0,0.9])
                     seat(s23);
             }
@@ -310,11 +310,11 @@ module boxSupportGaps() {
     translate([-119,44,0])
         rotate([0,0,45])
         translate([-12.5,-12.5,-0.5])
-        cube([25,25,61]);
+        cube([25,25,boxH+1]);
     translate([119,49,0])
         rotate([0,0,45])
         translate([-12.5,-12.5,-0.5])
-        cube([25,25,61]);
+        cube([25,25,boxH+1]);
 }
 
 module bankLid() {
@@ -330,17 +330,17 @@ module bankLid() {
                         num = s[2];
                         for ( i = [0 : num-1] ) {
                             translate(coordsToPos(v + [0,i]) + 
-                                    [-(width + 4) / 2, -5,60 - thicknesF])
+                                    [-(width + 4) / 2, -5,boxH - thicknesF])
                                 cube([width+4,10,thicknesF]);
                         }
                     }
                     translate([97,107,0])
                         rotate([0,0,-45])
-                        translate([-width/2,-5,60 - thicknesB])
+                        translate([-width/2,-5,boxH - thicknesB])
                         cube([width,10,thicknesB]);
                     translate([-97,107,0])
                         rotate([0,0,45])
-                        translate([-width/2,-5,60 - thicknesB])
+                        translate([-width/2,-5,boxH - thicknesB])
                         cube([width,10,thicknesB]);
                 }
                 for (s=ss) {
@@ -353,11 +353,11 @@ module bankLid() {
                 if (reverseHolders) {
                     translate([97,107,0])
                         rotate([0,0,-45])
-                        translate([-width/2,-5,32])
+                        translate([-width/2,-5,boxH-28])
                         cube([width,10,28]);
                     translate([-97,107,0])
                         rotate([0,0,45])
-                        translate([-width/2,-5,32])
+                        translate([-width/2,-5,boxH-28])
                         cube([width,10,28]);
                 }
 
@@ -372,7 +372,7 @@ module bankLid() {
                     num = s[2];
                     hull() {
                         for ( i = [0 : num-1] ) {
-                            translate(coordsToPos(v + [0,i]) + [0,0,57])
+                            translate(coordsToPos(v + [0,i]) + [0,0,boxH-3])
                                 rotate([0,0,30])
                                 cylinder(3,24/2,26/2,$fn=6,center=true);
                         }
@@ -398,7 +398,7 @@ module bankLid() {
                     num = s[2];
                     hull() {
                         for ( i = [0 : num-1] ) {
-                            translate(coordsToPos(v + [0,i]) + [0,0,60])
+                            translate(coordsToPos(v + [0,i]) + [0,0,boxH])
                                 rotate([0,0,30])
                                 cylinder(10,20/2,20/2,$fn=6,center=true);
                         }
@@ -406,11 +406,11 @@ module bankLid() {
                 }
 
                 translate(coordsToPos(s23[0]) + [-7,-3.2, 35])
-                    cube([14,6.4,40]);
+                    cube([14,6.4,boxH-20]);
                 translate(coordsToPos(s24[0]) + [-14,-3.2, 35])
-                    cube([28,6.4,40]);
+                    cube([28,6.4,boxH-20]);
                 translate(coordsToPos(s25[0]) + [-17,-3.2, 35])
-                    cube([34,6.4,40]);
+                    cube([34,6.4,boxH-20]);
 
                 if (reverseHolders) {
                     translate([97,107,0])
