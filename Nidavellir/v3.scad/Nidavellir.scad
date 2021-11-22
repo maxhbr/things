@@ -18,21 +18,21 @@ function translateToLeft() = translate([(width - 10)/2,0,0]);
 /* ========================================================================= */
 
 s5  = [[-2,1]     , -6, 2];
-s6  = [[-1,0.5]   , -6, 2];
-s7  = [[0,0]      , -6, 3];
-s8  = [[1,0.5]    , -6, 2];
-s9  = [[2,1]      , -6, 3];
+s6  = [[-1,0.5]   , -5.5, 2];
+s7  = [[0,0]      , -5, 3];
+s8  = [[1,0.5]    , -4.5, 2];
+s9  = [[2,1]      , -4, 3];
 
 s10 = [[-1.5,5]   , -3, 2];
 s11 = [[-0.5,4.5] , -3, 3];
-s12 = [[0.5,5]    , -3, 2];
-s13 = [[1.5,5.5]  , -3, 2];
+s12 = [[0.5,5]    , -2, 2];
+s13 = [[1.5,5.5]  , -1, 2];
 
 s14 = [[-2,8.5]   ,  0, 2];
 s15 = [[-1,9]     ,  0, 1];
-s16 = [[0,8.5]    ,  0, 1];
-s17 = [[1,9]      ,  0, 1];
-s18 = [[2,9.5]    ,  0, 1];
+s16 = [[0,8.5]    ,  1, 1];
+s17 = [[1,9]      ,  1, 1];
+s18 = [[2,9.5]    ,  2, 1];
 
 s19 = [[-1.5,12.5],  2, 1];
 s20 = [[-0.5,12]  ,  3, 1];
@@ -82,7 +82,7 @@ module coins() {
 
 module bridgeSupport(v) {
     translate(v){
-        cylinder(h=1,r=3, center=false);
+        cylinder(h=1,r=4, center=false);
         cylinder(h=10,r=1, center=false);
     }
 }
@@ -253,6 +253,7 @@ module boxSupports() {
         translate([-e * 1.4,0,0.9])
             union() {
                 seat(s5, ltrs=[], rtls=[], ltls=[s10]);
+                hull() seat([s10[0],s10[1]+3,s10[2]]);
                 seat([s10[0],s10[1]+3,s10[2]], ltrs=[], rtls=[], ltls=[s14]);
             }
     }
@@ -262,6 +263,7 @@ module boxSupports() {
         translate([e * 1.4,0,0.9])
             union() {
                 seat(s9, ltrs=[], rtls=[], rtrs=[s13]);
+                hull() seat([s13[0],s13[1]+3,s13[2]]);
                 seat([s13[0],s13[1]+3,s13[2]], ltrs=[s17], rtls=[], rtrs=[s18]);
             }
     }
@@ -411,7 +413,7 @@ module bankLid() {
                         for ( i = [0 : num-1] ) {
                             translate(coordsToPos(v + [0,i]) + [0,0,boxH])
                                 rotate([0,0,30])
-                                cylinder(10,20/2,20/2,$fn=6,center=true);
+                                cylinder(10,20/2,21/2,$fn=6,center=true);
                         }
                     }
                 }
