@@ -9,6 +9,10 @@ It has sufficient space to fit [Nidavellir: Thingvellir](https://boardgamegeek.c
   - [Nidavellir-BankLid](Nidavellir-BankLid.stl)
   - [Nidavellir-Cards](Nidavellir-Cards.stl)
   - [Nidavellir-StartCoins](Nidavellir-StartCoins.stl)
+- https://github.com/maxhbr/things/releases/tag/1.0.2-Nidavellir.v3.scad
+  - more space for coins
+  - to many supports?
+  - no reverse coin holders
 - https://github.com/maxhbr/things/releases/tag/1.0.1-Nidavellir.v3.scad
 - https://github.com/maxhbr/things/releases/tag/1.0.0-Nidavellir.v3.scad
 
