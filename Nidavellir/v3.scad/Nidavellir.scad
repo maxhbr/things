@@ -3,7 +3,7 @@ use <../../assets/Roboto-Medium.ttf>
 width = 46.5;
 toLeft = [-37/2,0,0];
 toRight = [37/2,0,0];
-e=0.25;
+e=0.35;
 numStep = 1;
 
 function coordsToPos(c) = [c.x * width, c.y * 8,0];
@@ -59,9 +59,9 @@ module coin(c, offset=0) {
         cylinder(h=6,r=44.5/2,center=true);
 }
 
-module coinPlusE(c, offset=0) {
+module coinPlusE(c, offset=0, ePlus=0) {
     minkowski() {
-        sphere(d=e);
+        sphere(d=e + ePlus);
         coin(c,offset);
     }
 }
@@ -127,7 +127,7 @@ module pillars(c, offset=0, text=undef) {
                             cube(40, center=true);
                     }
                 }
-                textDepth = 0.3;
+                textDepth = 0.5;
                 color("DimGray") 
                 translate(toLeft + [3.5,-5 + textDepth,14 + offset])
                     rotate([90,0,0])
@@ -167,7 +167,7 @@ module seat(s, ltrs=[], rtls=[], rtrs=[], ltls=[], text=undef) {
     }
 }
 
-module seats() {
+module bank() {
         seat(s5, ltrs=[], rtls=[s10], ltls=[s10], text="5");
         seat(s6, ltrs=[s10], rtls=[s11], text="6");
         seat(s7, ltrs=[s11], rtls=[s12], text="7");
@@ -234,6 +234,7 @@ module boxSupport() {
 }
 
 module boxSupports() {
+    /* Supports 1 */
     difference() {
         translate([-108,44,0])
             rotate([0,0,180])
@@ -253,6 +254,56 @@ module boxSupports() {
                 seat([s13[0],s13[1]+3,s13[2]], ltrs=[s17], rtls=[], rtrs=[s18]);
             }
     }
+
+    /* Supports 2 */
+    difference() {
+        translate(coordsToPos([-2.5,12.5]) + toRight + [-5,-4.75,1])
+            cube([10,9.5,59]);
+        translate([-e * 1.4,0,0.9])
+            seat(s19);
+    }
+    difference() {
+        translate(coordsToPos([2.5,12]) + toLeft + [-5,-4.75,1])
+            cube([10,9.5,59]);
+        translate([e * 1.4,0,0.9])
+            seat(s22);
+    }
+
+    /* Supports 3 */
+    difference() {
+        translate(coordsToPos([-2,15]) + toRight + [-5,-4.75,1])
+            cube([10,9.5,59]);
+        translate([-e * 1.4,0,0.9])
+            seat(s23);
+    }
+    difference() {
+        translate(coordsToPos([2,15]) + toLeft + [-5,-4.75,1])
+            cube([10,9.5,59]);
+        translate([e * 1.4,0,0.9])
+            seat(s25);
+    }
+
+    /* Supports 4 */
+    difference() {
+        union() {
+            difference() {
+                translate(coordsToPos([0,15.5]) + toRight + [-(6+2),-3.3,1])
+                    cube([12,6.3,59]);
+                translate([-e * 1.4,0,0.9])
+                    seat(s25);
+            }
+            difference() {
+                translate(coordsToPos([0,15.5]) + toLeft + [-(6-2),-3.3,1])
+                    cube([12,6.3,59]);
+                translate([e * 1.4,0,0.9])
+                    seat(s23);
+            }
+        }
+        hull() {
+            translate([0,e,0.9])
+                seat(s24);
+        }
+    }
 }
 
 module boxSupportGaps() {
@@ -266,72 +317,113 @@ module boxSupportGaps() {
         cube([25,25,61]);
 }
 
-module box() {
+module bankLid() {
+    reverseHolders = false;
     thicknesF = 2;
     thicknesB = 4;
     color(c="Tan")
-    difference() {
-        union() {
-            hull() {
+        difference() {
+            union() {
+                hull() {
+                    for (s=ss) {
+                        v = s[0];
+                        num = s[2];
+                        for ( i = [0 : num-1] ) {
+                            translate(coordsToPos(v + [0,i]) + 
+                                    [-(width + 4) / 2, -5,60 - thicknesF])
+                                cube([width+4,10,thicknesF]);
+                        }
+                    }
+                    translate([97,107,0])
+                        rotate([0,0,-45])
+                        translate([-width/2,-5,60 - thicknesB])
+                        cube([width,10,thicknesB]);
+                    translate([-97,107,0])
+                        rotate([0,0,45])
+                        translate([-width/2,-5,60 - thicknesB])
+                        cube([width,10,thicknesB]);
+                }
                 for (s=ss) {
                     v = s[0];
+                    offset = s[1];
                     num = s[2];
-                    for ( i = [0 : num-1] ) {
-                        translate(coordsToPos(v + [0,i]) + 
-                                [-(width + 4) / 2, -5,60 - thicknesF])
-                            cube([width+4,10,thicknesF]);
+                    for ( i = [0 : num-1] ) counterPillars(v + [0,i], offset - i * numStep);
+                }
+
+                if (reverseHolders) {
+                    translate([97,107,0])
+                        rotate([0,0,-45])
+                        translate([-width/2,-5,32])
+                        cube([width,10,28]);
+                    translate([-97,107,0])
+                        rotate([0,0,45])
+                        translate([-width/2,-5,32])
+                        cube([width,10,28]);
+                }
+
+                boxSupports();
+                for (s=[[[-2,2]     , -6, 1],
+                        [[-1,1.5]   , -6, 2],
+                        [[0,1]      , -6, 2],
+                        [[1,1.5]    , -6, 2],
+                        [[2,2]      , -6, 2],
+                        s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22]){
+                    v = s[0];
+                    num = s[2];
+                    hull() {
+                        for ( i = [0 : num-1] ) {
+                            translate(coordsToPos(v + [0,i]) + [0,0,57])
+                                rotate([0,0,30])
+                                cylinder(3,24/2,26/2,$fn=6,center=true);
+                        }
                     }
                 }
-                translate([97,107,0])
-                    rotate([0,0,-45])
-                    translate([-width/2,-5,60 - thicknesB])
-                    cube([width,10,thicknesB]);
-                translate([-97,107,0])
-                    rotate([0,0,45])
-                    translate([-width/2,-5,60 - thicknesB])
-                    cube([width,10,thicknesB]);
-            }
-            for (s=ss) {
-                v = s[0];
-                offset = s[1];
-                num = s[2];
-                for ( i = [0 : num-1] ) counterPillars(v + [0,i], offset - i * numStep);
-            }
 
-            translate([97,107,0])
-                rotate([0,0,-45])
-                translate([-width/2,-5,32])
-                cube([width,10,28]);
-            translate([-97,107,0])
-                rotate([0,0,45])
-                translate([-width/2,-5,32])
-                cube([width,10,28]);
+            }
+            union () {
+                for (s=ss) {
+                    v = s[0];
+                    offset = s[1];
+                    num = s[2];
+                    for ( i = [0 : num-1] ) coinPlusE(v + [0,i],offset - i  * numStep, ePlus=0.2);
+                }
+                /* hex holes */
+                for (s=[[[-2,2]     , -6, 1],
+                        [[-1,1.5]   , -6, 2],
+                        [[0,1]      , -6, 2],
+                        [[1,1.5]    , -6, 2],
+                        [[2,2]      , -6, 2],
+                        s10,s11,s12,s13,s14,s15,s16,s17,s18,s19,s20,s21,s22]){
+                    v = s[0];
+                    num = s[2];
+                    hull() {
+                        for ( i = [0 : num-1] ) {
+                            translate(coordsToPos(v + [0,i]) + [0,0,60])
+                                rotate([0,0,30])
+                                cylinder(10,20/2,20/2,$fn=6,center=true);
+                        }
+                    }
+                }
 
-            boxSupports();
+                translate(coordsToPos(s23[0]) + [-7,-3.2, 35])
+                    cube([14,6.4,40]);
+                translate(coordsToPos(s24[0]) + [-14,-3.2, 35])
+                    cube([28,6.4,40]);
+                translate(coordsToPos(s25[0]) + [-17,-3.2, 35])
+                    cube([34,6.4,40]);
+
+                if (reverseHolders) {
+                    translate([97,107,0])
+                        rotate([0,0,-45])
+                        coinPlusE([0,0], ePlus=0.1);
+                    translate([-97,107,0])
+                        rotate([0,0,45])
+                        coinPlusE([0,0], ePlus=0.1);
+                }
+
+                boxSupportGaps();
+            }
         }
-        union () {
-            for (s=ss) {
-                v = s[0];
-                offset = s[1];
-                num = s[2];
-                for ( i = [0 : num-1] ) coinPlusE(v + [0,i],offset - i  * numStep);
-            }
-            translate(coordsToPos(s23[0]) + [-7,-3.2, 35])
-                cube([14,6.4,40]);
-            translate(coordsToPos(s24[0]) + [-14,-3.2, 35])
-                cube([28,6.4,40]);
-            translate(coordsToPos(s25[0]) + [-17,-3.2, 35])
-                cube([34,6.4,40]);
-            translate([97,107,0])
-                rotate([0,0,-45])
-                coinPlusE([0,0]);
-            translate([-97,107,0])
-                rotate([0,0,45])
-                coinPlusE([0,0]);
-
-            boxSupportGaps();
-        }
-    }
 }
 
 /* ========================================================================= */
@@ -357,11 +449,11 @@ module noPart(){
     }
 }
 
-part("Nidavellir-Bank.stl") seats();
+part("Nidavellir-Bank.stl") bank();
 noPart() coins();
-part("Nidavellir-BankLid.stl") box();
+part("Nidavellir-BankLid.stl") bankLid();
 
-noPart() translate([-250,0,60]) rotate([0,180,0]) box();
+noPart() translate([-250,0,60]) rotate([0,180,0]) bankLid();
 
-noPart() translate([250,0,0]) seats();
+noPart() translate([250,0,0]) bank();
 
