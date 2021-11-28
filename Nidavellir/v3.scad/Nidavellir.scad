@@ -141,13 +141,13 @@ module pillars(c, offset=0, text=undef) {
             union() {
                 textDepth = 0.5;
                 color("DimGray") 
-                translate(toLeft + [3.5,-5 + textDepth,14 + offset])
+                translate(toLeft + [0.5,-5 + textDepth,14 + offset])
                     rotate([90,0,0])
                         linear_extrude(1)
                             text(text,
-                                    font = "Roboto:style=Medium",
-                                    size = 4,
-                                    halign = "right");
+                                    font = "Roboto Condensed:style=Bold",
+                                    size = 5,
+                                    halign = "center");
             }
         }
     }
