@@ -153,58 +153,91 @@ module pillars(c, offset=0, text=undef) {
     }
 }
 
+module seatCoins(s) {
+    v = s[0];
+    offset = s[1];
+    num = s[2];
+    color(c="Silver") {
+        for ( i = [0 : num-1] ) coinPlusE(v + [0,i],offset - i * numStep);
+    }
+}
+
 module seat(s, ltrs=[], rtls=[], rtrs=[], ltls=[], text=undef) {
     v = s[0];
     offset = s[1];
     num = s[2];
-    difference() {
-        union() {
-            for ( i = [0 : num-1] ) { 
-                if (i == 0) {
-                    pillars(v + [0,i], offset - i * numStep, text=text);
-                } else {
-                    pillars(v + [0,i], offset - i * numStep);
-                }
-            }
-
-            vEnd = [v.x, v.y + num -1];
-            for (w = ltrs) bridgeLeftRight(vEnd,w[0]);
-            for (w = rtls) bridgeLeftRight(w[0],vEnd);
-            for (w = rtrs) bridgeRightRight(w[0],vEnd);
-            for (w = ltls) bridgeLeftLeft(w[0],vEnd);
-        }
-        color(c="Silver") {
-            for ( i = [0 : num-1] ) coinPlusE(v + [0,i],offset - i * numStep);
+    for ( i = [0 : num-1] ) { 
+        if (i == 0) {
+            pillars(v + [0,i], offset - i * numStep, text=text);
+        } else {
+            pillars(v + [0,i], offset - i * numStep);
         }
     }
+
+    vEnd = [v.x, v.y + num -1];
+    for (w = ltrs) bridgeLeftRight(vEnd,w[0]);
+    for (w = rtls) bridgeLeftRight(w[0],vEnd);
+    for (w = rtrs) bridgeRightRight(w[0],vEnd);
+    for (w = ltls) bridgeLeftLeft(w[0],vEnd);
 }
 
 module bank() {
-        seat(s5, ltrs=[], rtls=[s10], ltls=[s10], text="5");
-        seat(s6, ltrs=[s10], rtls=[s11], text="6");
-        seat(s7, ltrs=[s11], rtls=[s12], text="7");
-        seat(s8, ltrs=[s12], rtls=[s13], text="8");
-        seat(s9, ltrs=[s13], rtls=[], rtrs=[s13], text="9");
+    difference() {
+        union() {
+            seat(s5, ltrs=[], rtls=[s10], ltls=[s10], text="5");
+            seat(s6, ltrs=[s10], rtls=[s11], text="6");
+            seat(s7, ltrs=[s11], rtls=[s12], text="7");
+            seat(s8, ltrs=[s12], rtls=[s13], text="8");
+            seat(s9, ltrs=[s13], rtls=[], rtrs=[s13], text="9");
 
-        seat(s10, ltrs=[s14], rtls=[s15], ltls=[s14], text="10");
-        seat(s11, ltrs=[s15], rtls=[s16], text="11");
-        seat(s12, ltrs=[s16], rtls=[s17], text="12");
-        seat(s13, ltrs=[s17], rtls=[s18], rtrs=[s18], text="13");
+            seat(s10, ltrs=[s14], rtls=[s15], ltls=[s14], text="10");
+            seat(s11, ltrs=[s15], rtls=[s16], text="11");
+            seat(s12, ltrs=[s16], rtls=[s17], text="12");
+            seat(s13, ltrs=[s17], rtls=[s18], rtrs=[s18], text="13");
 
-        seat(s14, ltrs=[], rtls=[s19], text="14");
-        seat(s15, ltrs=[s19], rtls=[s20], text="15");
-        seat(s16, ltrs=[s20], rtls=[s21], text="16");
-        seat(s17, ltrs=[s21], rtls=[s22], text="17");
-        seat(s18, ltrs=[s22], rtls=[], text="18");
+            seat(s14, ltrs=[], rtls=[s19], text="14");
+            seat(s15, ltrs=[s19], rtls=[s20], text="15");
+            seat(s16, ltrs=[s20], rtls=[s21], text="16");
+            seat(s17, ltrs=[s21], rtls=[s22], text="17");
+            seat(s18, ltrs=[s22], rtls=[], text="18");
 
-        seat(s19, ltrs=[], rtls=[s23], text="19");
-        seat(s20, ltrs=[s23], rtls=[s24], text="20");
-        seat(s21, ltrs=[s24], rtls=[s25], text="21");
-        seat(s22, ltrs=[s25], rtls=[], text="22");
+            seat(s19, ltrs=[], rtls=[s23], text="19");
+            seat(s20, ltrs=[s23], rtls=[s24], text="20");
+            seat(s21, ltrs=[s24], rtls=[s25], text="21");
+            seat(s22, ltrs=[s25], rtls=[], text="22");
 
-        seat(s23, text="23");
-        seat(s24, text="24");
-        seat(s25, text="25");
+            seat(s23, text="23");
+            seat(s24, text="24");
+            seat(s25, text="25");
+        }
+        union() {
+            seatCoins(s5);
+            seatCoins(s6);
+            seatCoins(s7);
+            seatCoins(s8);
+            seatCoins(s9);
+
+            seatCoins(s10);
+            seatCoins(s11);
+            seatCoins(s12);
+            seatCoins(s13);
+
+            seatCoins(s14);
+            seatCoins(s15);
+            seatCoins(s16);
+            seatCoins(s17);
+            seatCoins(s18);
+
+            seatCoins(s19);
+            seatCoins(s20);
+            seatCoins(s21);
+            seatCoins(s22);
+
+            seatCoins(s23);
+            seatCoins(s24);
+            seatCoins(s25);
+        }
+    }
 }
 
 /* ========================================================================= */
