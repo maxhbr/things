@@ -67,32 +67,92 @@ module rail() {
     }
 }
 
-difference() {
-    union() {
-        cards(posX=-2);
-        tray(posX=-1);
-        tray();
-        tray(posX=1);
-        tray(posX=2);
-        rail();
-        mirror([0,1,0])
+module v1() {
+    difference() {
+        union() {
+            cards(posX=-2);
+            tray(posX=-1);
+            tray();
+            tray(posX=1);
+            tray(posX=2);
             rail();
-        translate([-5,- (depth / 2),-3.5])
-            rotate([60,0,0])
-            cube([234,4,2], center=true);
-        translate([-5,+ (depth / 2) + 2.5,-3.5])
-            rotate([60,0,0])
-            cube([234,4,2], center=true);
-    }
-    union() {
-        translate([-5+wall, +depth/2+2.5/2,7])
-            rotate([45,0,0])
-            cube([235,5,5], center=true);
-        translate([-5+wall, -depth/2-2.5/2,7])
-            rotate([45,0,0])
-            cube([235,5,5], center=true);
+            mirror([0,1,0])
+                rail();
+            translate([-5,- (depth / 2),-3.5])
+                rotate([60,0,0])
+                cube([234,4,2], center=true);
+            translate([-5,+ (depth / 2) + 2.5,-3.5])
+                rotate([60,0,0])
+                cube([234,4,2], center=true);
+        }
+        union() {
+            translate([-5+wall, +depth/2+2.5/2,7])
+                rotate([45,0,0])
+                cube([235,5,5], center=true);
+            translate([-5+wall, -depth/2-2.5/2,7])
+                rotate([45,0,0])
+                cube([235,5,5], center=true);
+        }
     }
 }
+
+module rombe() {
+    rotate([0,90,0])
+        linear_extrude(height = 100, center = false, convexity = 10)
+        resize([50,46/2])
+        circle(10,$fn=6);
+}
+
+module v2mod() {
+    difference() {
+        rotate([90,0,0])
+            linear_extrude(height = 46, center = true, convexity = 10)
+            polygon(
+                    [[-4,0]
+                    ,[-4,2]
+                    ,[-10,12]
+                    ,[-10,13]
+                    ,[-8,14]
+                    ,[0,10]
+                    ,[30,70]
+                    ,[32,70]
+                    ,[32,68]
+                    ,[15,20]
+                    ,[20,10]
+                    ,[30,2]
+                    ,[30,0]
+
+                    ,[15,0]
+                    ,[8,10]
+                    ,[1,0]
+                    ]);
+        union() {
+            translate([0,-23,83])
+                rombe();
+            translate([0,0,35])
+                rombe();
+            translate([0,23,83])
+                rombe();
+            translate([15 + 8,0,0])
+            cube([30,46/2,60],center=true);
+            translate([29,0,-1])
+            cylinder(20,20,20,$fn=6);
+        }
+    }
+}
+
+module v2() {
+    rotate([0,0,90])
+        for (a =[-92:46:92]) {
+            translate([0,a,0])
+                v2mod();
+        }
+}
+
+translate([3,0,6])
+    v1();
+translate([0,60,0])
+    v2();
 
 $fa = 1;
 $fs = 0.4;
