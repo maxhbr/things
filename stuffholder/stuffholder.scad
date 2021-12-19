@@ -158,7 +158,7 @@ module v2mod() {
     }
 }
 
-module v2() {
+module stand() {
     rotate([0,0,90])
         for (a =[-92:46:92]) {
             translate([0,a,0])
@@ -166,10 +166,20 @@ module v2() {
         }
 }
 
-translate([3,0,6])
-    v1();
-translate([0,60,0])
-    v2();
+highRes=false;
+justOnePart="";
 
-$fa = 1;
-$fs = 0.4;
+module part(partName){
+    if (justOnePart == ""){
+        children();
+    } else if (justOnePart == partName) {
+        $fa = 1;
+        $fs = 0.4;
+        children();
+    }
+}
+
+translate([3,0,6])
+    part("stuffholder-v1.stl") v1();
+translate([0,60,0])
+    part("stuffholder-stand.stl") stand();
