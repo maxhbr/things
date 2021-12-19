@@ -22,21 +22,33 @@ module tray(posX=0) {
 }
 
 module cards(posX=0) {
-    translate([posX * (width - wall) -5,0,0])
+    translate([posX * (width - wall) -10,0,0])
         difference() {
-            cube([width+10,depth,height], center=true);
+            translate([0,-2.5,0])
+                cube([width+20,depth + 5,height], center=true);
             union() {
-                for (a =[21:-7:-21]) {
+                for (a =[21:-7:-28]) {
                     translate([0,a,wall+1]) 
                         rotate([0,0,7])
+                        rotate([-5,0,0])
                         union() {
                             rotate([0,2,0])
-                                cube([width + wall + 10,2.5,height], center=true);
+                                cube([width + wall + 20,2,height], center=true);
                             translate([-5+wall, 0,4])
                                 rotate([45,0,0])
-                                cube([width + wall + 10+10,5,5], center=true);
+                                cube([width + wall + 10+10 + 10,5,5], center=true);
                         }
                 }
+                translate([-36,-14.5,7])
+                    rotate([0,45,0])
+                    cube([10,depth+5,10], center=true);
+                translate([width/2 + 5.5,-depth/2 - 5,0])
+                    cube([11,10,20], center=true);
+                translate([0,-37,0])
+                    rotate([0,0,7])
+                    rotate([-5,0,0])
+                    translate([-4.5,0,0])
+                    cube([width+10,10,20], center=true);
             }
         }
 }
@@ -59,11 +71,18 @@ module caps() {
 
 module rail() {
     difference() {
-        translate([-5,- (depth / 2) - 2.5,0])
-            cube([234,5,12], center=true);
+        translate([-10 + 28,- (depth / 2) - 2.5,0])
+            cube([244 - 56,5,12], center=true);
         translate([wall, 3, wall])
-            translate([-5,- (depth / 2) - 2.5,0])
-            cube([235,5,12], center=true);
+            translate([-10 + 28,- (depth / 2) - 2.5,0])
+            cube([245 - 56,5,12], center=true);
+    }
+    difference() {
+        translate([-10, (depth / 2) + 2.5,0])
+            cube([244,5,12], center=true);
+        translate([wall, 3, wall])
+            translate([-10, (depth / 2) - 2.5,0])
+            cube([245,5,12], center=true);
     }
 }
 
@@ -76,22 +95,20 @@ module v1() {
             tray(posX=1);
             tray(posX=2);
             rail();
-            mirror([0,1,0])
-                rail();
-            translate([-5,- (depth / 2),-3.5])
+            translate([-10 + 28,- (depth / 2),-3.5])
                 rotate([60,0,0])
-                cube([234,4,2], center=true);
-            translate([-5,+ (depth / 2) + 2.5,-3.5])
+                cube([244 - 56,4,2], center=true);
+            translate([-10,+ (depth / 2) + 2.5,-3.5])
                 rotate([60,0,0])
-                cube([234,4,2], center=true);
+                cube([244,4,2], center=true);
         }
         union() {
-            translate([-5+wall, +depth/2+2.5/2,7])
+            translate([-10+wall, +depth/2+2.5/2,7])
                 rotate([45,0,0])
-                cube([235,5,5], center=true);
-            translate([-5+wall, -depth/2-2.5/2,7])
+                cube([245,5,5], center=true);
+            translate([-10+wall + 28, -depth/2-2.5/2,7])
                 rotate([45,0,0])
-                cube([235,5,5], center=true);
+                cube([245 - 56,5,5], center=true);
         }
     }
 }
