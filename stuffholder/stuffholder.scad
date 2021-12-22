@@ -154,20 +154,25 @@ module v1() {
 
 module v1b() {
     v1_base() {
-        tray(posX=-1);
+        tray(posX=-1, bigger=true);
         translate([45,(depth-wall - 1)/2,0])
             cube([134,wall+1,12], center=true);
         translate([45,-(depth-wall - 1)/2,0])
             cube([134,wall + 1,12], center=true);
+
+        trayEnd(posX=2);
+        translate([66.5,0,0])
+cube([wall, depth,12], center=true);
     }
 }
 
 highRes=false;
 justOnePart="";
 
-module part(partName){
+module part(partName, shift=[0,0,0]){
     if (justOnePart == ""){
-        children();
+        translate(shift)
+            children();
     } else if (justOnePart == partName) {
         $fa = 1;
         $fs = 0.4;
@@ -178,5 +183,4 @@ module part(partName){
 }
 
 part("stuffholder-v1.stl") v1();
-translate([0,90,0])
-    part("stuffholder-v1b.stl") v1b();
+part("stuffholder-v1b.stl", shift=[0,90,0]) v1b();
