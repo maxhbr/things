@@ -11,6 +11,7 @@ buildPart() (
 )
 
 buildPart stuffholder-v1.stl
+openscad --hardwarnings -o "stand.stl" stand.scad
 
 wait
 times
