@@ -162,7 +162,22 @@ module v1b() {
 
         trayEnd(posX=2);
         translate([66.5,0,0])
-cube([wall, depth,12], center=true);
+            cube([wall, depth,12], center=true);
+    }
+}
+
+module v1c() {
+    v1_base() {
+        translate([1,(depth-wall - 1)/2,0])
+            cube([134,wall+1,12], center=true);
+        translate([1,-(depth-wall - 1)/2,0])
+            cube([134,wall + 1,12], center=true);
+        translate([-66.5,0,0])
+            cube([wall, depth,12], center=true);
+
+        trayEnd(posX=2);
+        translate([66.5,0,0])
+            cube([wall, depth,12], center=true);
     }
 }
 
@@ -184,3 +199,4 @@ module part(partName, shift=[0,0,0]){
 
 part("stuffholder-v1.stl") v1();
 part("stuffholder-v1b.stl", shift=[0,90,0]) v1b();
+part("stuffholder-v1c.stl", shift=[0,180,0]) v1c();
