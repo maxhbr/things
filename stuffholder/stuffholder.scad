@@ -144,8 +144,29 @@ module v1_base() {
                 translate([-10+wall + 28, -depth/2-2.5/2,7])
                     rotate([45,0,0])
                     cube([245 - 56,5,5], center=true);
-                translate([-99.5,28,-5.7])
-                    rotate([180,0,180])
+                translate([-139,-12,0])
+                    rotate([0,-37,0])
+                    cube([10, depth + 20, 30], center=true);
+
+                translate([18,-40,0])
+                    rotate([0,-10,90])
+                    cube([10, 188-4*wall, 30], center=true);
+                translate([-10,40,0])
+                    rotate([0,10,90])
+                    cube([10, 244-4*wall, 30], center=true);
+                
+                translate([112.5,36,0])
+                    rotate([0,0,45])
+                    cube([4,4,20],center=true);
+                translate([112.5,-36,0])
+                    rotate([0,0,45])
+                    cube([4,4,20],center=true);
+                translate([-132.5,36,0])
+                    rotate([0,0,45])
+                    cube([4,4,20],center=true);
+
+                translate([-120.5,0,-5.7])
+                    rotate([180,0,270])
                     linear_extrude(0.31)
                     text("github.com/maxhbr/things",
                             font = "Roboto Condensed:style=Light",
