@@ -231,6 +231,42 @@ module part(partName, shift=[0,0,0]){
     }
 }
 
+module boxes() {
+
+    translate([-width + 1.5* wall,0,6]) {
+        difference() {
+            cube([width - 2*wall, depth - 4*wall, height], center=true);
+            union() {
+                translate([0,14.625 - wall,wall/2]) {
+                    cube([width - 2*wall - 2*wall, (depth - 4*wall- 2*wall - wall) / 2, height], center=true);
+                }
+                translate([0,-(14.625 - wall),wall/2]) {
+                    cube([width - 2*wall - 2*wall, (depth - 4*wall- 2*wall - wall) / 2, height], center=true);
+                }
+            }
+        }
+    }
+
+    translate([0,0,6]) {
+        difference() {
+            cube([width - 2*wall, depth - 4*wall, height], center=true);
+            translate([0,0,wall/2]) {
+                cube([width - 2*wall - 2*wall, depth - 4*wall- 2*wall, height], center=true);
+            }
+        }
+    }
+
+    translate([+width - 1.5 * wall,0,9]) {
+        difference() {
+            cube([width - 2*wall, depth - 4*wall, 1.5*height], center=true);
+            translate([0,0,wall/2])
+                cube([width - 2*wall - 2*wall, depth - 4*wall- 2*wall, 1.5*height], center=true);
+        }
+    }
+
+}
+
 part("stuffholder-v1a.stl") v1a();
 part("stuffholder-v1b.stl", shift=[0,90,0]) v1b();
 part("stuffholder-v1c.stl", shift=[0,180,0]) v1c();
+part("stuffholder-boxes.stl", shift=[0,180,0]) boxes();

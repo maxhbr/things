@@ -13,7 +13,7 @@ buildPart() (
 buildPart "stuffholder-v1a.stl"
 buildPart "stuffholder-v1b.stl"
 buildPart "stuffholder-v1c.stl"
-openscad --hardwarnings -o "stand.stl" stand.scad
+buildPart "stuffholder-boxes.stl"
 
 wait
 times
