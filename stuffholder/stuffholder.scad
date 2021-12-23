@@ -25,9 +25,13 @@ module tray(posX=0, bigger=false) {
                     translate([0, +depth/2-2.5/2,8])
                         cube([width - 2*wall,5,5], center=true);
                 }
+                translate([0,-20+2,-14])
+                    rotate([90,0,90])
+                    cylinder(width-2*wall,20,20,$fn=3,center=true);
             }
         }
 }
+
 module trayEnd(posX=0) {
     translate([posX * (width - wall),0,0])
         difference() {
