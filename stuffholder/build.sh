@@ -10,7 +10,7 @@ buildPart() (
         -D 'justOnePart="'"$1"'"'
 )
 
-buildPart "stuffholder-v1.stl"
+buildPart "stuffholder-v1a.stl"
 buildPart "stuffholder-v1b.stl"
 buildPart "stuffholder-v1c.stl"
 openscad --hardwarnings -o "stand.stl" stand.scad

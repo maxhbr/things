@@ -89,6 +89,7 @@ module cards(posX=0) {
                     rotate([-5,0,0])
                     translate([-4.5,0,0])
                     cube([width+10,10,20], center=true);
+
             }
         }
 }
@@ -123,31 +124,39 @@ module rail() {
 }
 
 module v1_base() {
-    translate([0,0,6])
-    difference() {
-        union() {
-            cards(posX=-2);
-            children();
-            rail();
-            translate([-10 + 28,- (depth / 2),-3.5])
-                rotate([60,0,0])
-                cube([244 - 56,4,2], center=true);
-            translate([-10,+ (depth / 2) + 2.4,-3.5])
-                rotate([60,0,0])
-                cube([244,4,2], center=true);
-        }
-        union() {
-            translate([-10, +depth/2+2.5/2,7])
-                rotate([45,0,0])
-                cube([245,5,5], center=true);
-            translate([-10+wall + 28, -depth/2-2.5/2,7])
-                rotate([45,0,0])
-                cube([245 - 56,5,5], center=true);
+    translate([0,0,6]) {
+        difference() {
+            union() {
+                cards(posX=-2);
+                children();
+                rail();
+                translate([-10 + 28,- (depth / 2),-3.5])
+                    rotate([60,0,0])
+                    cube([244 - 56,4,2], center=true);
+                translate([-10,+ (depth / 2) + 2.4,-3.5])
+                    rotate([60,0,0])
+                    cube([244,4,2], center=true);
+            }
+            union() {
+                translate([-10, +depth/2+2.5/2,7])
+                    rotate([45,0,0])
+                    cube([245,5,5], center=true);
+                translate([-10+wall + 28, -depth/2-2.5/2,7])
+                    rotate([45,0,0])
+                    cube([245 - 56,5,5], center=true);
+                translate([-99.5,28,-5.6])
+                    rotate([180,0,180])
+                    linear_extrude(0.41)
+                    text("github.com/maxhbr/things",
+                            font = "Roboto Condensed:style=Light",
+                            size = 4,
+                            halign = "center");
+            }
         }
     }
 }
 
-module v1() {
+module v1a() {
     v1_base() {
         tray(posX=-1, bigger=true);
         tray(bigger=true);
@@ -201,6 +210,6 @@ module part(partName, shift=[0,0,0]){
     }
 }
 
-part("stuffholder-v1.stl") v1();
+part("stuffholder-v1a.stl") v1a();
 part("stuffholder-v1b.stl", shift=[0,90,0]) v1b();
 part("stuffholder-v1c.stl", shift=[0,180,0]) v1c();
