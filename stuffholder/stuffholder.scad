@@ -50,6 +50,9 @@ module trayEnd(posX=0) {
                             cube([100,depth-3*wall,10],center=true);
                         }
                     }
+                translate([34,0,0])
+                    rotate([0,37,0])
+                    cube([10, depth, 30], center=true);
             }
         }
 }
@@ -136,9 +139,6 @@ module v1_base() {
             translate([-10+wall + 28, -depth/2-2.5/2,7])
                 rotate([45,0,0])
                 cube([245 - 56,5,5], center=true);
-            /* translate([30,0,46]) */
-            /*     rotate([0,90,0]) */
-            /*     cylinder(h=150,d=90, center=true); */
         }
     }
 }
@@ -155,10 +155,10 @@ module v1() {
 module v1b() {
     v1_base() {
         tray(posX=-1, bigger=true);
-        translate([45,(depth-wall - 1)/2,0])
-            cube([134,wall+1,12], center=true);
-        translate([45,-(depth-wall - 1)/2,0])
-            cube([134,wall + 1,12], center=true);
+        translate([22,(depth-wall - 1)/2,0])
+            cube([134-width,wall+1,12], center=true);
+        translate([22,-(depth-wall - 1)/2,0])
+            cube([134-width,wall + 1,12], center=true);
 
         trayEnd(posX=2);
         translate([66.5,0,0])
