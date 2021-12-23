@@ -12,7 +12,7 @@ buildPart() (
 
 render() {
     openscad --hardwarnings \
-        --imgsize=2160,2160 \
+        --imgsize=3840,2160 \
         --projection=perspective \
         --colorscheme Tomorrow \
         "$@" \

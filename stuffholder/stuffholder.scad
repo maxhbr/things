@@ -1,4 +1,26 @@
 
+highRes=false;
+justOnePart="";
+
+module part(partName, shift=[0,0,0]){
+    if (justOnePart == ""){
+        translate(shift){
+            children();
+            translate([150,0,0])
+            text(partName,
+                    font = "Roboto Condensed:style=Light",
+                    size = 7,
+                    halign = "center");
+        }
+    } else if (justOnePart == partName) {
+        $fa = 1;
+        $fs = 0.4;
+        rotate([0,0,35]) {
+            children();
+        }
+    }
+}
+
 wall=1.5;
 width=46;
 depth=60;
@@ -215,22 +237,6 @@ module v1c() {
     }
 }
 
-highRes=false;
-justOnePart="";
-
-module part(partName, shift=[0,0,0]){
-    if (justOnePart == ""){
-        translate(shift)
-            children();
-    } else if (justOnePart == partName) {
-        $fa = 1;
-        $fs = 0.4;
-        rotate([0,0,35]) {
-            children();
-        }
-    }
-}
-
 module boxes() {
 
     translate([-width + 1.5* wall,0,6]) {
@@ -278,7 +284,7 @@ module boxes() {
         }
     }
 
-    translate([(+width - 1 * wall)/2,+70,9]) {
+    translate([(+width - 1 * wall)/2,90,9]) {
         difference() {
             cube([(width - 2*wall) * 2 , depth - 4*wall, 1.5*height], center=true);
             translate([0,0,wall/2])
@@ -289,6 +295,6 @@ module boxes() {
 }
 
 part("stuffholder-v1a.stl") v1a();
-part("stuffholder-v1b.stl", shift=[0,90,0]) v1b();
-part("stuffholder-v1c.stl", shift=[0,180,0]) v1c();
-part("stuffholder-boxes.stl", shift=[0,180,60]) boxes();
+part("stuffholder-v1c.stl", shift=[0,90,0]) v1c();
+part("stuffholder-v1b.stl", shift=[0,180,0]) v1b();
+part("stuffholder-boxes.stl", shift=[0,90,120]) boxes();
