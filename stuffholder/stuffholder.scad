@@ -144,9 +144,9 @@ module v1_base() {
                 translate([-10+wall + 28, -depth/2-2.5/2,7])
                     rotate([45,0,0])
                     cube([245 - 56,5,5], center=true);
-                translate([-99.5,28,-5.6])
+                translate([-99.5,28,-5.7])
                     rotate([180,0,180])
-                    linear_extrude(0.41)
+                    linear_extrude(0.31)
                     text("github.com/maxhbr/things",
                             font = "Roboto Condensed:style=Light",
                             size = 4,
