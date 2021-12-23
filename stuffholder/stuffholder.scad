@@ -278,7 +278,7 @@ module boxes() {
         }
     }
 
-    translate([(+width - 1 * wall)/2,+70,10]) {
+    translate([(+width - 1 * wall)/2,+70,9]) {
         difference() {
             cube([(width - 2*wall) * 2 , depth - 4*wall, 1.5*height], center=true);
             translate([0,0,wall/2])
