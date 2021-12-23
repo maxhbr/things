@@ -245,6 +245,13 @@ module boxes() {
                 }
             }
         }
+        translate([14.75,0,0])
+            difference(){
+                cube([height - wall, depth - 4*wall- 2*wall, height], center=true);
+                translate([-(height - wall)/2, 0, (height - wall)/2])
+                    rotate([90,90,0])
+                    cylinder(r=height - wall, h=depth - 4*wall- 2*wall, center=true);
+            }
     }
 
     translate([0,0,6]) {
@@ -254,6 +261,13 @@ module boxes() {
                 cube([width - 2*wall - 2*wall, depth - 4*wall- 2*wall, height], center=true);
             }
         }
+        translate([14.75,0,0])
+            difference(){
+                cube([height - wall, depth - 4*wall- 2*wall, height], center=true);
+                translate([-(height - wall)/2, 0, (height - wall)/2])
+                    rotate([90,90,0])
+                    cylinder(r=height - wall, h=depth - 4*wall- 2*wall, center=true);
+            }
     }
 
     translate([+width - 1.5 * wall,0,9]) {
@@ -264,9 +278,17 @@ module boxes() {
         }
     }
 
+    translate([(+width - 1 * wall)/2,+70,10]) {
+        difference() {
+            cube([(width - 2*wall) * 2 , depth - 4*wall, 1.5*height], center=true);
+            translate([0,0,wall/2])
+                cube([(width - 2*wall) * 2 - 2*wall, depth - 4*wall- 2*wall, 1.5*height], center=true);
+        }
+    }
+
 }
 
 part("stuffholder-v1a.stl") v1a();
 part("stuffholder-v1b.stl", shift=[0,90,0]) v1b();
 part("stuffholder-v1c.stl", shift=[0,180,0]) v1c();
-part("stuffholder-boxes.stl", shift=[0,180,0]) boxes();
+part("stuffholder-boxes.stl", shift=[0,180,60]) boxes();
