@@ -10,9 +10,7 @@ module part(partName, shift=[0,0,0]){
     } else if (justOnePart == partName) {
         $fa = 1;
         $fs = 0.4;
-        rotate([0,0,35]) {
-            children();
-        }
+        children();
     }
 }
 
