@@ -49,17 +49,17 @@ module cards(d=10,text=undef) {
 
 
             color("gray") {
-                translate([(stackD+2wall)/2,(stackH+2wall)/2,wall - 0.3])
+                translate([(stackD+2wall)/2,(stackH+2wall)/2,wall - 0.6])
                     rotate([0,0,270])
-                    linear_extrude(0.31)
+                    linear_extrude(0.61)
                     text(text,
                             font = "Roboto Condensed:style=Bold",
                             size = 5,
                             halign = "center",
                             valign = "center");
-                translate([(stackD+2wall)/2,0.3,(boxW)/2])
+                translate([(stackD+2wall)/2,0.6,(boxW)/2])
                     rotate([0,90,270])
-                    linear_extrude(0.31)
+                    linear_extrude(0.61)
                     text(text,
                             font = "Roboto Condensed:style=Bold",
                             size = 5,
