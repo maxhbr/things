@@ -27,7 +27,7 @@ module deck(h, plus=0) {
             cube([ceil(cardB+2*wall)+2,ceil(cardH+2*wall) + 3.5,h+2*wall+plus + 2], center=true);
         union() {
             translate([0,5/2,0])
-                roundCube([cardB,cardH + 5,h]);
+                roundCube([cardB,cardH + 5,h], fn=8);
             hull() {
                 translate([0,50,0])
                     cube([cardB,4,h],center=true);
@@ -37,7 +37,7 @@ module deck(h, plus=0) {
 
             translate([0,50,0])
                 hull() {
-                    roundCube([0,10,max(h+5,0)],r=10);
+                    roundCube([0,10,max(h+5,0)],r=10, fn=8);
                 }
         }
     }
@@ -73,31 +73,31 @@ module deckBoxTray() {
         union() {
             hull() {
                 translate([-3.5/2,32,0])
-                    roundCube([95.5,0,41], r=0.5);
+                    roundCube([95.5,0,41], r=0.5, fn=8);
                 translate([-3.5/2,-32,0])
-                    roundCube([95.5,0,41], r=0.5);
+                    roundCube([95.5,0,41], r=0.5, fn=8);
             }
             cap()
                 translate([-3.5/2,-32,0])
-                roundCube([95.5,0,41], r=0.5);
+                roundCube([95.5,0,41], r=0.5, fn=8);
             hull() {
                 translate([-3.5/2+98,32,0])
-                    roundCube([95.5,0,41], r=0.5);
+                    roundCube([95.5,0,41], r=0.5, fn=8);
                 translate([-3.5/2+98,-32,0])
-                    roundCube([95.5,0,41], r=0.5);
+                    roundCube([95.5,0,41], r=0.5, fn=8);
             }
             cap()
                 translate([-3.5/2+98,-32,0])
-                roundCube([95.5,0,41], r=0.5);
+                roundCube([95.5,0,41], r=0.5, fn=8);
             hull() {
                 translate([98+58,32,0])
-                    roundCube([18,0,41], r=0.5);
+                    roundCube([18,0,41], r=0.5, fn=8);
                 translate([98+58,-32,0])
-                    roundCube([18,0,41], r=0.5);
+                    roundCube([18,0,41], r=0.5, fn=8);
             }
             cap()
                 translate([98+58,-32,0])
-                roundCube([18,0,41], r=0.5);
+                roundCube([18,0,41], r=0.5, fn=8);
         }
     }
 }
@@ -265,8 +265,8 @@ module resourceTray() {
     difference() {
         cube([218,48,45], center=true);
         translate([107,0,0]){
-            for(xd=[[0,40], [-43, 40], [-86, 30], , [-119, 95]]) {
-                translate([xd[0] -xd[1]/2,0,1+wall])
+            for(xd=[[0,40,0], [-43, 40,0], [-86, 20,30], [-109, 105,0]]) {
+                translate([xd[0] -xd[1]/2,0,1+wall+xd[2]])
                     roundCube([xd[1],44, 45], fn=8);
             }
         }
