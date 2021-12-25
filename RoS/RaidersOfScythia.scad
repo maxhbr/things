@@ -233,8 +233,8 @@ part("RaidersOfScythia-1.stl") {
 }
 
 part("RaidersOfScythia-2.stl") {
-    /* color("green") */
-        /* trayTray(); */
+    color("green")
+        trayTray();
 }
 
 translate([-17,-133,12.5]) {
