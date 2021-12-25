@@ -1,32 +1,30 @@
-/* $fa = 1; */
-/* $fs = 0.4; */
+include <../lib.scad>
 
 wall=1.5;
 eps=0.1;
 
-cardB=55;
-cardH=87;
+cardB=58.5;
+cardH=89;
 
-
-module roundCube(dimensions, r=1, fn=0) {
-    if (r==0) {
-        cube(dimensions, center=true);
-    } else {
-        x=dimensions[0];
-        y=dimensions[1];
-        z=dimensions[2];
-        hull()
-            for (xyz=[[1,1,1],[1,1,-1],[1,-1,1],[1,-1,-1],[-1,1,1],[-1,1,-1],[-1,-1,1],[-1,-1,-1]]){
-                translate([xyz[0]*x/2, xyz[1]*y/2, xyz[2]*z/2])
-                    sphere(r=r, $fn=fn);
-            }
-    }
-}
+/* module roundCube(dimensions, r=1, fn=0) { */
+/*     if (r==0) { */
+/*         cube(dimensions, center=true); */
+/*     } else { */
+/*         x=dimensions[0]; */
+/*         y=dimensions[1]; */
+/*         z=dimensions[2]; */
+/*         hull() */
+/*             for (xyz=[[1,1,1],[1,1,-1],[1,-1,1],[1,-1,-1],[-1,1,1],[-1,1,-1],[-1,-1,1],[-1,-1,-1]]){ */
+/*                 translate([xyz[0]*x/2, xyz[1]*y/2, xyz[2]*z/2]) */
+/*                     sphere(r=r, $fn=fn); */
+/*             } */
+/*     } */
+/* } */
 
 module deck(h, plus=0) {
     difference() {
-        translate([0,4.5/2,0])
-            cube([cardB+2*wall,cardH+2*wall + 4.5,h+2*wall+plus], center=true);
+        translate([0,3.5/2,0])
+            cube([ceil(cardB+2*wall)+2,ceil(cardH+2*wall) + 3.5,h+2*wall+plus + 2], center=true);
         union() {
             translate([0,5/2,0])
                 roundCube([cardB,cardH + 5,h]);
@@ -39,23 +37,69 @@ module deck(h, plus=0) {
 
             translate([0,50,0])
                 hull() {
-                    roundCube([0,10,max(h-3,0)],r=10);
+                    roundCube([0,10,max(h+5,0)],r=10);
                 }
         }
     }
 }
 
-module herosDeck() { deck(5, plus=1); }
-module animalsDeck() { deck(12,plus=1); }
-module aiDeck() { deck(3, plus=1); }
+module crewDeck() {
+    deck(36);
+}
+module otherDecks() {
+    translate([0,0,50]) {
 
-module decks() {
-    translate([60,0,0]) {
-        animalsDeck();
-        translate([60,0,-3.5]) {
-            herosDeck();
-            translate([0,0,8])
-                aiDeck();
+    translate([0,0,-9])
+        deck(16);
+    translate([0,0,4])
+        deck(4);
+    translate([0,0,13.5])
+        deck(7);
+    }
+}
+
+module cap() {
+    hull() {
+        children();
+        translate([1,-2,1]) children();
+        translate([-1,-2,1]) children();
+        translate([-1,-2,-1]) children();
+        translate([1,-2,-1]) children();
+    }
+}
+
+module deckBoxTray() {
+    difference() {
+        translate([58,0,0])
+            cube([218,64,42],center=true);
+        union() {
+            hull() {
+                translate([-3.5/2,31,0])
+                    roundCube([95.5,0,39], r=0.5);
+                translate([-3.5/2,-31,0])
+                    roundCube([95.5,0,39], r=0.5);
+            }
+            cap()
+                translate([-3.5/2,-31,0])
+                roundCube([95.5,0,39], r=0.5);
+            hull() {
+                translate([-3.5/2+98,31,0])
+                    roundCube([95.5,0,39], r=0.5);
+                translate([-3.5/2+98,-31,0])
+                    roundCube([95.5,0,39], r=0.5);
+            }
+            cap()
+                translate([-3.5/2+98,-31,0])
+                roundCube([95.5,0,39], r=0.5);
+            hull() {
+                translate([98+58,31,0])
+                    roundCube([18,0,39], r=0.5);
+                translate([98+58,-31,0])
+                    roundCube([18,0,39], r=0.5);
+            }
+            cap()
+                translate([98+58,-31,0])
+                roundCube([18,0,39], r=0.5);
         }
     }
 }
@@ -181,29 +225,54 @@ module trayTray() {
     }
 }
 
-translate([88,8.5,-2])
+part("RaidersOfScythia-1.stl") {
+    translate([88,8.5,-2])
+        rotate([0,0,90])
+        workerTray();
+
+    translate([-20,0,0])
+        questTray();
+}
+
+part("RaidersOfScythia-2.stl") {
+    color("green")
+        trayTray();
+}
+
+translate([-17,-134,11]) {
     rotate([0,0,90])
-    workerTray();
+        part("RaidersOfScythia-3.stl") {
+            crewDeck();
+        }
+    translate([98,0,0])
+        rotate([0,0,90])
+        part("RaidersOfScythia-4.stl") {
+            otherDecks();
+        }
+    translate([98 + 58,0,0])
+        part("RaidersOfScythia-5.stl") {
+            cube([18,62,39], center=true);
+        }
+    /* part("RaidersOfScythia-6.stl") { */
+    /*     color("green") */
+    /*         deckBoxTray(); */
+    /* } */
+}
 
-translate([-20,0,0])
-    questTray();
-
-color("green")
-trayTray();
-
-translate([40.5,-59,14])
-    difference() {
-        cube([218,218,44],center=true);
-        roundCube([216.2,216.2,43.2],fn=8);
+part("RaidersOfScythia-7.stl") {
+    color("orange")
+    translate([41,-76,11]) {
+        cube([218,50,42], center=true);
     }
+}
 
-/* translate([40.5,-59,14]) */
-/*     translate([300,0,0]) { */
-/*         difference(){ */
-/*             cube([218,218,44],center=true); */
-/*             union() { */
-/*                 translate([(218-202 + eps)/2,(218-100 + eps)/2,(44-28 + eps)/2]) */
-/*                     cube([202,100,28],center=true); */
-/*             } */
-/*         } */
-/*     } */
+
+noPart() {
+    color("red")
+        translate([41,-57,12])
+        difference() {
+            cube([218,218,44],center=true);
+            roundCube([216.2,216.2,43.2],fn=8);
+        }
+}
+
