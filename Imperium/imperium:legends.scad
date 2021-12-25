@@ -24,9 +24,9 @@ cardW=66.9;
 
 
 module cards(d=10,text=undef) {
-    stackH=cardH+2eps;
-    stackW=cardW+2eps;
-    stackD=d+2eps;
+    stackH=cardH+2eps*2;
+    stackW=cardW+2eps*2;
+    stackD=d+2eps*1.8;
     boxW=60;
     difference() {
         intersection() {
@@ -138,7 +138,8 @@ part("imperium_legends_misc.stl", shift=[0,165,0])
     }
 
 part("...") {
-    translate([-wall,-wall,-wall])
+    color("red")
+    translate([0,0,0])
         difference() {
             translate([-1,-1,1])
                 cube([173+2,263+2,0.5]); 
