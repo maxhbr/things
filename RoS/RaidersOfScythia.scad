@@ -47,15 +47,13 @@ module crewDeck() {
     deck(36);
 }
 module otherDecks() {
-    translate([0,0,50]) {
 
-    translate([0,0,-9])
+    translate([0,0,-10])
         deck(16);
     translate([0,0,4])
         deck(4);
-    translate([0,0,13.5])
-        deck(7);
-    }
+    translate([0,0,14])
+        deck(7, plus=1);
 }
 
 module cap() {
@@ -71,35 +69,35 @@ module cap() {
 module deckBoxTray() {
     difference() {
         translate([58,0,0])
-            cube([218,64,42],center=true);
+            cube([218,64,45],center=true);
         union() {
             hull() {
                 translate([-3.5/2,31,0])
-                    roundCube([95.5,0,39], r=0.5);
+                    roundCube([95.5,0,41], r=0.5);
                 translate([-3.5/2,-31,0])
-                    roundCube([95.5,0,39], r=0.5);
+                    roundCube([95.5,0,41], r=0.5);
             }
             cap()
                 translate([-3.5/2,-31,0])
-                roundCube([95.5,0,39], r=0.5);
+                roundCube([95.5,0,41], r=0.5);
             hull() {
                 translate([-3.5/2+98,31,0])
-                    roundCube([95.5,0,39], r=0.5);
+                    roundCube([95.5,0,41], r=0.5);
                 translate([-3.5/2+98,-31,0])
-                    roundCube([95.5,0,39], r=0.5);
+                    roundCube([95.5,0,41], r=0.5);
             }
             cap()
                 translate([-3.5/2+98,-31,0])
-                roundCube([95.5,0,39], r=0.5);
+                roundCube([95.5,0,41], r=0.5);
             hull() {
                 translate([98+58,31,0])
-                    roundCube([18,0,39], r=0.5);
+                    roundCube([18,0,41], r=0.5);
                 translate([98+58,-31,0])
-                    roundCube([18,0,39], r=0.5);
+                    roundCube([18,0,41], r=0.5);
             }
             cap()
                 translate([98+58,-31,0])
-                roundCube([18,0,39], r=0.5);
+                roundCube([18,0,41], r=0.5);
         }
     }
 }
@@ -251,28 +249,32 @@ translate([-17,-134,11]) {
         }
     translate([98 + 58,0,0])
         part("RaidersOfScythia-5.stl") {
-            cube([18,62,39], center=true);
+            difference() {
+                cube([18,64,41], center=true);
+                translate([wall + 1,0,0])
+                    roundCube([18, 64 - 2- 2*wall , 41 - 2- 2*wall]);
+            }
         }
-    /* part("RaidersOfScythia-6.stl") { */
-    /*     color("green") */
-    /*         deckBoxTray(); */
-    /* } */
+    part("RaidersOfScythia-6.stl") {
+        color("green")
+            deckBoxTray();
+    }
 }
 
 part("RaidersOfScythia-7.stl") {
     color("orange")
     translate([41,-76,11]) {
-        cube([218,50,42], center=true);
+        cube([218,50,45], center=true);
     }
 }
 
 
-noPart() {
-    color("red")
-        translate([41,-57,12])
-        difference() {
-            cube([218,218,44],center=true);
-            roundCube([216.2,216.2,43.2],fn=8);
-        }
-}
+/* noPart() { */
+/*     color("red") */
+/*         translate([41,-57,12]) */
+/*         difference() { */
+/*             cube([218,218,44],center=true); */
+/*             roundCube([216.2,216.2,43.2],fn=8); */
+/*         } */
+/* } */
 
