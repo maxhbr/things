@@ -1,19 +1,7 @@
+include <../lib.scad>
 
 highRes=false;
 justOnePart="";
-
-module part(partName, shift=[0,0,0]){
-    if (justOnePart == ""){
-        translate(shift){
-            children();
-        }
-    } else if (justOnePart == partName) {
-        $fa = 1;
-        $fs = 0.4;
-        children();
-    }
-}
-
 
 eps=0.5;
 2eps=2*eps;
@@ -31,7 +19,7 @@ module cards(d=10,text=undef) {
     difference() {
         intersection() {
             cube([stackD+2wall, stackH+2wall, boxW]);
-            translate([-eps,-100,-270])
+            translate([-eps,-90,-270])
                 rotate([0,90,0])
                 cylinder(d=700, h=stackH+2wall+2eps);
         }
@@ -39,7 +27,7 @@ module cards(d=10,text=undef) {
             translate([wall,wall,wall])
                 cube([stackD, stackH, stackW]);
 
-            translate([wall,stackH+wall,20.4])
+            translate([wall,stackH+wall,23.8])
                 rotate([45,0,0])
                 cube([stackD,2,2]);
             translate([wall,wall,boxW-wall+0.7])
@@ -47,6 +35,7 @@ module cards(d=10,text=undef) {
                 cube([stackD,2,2]);
 
 
+color("lightgray")
             translate([(stackD+2wall)/2,(stackH+2wall)/2,wall - 0.3])
                 hull()
                 rotate([0,0,270])
@@ -108,10 +97,32 @@ module cardsFromRow(row) {
 }
 
 
-part("imperium_legends_decks.stl") {
-    cardsFromRow(row=data[idx]) {
-        idx=0; cardsFromRow(row=data[idx]) {
-            idx=idx+1; cardsFromRow(row=data[idx]) {
+module legendCards(s=[0,0,0], r=[0,0,0]) {
+    part("imperium_legends_decks.stl", s=s, r=r) {
+        cardsFromRow(row=data[idx]) {
+            idx=0; cardsFromRow(row=data[idx]) {
+                idx=idx+1; cardsFromRow(row=data[idx]) {
+                    idx=idx+1; cardsFromRow(row=data[idx]) {
+                        idx=idx+1; cardsFromRow(row=data[idx]) {
+                            idx=idx+1; cardsFromRow(row=data[idx]) {
+                                idx=idx+1; cardsFromRow(row=data[idx]) {
+                                    idx=idx+1; cardsFromRow(row=data[idx]) {
+                                        idx=idx+1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+module commonCards(s=[0,0,0], r=[0,0,0]) {
+    part("imperium_common.stl", s=s, r=r)
+        cardsFromRow(row=data[idx]) {
+            idx=8; cardsFromRow(row=data[idx]) {
                 idx=idx+1; cardsFromRow(row=data[idx]) {
                     idx=idx+1; cardsFromRow(row=data[idx]) {
                         idx=idx+1; cardsFromRow(row=data[idx]) {
@@ -125,25 +136,10 @@ part("imperium_legends_decks.stl") {
                 }
             }
         }
-    }
 }
 
-part("imperium_legends_misc.stl", shift=[0,165,0])
-    cardsFromRow(row=data[idx]) {
-        idx=8; cardsFromRow(row=data[idx]) {
-            idx=idx+1; cardsFromRow(row=data[idx]) {
-                idx=idx+1; cardsFromRow(row=data[idx]) {
-                    idx=idx+1; cardsFromRow(row=data[idx]) {
-                        idx=idx+1; cardsFromRow(row=data[idx]) {
-                            idx=idx+1; cardsFromRow(row=data[idx]) {
-                                idx=idx+1;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+legendCards();
+commonCards(s=[0,165,0]);
 
 part("...") {
     color("red")

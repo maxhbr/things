@@ -1,9 +1,14 @@
 highRes=false;
 justOnePart="";
 
-module part(partName, s=[0,0,0], r=[0,0,0], label=false){
+module part(partName,
+            s=[0,0,0], r=[0,0,0],
+            sReset=[0,0,0], rReset=[0,0,0],
+            label=false){
     if (justOnePart == ""){
-        children();
+        translate(s)
+            rotate(r)
+            children();
         if (label) {
             translate([150,0,0])
                 text(partName,
@@ -14,8 +19,8 @@ module part(partName, s=[0,0,0], r=[0,0,0], label=false){
     } else if (justOnePart == partName) {
         $fa = 1;
         $fs = 0.4;
-        translate(s)
-            rotate(r)
+        translate(sReset)
+            rotate(rReset)
             children();
     }
 }

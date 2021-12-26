@@ -23,7 +23,7 @@ buildPart() (
 # time render -o stuffholder.png --camera=4.36,41.71,64.3,55,0,25,839.47 &
 
 buildPart "imperium_legends_decks.stl"
-buildPart "imperium_legends_misc.stl"
+buildPart "imperium_common.stl"
 
 wait
 times
