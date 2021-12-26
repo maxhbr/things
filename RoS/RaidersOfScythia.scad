@@ -1,5 +1,5 @@
 include <../lib.scad>
-/* justOnePart="RaidersOfScythia-2.stl"; */
+/* justOnePart="RaidersOfScythia-2b.stl"; */
 
 wall=1.5;
 eps=0.1;
@@ -120,7 +120,7 @@ module 7quests() {
     roundCube([40,40,14.5], fn=8);
     translate([15,0,0])
         roundCube([10,40,20], fn=8);
-    translate([20,0,])
+    translate([20,0,0])
         cube([15,15,20],center=true);
 }
 
@@ -138,31 +138,63 @@ module allquests() {
 
 module questTray() {
     rotate([0,0,180]) {
-    translate([0,-5,0]) {
-        difference() {
-            cube([90,90,16], center=true); 
-            translate([0,0,wall])
-                union() {
-                    allquests();
-                    translate([0,0,10])
-                        allquests();
-                }
-        }
-        translate([0,45+5,0]) {
+        translate([0,-7,-wall]) {
             difference() {
-                cube([80,10,16], center=true);
-                translate([0,-0.75,2 + wall]) {
-                    for(x=[-29.5, -10, 10, 29.5]) {
-                        translate([x,0,0]) {
-                            roundCube([16,6,20], r=1, fn=8);
-                            translate([0,2,0])
-                            roundCube([6,10,30], r=1, fn=8);
+                cube([90,90,16], center=true); 
+                translate([0,0,wall])
+                    union() {
+                        allquests();
+                        translate([0,0,10])
+                            allquests();
+                    }
+            }
+            translate([0,45+5,0]) {
+                difference() {
+                    cube([80,10,16], center=true);
+                    translate([0,-0.75,2 + wall]) {
+                        for(x=[-29.5, -10, 10, 29.5]) {
+                            translate([x,0,0]) {
+                                roundCube([16,6,20], r=1, fn=8);
+                                translate([0,2,0])
+                                    roundCube([6,10,30], r=1, fn=8);
+                            }
                         }
                     }
                 }
             }
         }
     }
+}
+
+module questCap() {
+    translate([0,2,0])
+    difference() {
+        translate([-20,0,0])
+        cube([94,97,18], center=true);
+        union() {
+                difference() {
+                    hull() 
+                        for(shift=[[-20,-40,-wall],[-20,50,0-wall]]) {
+                            translate(shift)
+                                roundCube([90,0,16], r=0.5, fn=8);
+                        }
+                    union() {
+                        translate([30,27,0])
+                            roundCube([13,13,20],r=0.5);
+                        translate([-70,27,0])
+                            roundCube([13,13,20],r=0.5);
+                        translate([30,-17,0])
+                            roundCube([13,13,20],r=0.5);
+                        translate([-70,-17,0])
+                            roundCube([13,13,20],r=0.5);
+                    }
+                }
+            hull() 
+                for(shift=[[-20,-40,0-wall],[-20,-50,0-wall]]) {
+                    translate(shift)
+                        roundCube([80,0,16], r=0.5, fn=8);
+                }
+        }
     }
 }
 
@@ -211,50 +243,24 @@ module trayTray() {
         }
     }
 }
-            /* hull() */ 
-            /*     for(shift=[[-20,-40,0],[-20,50,0]]) { */
-            /*         translate(shift) */
-            /*             roundCube([90,0,16], r=0.5, fn=8); */
-            /*     } */
-            /* hull() */ 
-            /*     for(shift=[[-20,50,0] */
-            /*             ,[-19,52,1] */
-            /*             ,[-21,52,1] */
-            /*             ,[-21,52,-1] */
-            /*             ,[-19,52,-1]]) { */
-            /*         translate(shift) */
-            /*             roundCube([90,0,16], r=0.5, fn=8); */
-            /*     } */
-            /* hull() */ 
-            /*     for(shift=[[-20,-40,0],[-20,-50,0]]) { */
-            /*         translate(shift) */
-            /*             roundCube([80,0,16], r=0.5, fn=8); */
-            /*     } */
-            /* hull() */ 
-            /*     for(shift=[[-20,-50,0] */
-            /*               ,[-19,-52,1] */
-            /*               ,[-19,-52,-1] */
-            /*               ,[-21,-52,-1] */
-            /*               ,[-21,-52,1] */
-            /*         ]) { */
-            /*         translate(shift) */
-            /*             roundCube([80,0,16], r=0.5, fn=8); */
-            /*     } */
 
 part("RaidersOfScythia-1a.stl") {
     translate([89,8.5,-2])
         rotate([0,0,90])
         workerTray();
 }
+part("RaidersOfScythia-2a.stl") {
+    color("green")
+        trayTray();
+}
 part("RaidersOfScythia-1b.stl") {
-
     translate([-20,0,0])
         questTray();
 }
 
-part("RaidersOfScythia-2.stl") {
+part("RaidersOfScythia-2b.stl") {
     color("green")
-        trayTray();
+        questCap();
 }
 
 translate([-17,-133 ,12.5]) {
