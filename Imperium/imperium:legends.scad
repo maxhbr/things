@@ -39,7 +39,6 @@ module cards(d=10,text=undef) {
             translate([wall,wall,wall])
                 cube([stackD, stackH, stackW]);
 
-
             translate([wall,stackH+wall,20.4])
                 rotate([45,0,0])
                 cube([stackD,2,2]);
@@ -48,6 +47,15 @@ module cards(d=10,text=undef) {
                 cube([stackD,2,2]);
 
 
+            translate([(stackD+2wall)/2,(stackH+2wall)/2,wall - 0.3])
+                hull()
+                rotate([0,0,270])
+                linear_extrude(0.31)
+                text(text,
+                        font = "Roboto Condensed:style=Bold",
+                        size = 6,
+                        halign = "center",
+                        valign = "center");
             color("gray") {
                 translate([(stackD+2wall)/2,(stackH+2wall)/2,wall - 0.6])
                     rotate([0,0,270])
@@ -90,7 +98,7 @@ data=[ ["ARTHURIANS",11,29,"2ART"]
      , ["CIVILISED",5.5, 15, "2CIV"]
      , ["UNREST", 4.4, 12, "2UNR"]
      , ["FAME", 3.3, 9, "2FAM"]
-     , ["STATE & SOLSTICE", 2,5, undef]
+     , ["STATE & SOLSTICE", 2.5,5, undef]
      ];
 
 module cardsFromRow(row) {
