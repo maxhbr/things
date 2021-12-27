@@ -5,6 +5,7 @@ module part(partName,
             s=[0,0,0], r=[0,0,0],
             sReset=[0,0,0], rReset=[0,0,0],
             label=false){
+    echo(partName, "$part")
     if (justOnePart == ""){
         translate(s)
             rotate(r)

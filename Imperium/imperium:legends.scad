@@ -141,7 +141,7 @@ module commonCards(s=[0,0,0], r=[0,0,0]) {
 legendCards();
 commonCards(s=[0,165,0]);
 
-part("...") {
+noPart() {
     color("red")
     translate([0,0,0])
         difference() {
