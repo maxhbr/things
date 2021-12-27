@@ -3,17 +3,25 @@
 
 set -euo pipefail
 
-scad="$(readlink -f ${1})"
-
 getParts() {
+    local scad="$1"
     openscad -o "${scad%.*}.ast" "$scad" 2>&1 >/dev/null | awk -F '[, "]' '{print $3}'
+}
+
+buildAll() {
+    local scad="$1"
+    local stl="${scad%.*}.stl"
+    set -x
+    openscad --hardwarnings \
+        -o "$stl"\
+        "$scad"
 }
 
 buildPart() (
     set -euo pipefail
-    scad="$1"
-    stl="$2"
-    outDir="$(dirname "$scad")"
+    local scad="$1"
+    local stl="$2"
+    local outDir="$(dirname "$scad")"
     set -x
     openscad --hardwarnings \
         -o "$outDir/$stl"\
@@ -23,7 +31,11 @@ buildPart() (
 
 export -f buildPart
 
-getParts | parallel --progress buildPart "$scad" {} 1>&2
+
+scad="$(readlink -f ${1})"
+
+buildAll "$scad"
+getParts "$scad" | parallel --progress buildPart "$scad" {} 1>&2
 
 wait
 times
