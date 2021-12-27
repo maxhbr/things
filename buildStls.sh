@@ -24,3 +24,6 @@ buildPart() (
 export -f buildPart
 
 getParts | parallel --progress buildPart "$scad" {} 1>&2
+
+wait
+times
