@@ -112,6 +112,14 @@ module deckBoxTray() {
             cap()
                 translate([98+58,-32,0])
                 roundCube([18,0,41], r=0.5, fn=8);
+            for(t=[[0,0,0],[95.5,0,0]]) {
+                r=20;
+                translate(t)
+                    translate([-0.5,-17,0])
+                    roundCube([95.5 - 2*r -20,40,100],r=r); 
+            }
+            translate([166,-17,0])
+                roundCube([4,60,10],r=10); 
         }
     }
 }
@@ -275,7 +283,7 @@ translate([-17,-133 ,12.5]) {
         }
     translate([98 + 58,0,0])
         part("RaidersOfScythia-5.stl") {
-            rotate([0,90,0])
+            rotate([0,-90,0])
                 tray([41,64,18]);
         }
     part("RaidersOfScythia-6.stl") {

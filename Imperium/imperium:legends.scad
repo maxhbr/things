@@ -12,7 +12,7 @@ cardW=66.9;
 
 
 module cards(d=10,text=undef) {
-    stackH=cardH+2eps*2;
+    stackH=cardH+eps*3;
     stackW=cardW+2eps*2;
     stackD=d+2eps*1.8;
     boxW=60;
