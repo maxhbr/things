@@ -32,17 +32,25 @@ module noPart(){
     }
 }
 
-module roundCube(dimensions, r=1, fn=0) {
+module roundCube(dimensions, r=1, fn=0, center=true, inner=false) {
     if (r==0) {
-        cube(dimensions, center=true);
+        cube(dimensions, center=center);
     } else {
         x=dimensions[0];
         y=dimensions[1];
         z=dimensions[2];
-        hull()
-            for (xyz=[[1,1,1],[1,1,-1],[1,-1,1],[1,-1,-1],[-1,1,1],[-1,1,-1],[-1,-1,1],[-1,-1,-1]]){
-                translate([xyz[0]*x/2, xyz[1]*y/2, xyz[2]*z/2])
-                    sphere(r=r, $fn=fn);
-            }
+        translate(center ? [0,0,0] : [x/2, y/2, z/2])
+            hull()
+                for (xyz=[[1,1,1],[1,1,-1],[1,-1,1],[1,-1,-1],[-1,1,1],[-1,1,-1],[-1,-1,1],[-1,-1,-1]]){
+                    translate([xyz[0]*(x/2 - (inner ? r : 0)),
+                               xyz[1]*(y/2 - (inner ? r : 0)),
+                               xyz[2]*(z/2 - (inner ? r : 0))])
+                        sphere(r=r, $fn=fn);
+                }
     }
+}
+
+module mirrorAndKeep(m) {
+    children();
+    mirror(m) children();
 }
