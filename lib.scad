@@ -26,8 +26,9 @@ module part(partName,
     }
 }
 
-module noPart(){
+module noPart(c=undef){
     if (justOnePart == ""){
+        color(c)
         children();
     }
 }
@@ -53,4 +54,10 @@ module roundCube(dimensions, r=1, fn=0, center=true, inner=false) {
 module mirrorAndKeep(m) {
     children();
     mirror(m) children();
+}
+
+module mirrorAndKeeps(ms) {
+    children();
+    for(m = ms)
+        mirror(m) children();
 }
