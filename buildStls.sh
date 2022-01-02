@@ -14,7 +14,8 @@ buildAll() {
     set -x
     openscad --hardwarnings \
         -o "$stl"\
-        "$scad"
+        "$scad" \
+        -D 'isStlExport=true'
 }
 
 buildPart() (
@@ -26,7 +27,8 @@ buildPart() (
     openscad --hardwarnings \
         -o "$outDir/$stl"\
         "$scad" \
-        -D 'justOnePart="'"$stl"'"'
+        -D 'justOnePart="'"$stl"'"' \
+        -D 'isStlExport=true'
 )
 
 export -f buildPart

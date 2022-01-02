@@ -1,4 +1,5 @@
 highRes=false;
+isStlExport=false;
 justOnePart="";
 
 module part(partName,

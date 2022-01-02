@@ -2,32 +2,36 @@ include <../lib.scad>
 
 width=60;
 
+/* isStlExport=true; */
 /* justOnePart="top.stl"; */
 /* justOnePart="bottom.stl"; */
 
 module servo360(t=[0,0,0],r=[0,0,0]) {
     translate(t) rotate(r) {
-        translate([0,10,-30])
-        rotate([0,180,0])
-        import("assets/Parallax-900-00360-Feedback-360-High-Speed-Servo.stl");
-        /* translate([0,10,1]){ */
-        /*     translate([-10,-20,-1]) */
-        /*         cube([20,40,37.2-28.5]); */
-        /*     difference() { */
-        /*         cube([20,54.5,2], center=true); */
+        if (isStlExport) {
+            translate([0,10,1]){
+                translate([-10,-20,-1])
+                    cube([20,40,37.2-28.5]);
+                difference() {
+                    cube([20,54.5,2], center=true);
 
-        /*         mirrorAndKeep([0,1,0]) */
-        /*             mirrorAndKeep([1,0,0]) */
-        /*             translate([5,-49.5/2,0]) */
-        /*             cylinder(d=6,h=3,center=true); */
-        /*     } */
-        /*     translate([-10,-20,-28.5-1]) */
-        /*         cube([20,40,28.5]); */
-        /*     translate([0,-10,7.5]) { */
-        /*         cylinder(d=4, h=5); */
-        /*         cylinder(d=12, h=1); */
-        /*     } */
-        /* } */
+                    mirrorAndKeep([0,1,0])
+                        mirrorAndKeep([1,0,0])
+                        translate([5,-49.5/2,0])
+                        cylinder(d=6,h=3,center=true);
+                }
+                translate([-10,-20,-28.5-1])
+                    cube([20,40,28.5]);
+                translate([0,-10,7.5]) {
+                    cylinder(d=4, h=5);
+                    cylinder(d=12, h=1);
+                }
+            }
+        }else {
+            translate([0,10,-30])
+                rotate([0,180,0])
+                import("assets/Parallax-900-00360-Feedback-360-High-Speed-Servo.stl");
+        }
 
         translate([0,0,12])
             difference() {
@@ -39,10 +43,12 @@ module servo360(t=[0,0,0],r=[0,0,0]) {
 }
 
 module mcu() {
-    rotate([90,0,0])
-        rotate([0,0,90])
-        translate([-83/2,-55/2,0])
-        import("assets/B-L4S5I-IOT01A.stl");
+    if (! isStlExport) {
+        rotate([90,0,0])
+            rotate([0,0,90])
+            translate([-83/2,-55/2,0])
+            import("assets/B-L4S5I-IOT01A.stl");
+    }
 }
 
 module battery() {
@@ -51,7 +57,7 @@ module battery() {
 
 module batteryCutout() {
     roundCube([63.3+1,13+0.7,90.5+1], r=13/2, inner=true, fn=20);
-    cylinder(d=7, h=5, center=true);
+    /* cylinder(d=7, h=5, center=true); */
     translate([0,0,45])
         cube([47.5,9.5,50], center=true);
 }
@@ -61,7 +67,7 @@ module top1() {
     mirrorAndKeep([1,0,0]){ 
         difference() {
             hull() {
-                translate([width/2-5,-6,-7])
+                translate([width/2-5,-5,-7])
                     cube([10,10,1], center=true);
                 translate([55/2,-8,0])
                     rotate([90,0,0])
@@ -70,26 +76,26 @@ module top1() {
             translate([55/2 ,-12+ holeDepth,-0.4])
                 rotate([90,0,0])
                 color("red")
-                cylinder(d=5.5, h=holeDepth + 0.1, $fn=10);
+                cylinder(d=4, h=holeDepth + 0.1, $fn=16);
         }
         difference() {
             hull() {
                 translate([55/2,-8,82.5])
                     rotate([90,0,0])
                     cylinder(d=10, h=8, center=true, $fn=6);
-                translate([22,2,53])
+                translate([22,2,63])
                     rotate([0,30,0])
                     cube([10,1,10],center=true);
             }
             translate([55/2 ,-12+ holeDepth,82.5])
                 rotate([90,0,0])
                 color("red")
-                cylinder(d=5.5, h=holeDepth + 0.1, $fn=10);
+                cylinder(d=4, h=holeDepth + 0.1, $fn=16);
         }
-        translate([19,0.5,25.5])
-            cube([2,3,61],center=true);
+        translate([19,0.5,29.5])
+            cube([2,3,69],center=true);
     }
-    translate([0,-18,41]) {
+    translate([0,-13,41]) {
         noPart("gray")
             mcu();
     }
@@ -162,13 +168,17 @@ module top0() {
                     }
                     /* translate([0,5,-50]) */
                     /*     cube([30,10,100], center=true); */
-                    translate([0,0,16])
+                    translate([0,0,25])
                         rotate([90,-30,0])
-                        cylinder(d=60, h=40,center=true, $fn=3);
+                        cylinder(d=60, h=40, $fn=3);
+                    translate([0,0,16])
+                        rotate([0,0,180])
+                        rotate([90,-30,0])
+                        cylinder(d=60, h=40, $fn=3);
                 }
 
             translate([0,0,10]) top1();
-            translate([0,0,40]) top2();
+            translate([0,0,30]) top2();
 
         }
         translate([width/2,0,-5])
@@ -177,10 +187,10 @@ module top0() {
         mirrorAndKeep([1,0,0]){
             mirrorAndKeep([0,1,0]){
                 holeDepth=9;
-                translate([width/2 - holeDepth,5,-0.4])
+                translate([width/2 - holeDepth,5,-0.6])
                     rotate([0,90,0])
                     color("red")
-                    cylinder(d=5.5, h=holeDepth + 0.1, $fn=10);
+                    cylinder(d=4, h=holeDepth + 0.1, $fn=16);
             }
         }
 
@@ -215,10 +225,10 @@ module bottom() {
         mirrorAndKeep([1,0,0]){
             mirrorAndKeep([0,1,0]){
                 holeDepth=9;
-                translate([width/2 - holeDepth,5,-0.4])
+                translate([width/2 - holeDepth,5,-0.6])
                     rotate([0,90,0])
                     color("red")
-                    cylinder(d=5.5, h=holeDepth + 0.1, $fn=10);
+                    cylinder(d=5.5, h=holeDepth + 0.1, $fn=16);
             }
         }
     }
