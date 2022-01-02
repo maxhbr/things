@@ -1,4 +1,4 @@
-use <../../assets/Roboto-Medium.ttf>
+use <../../../assets/Roboto-Medium.ttf>
 
 width = 46.5;
 boxH = 60;

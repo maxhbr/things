@@ -1,4 +1,4 @@
-include <../lib.scad>
+include <../../lib.scad>
 
 highRes=false;
 justOnePart="";
