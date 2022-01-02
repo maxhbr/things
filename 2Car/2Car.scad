@@ -1,6 +1,6 @@
 include <../lib.scad>
 
-justOnePart="front.stl";
+/* justOnePart="front.stl"; */
 
 module servo360(t=[0,0,0],r=[0,0,0]) {
     translate(t) rotate(r) {
@@ -26,8 +26,12 @@ module servo360(t=[0,0,0],r=[0,0,0]) {
         /*     } */
         /* } */
 
-        /* translate([0,0,12]) */
-        /*     cylinder(d=60,h=4); */
+        translate([0,0,12])
+            difference() {
+                cylinder(d=90,h=4);
+                translate([0,0,-0.5])
+                cylinder(d=80,h=6);
+            }
     }
 }
 
