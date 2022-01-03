@@ -37,7 +37,7 @@ export -f buildPart
 scad="$(readlink -f ${1})"
 
 buildAll "$scad" &
-getParts "$scad" | parallel -n "$(($(nproc) -1 ))" --progress buildPart "$scad" {} 1>&2
+getParts "$scad" | parallel --progress buildPart "$scad" {} 1>&2
 
 wait
 times
