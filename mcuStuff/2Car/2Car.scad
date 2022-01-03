@@ -1,6 +1,7 @@
 include <../../lib.scad>
 
 width=60;
+holeD=4.35;
 
 /* isStlExport=true; */
 /* justOnePart="top.stl"; */
@@ -76,7 +77,7 @@ module top1() {
             translate([55/2 ,-12+ holeDepth,-0.4])
                 rotate([90,0,0])
                 color("red")
-                cylinder(d=4, h=holeDepth + 0.1, $fn=16);
+                cylinder(d=holeD, h=holeDepth + 0.1, $fn=16);
         }
         difference() {
             hull() {
@@ -90,7 +91,7 @@ module top1() {
             translate([55/2 ,-12+ holeDepth,82.5])
                 rotate([90,0,0])
                 color("red")
-                cylinder(d=4, h=holeDepth + 0.1, $fn=16);
+                cylinder(d=holeD, h=holeDepth + 0.1, $fn=16);
         }
         translate([19,0.5,29.5])
             cube([2,3,69],center=true);
@@ -181,16 +182,16 @@ module top0() {
             translate([0,0,30]) top2();
 
         }
-        translate([width/2,0,-5])
-            rotate([0,45,0])
-            cube([1,30,1], center=true);
         mirrorAndKeep([1,0,0]){
+            translate([width/2,0,-5])
+                rotate([0,45,0])
+                cube([1,30,1], center=true);
             mirrorAndKeep([0,1,0]){
                 holeDepth=9;
                 translate([width/2 - holeDepth,5,-0.6])
                     rotate([0,90,0])
                     color("red")
-                    cylinder(d=4, h=holeDepth + 0.1, $fn=16);
+                    cylinder(d=holeD, h=holeDepth + 0.1, $fn=16);
             }
         }
 
@@ -228,8 +229,13 @@ module bottom() {
                 translate([width/2 - holeDepth,5,-0.6])
                     rotate([0,90,0])
                     color("red")
-                    cylinder(d=5.5, h=holeDepth + 0.1, $fn=16);
+                    cylinder(d=holeD, h=holeDepth + 0.1, $fn=16);
             }
+        }
+        mirrorAndKeep([1,0,0]){
+            translate([width/2,0,-5])
+                rotate([0,45,0])
+                cube([1,30,1], center=true);
         }
     }
 }
