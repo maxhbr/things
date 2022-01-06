@@ -52,9 +52,9 @@ module roundCube(dimensions, r=1, fn=0, center=true, inner=false) {
     }
 }
 
-module mirrorAndKeep(m) {
+module mirrorAndKeep(m, r=[0,0,0]) {
     children();
-    mirror(m) children();
+    rotate(r) mirror(m) children();
 }
 
 module mirrorAndKeeps(ms) {

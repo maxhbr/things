@@ -5,7 +5,7 @@ include <../../lib.scad>
 /* justOnePart="bottom.stl"; */
 
 motorMaxWidth=42.5;
-motorSeperation=75;
+motorSeperation=85;
 
 module rot120() {
     children();
@@ -26,9 +26,50 @@ module motorWithWheel() {
     }
 }
 
-module b18650(r=[0,0,0]) {
-    rotate(r)
+module b18650() {
     cylinder(d=18, h=65, center=true);
+}
+
+module pack() {
+    color("black")
+    difference() {
+        cube([77.7,40,21.20], center=true);
+        translate([0,0,0.5])
+            cube([77.7-2,40-2,21.20], center=true);
+        translate([0,0,15.5])
+            cube([77.7-2,40+1,21.20], center=true);
+    }
+    color("green")
+    mirrorAndKeep([0,1,0]) {
+        translate([0,9.5,0])
+            rotate([0,90,0])
+            b18650();
+    }
+}
+
+module packs(dist) {
+    mirrorAndKeep([1,0,0]) {
+        rotate([180,0,-30])
+            translate([dist,0,0])
+            pack();
+        /* rotate([180,0,-90]) */
+        /*     translate([dist-15,45,0]) */
+        /*     pack(); */
+    }
+}
+
+module driver() {
+    color("black") {
+        difference() {
+            cube([15, 20, 14]);
+            translate([2,-0.5,-2])
+                cube([11, 21, 14]);
+        }
+    }
+    color("gray") {
+        translate([3,2.2,14])
+            cube([9,9,6]);
+    }
 }
 
 module driverShield() {
@@ -50,228 +91,253 @@ module driverShield() {
             }
             translate([0,0,-0.1])
                 translate([12.6,7.26,0]) {
+                    driver();
+                }
+            color("black") {
+                translate([30,3.4,0])
+                cube([2.5,10.5,8.8]);
+            }
+        }
+    }
+}
+
+module customShield() {
+    noPart() {
+        color("green")
+            difference() {
+                cube([70,50,1.6], center=true);
+                mirrorAndKeep([0,1,0])
+                    mirrorAndKeep([1,0,0])
+                    translate([70/2-2,50/2-2,0]) cylinder(d=2, h=2, center=true);
+                translate([0,-38,0])
+                    cylinder(d=67, h=10, center=true, $fn=6);
+            }
+        translate([0,4,0]) {
+            translate([-11,0,0])
+                rotate([0,0,90]) {
+                    driver();
                     color("black") {
-                        difference() {
-                            cube([15, 20, 14]);
-                            translate([2,-0.5,-2])
-                                cube([11, 21, 14]);
-                        }
+                        translate([16,3.4,0])
+                            cube([2.5,10.5,8.8]);
                     }
-                    color("gray") {
-                        translate([3,2.2,14])
-                            cube([9,9,6]);
+                }
+            translate([10,0,0])
+                rotate([0,0,90]) {
+                    driver();
+                    color("black") {
+                        translate([16,3.4,0])
+                            cube([2.5,10.5,8.8]);
+                    }
+                }
+            translate([31,0,0])
+                rotate([0,0,90]) {
+                    driver();
+                    color("black") {
+                        translate([16,3.4,0])
+                            cube([2.5,10.5,8.8]);
                     }
                 }
         }
     }
+}
+
+module composeElectronics() {
+    rot120()
+        translate([0,-motorSeperation-2,0])
+        motorWithWheel();
+
+    translate([0,0,-14])
+        packs(53);
+
+    /* translate([0,0,3]) { */
+    /*     rotate([0,0,30]) */
+    /*         translate([-60,0,0]) */
+    /*         driverShield(); */
+    /*     rotate([0,0,150]) */
+    /*         translate([-60,0,0]) */
+    /*         driverShield(); */
+    /*     rotate([0,0,90]) */
+    /*         translate([-9,0,0]) */
+    /*         driverShield(); */
+    /* } */
+    /* translate([0,-8,16]) */
+    /*     color("green") */
+    /*     difference() { */
+    /*         cube([60,40,1.6], center=true); */
+    /*         mirrorAndKeep([0,1,0]) */
+    /*             mirrorAndKeep([1,0,0]) */
+    /*             translate([28,18,0]) cylinder(d=2, h=2, center=true); */
+    /*     } */
+
+    translate([0,-19,4])
+        customShield();
+}
+
+/* ########################################################################## */
+/* ########################################################################## */
+/* ########################################################################## */
+
+module mountBar(d) {
+    translate([-24,-motorSeperation-d/2,-6])
+        color("blue")
+        cube([d,d,30], center=true);
+}
+module topBar(d) {
+    translate([0,-motorSeperation-d/2,24])
+        color("blue")
+        cube([20,d,d], center=true);
 }
 
 module motorMountPlate(d) {
-    translate([0,-d/2,-motorMaxWidth/2]) {
-        intersection() {
-            difference() {
-                    mirrorAndKeep([1,0,0]) {
-                        difference() {
-                            translate([0,-d/2,1])
-                                cube([motorMaxWidth/2,d,motorMaxWidth/2-1]);
-                            translate([31/2,0,31/2])
-                                rotate([90,0,0])
-                                cylinder(d=4, h=d*2, center=true);
-                            translate([31/2,-d/2,31/2])
-                                rotate([90,0,0])
-                                cylinder(d1=8, d2=12, h=2, center=true);
+    screwDist=31;
+    difference() {
+        hull() {
+            mirrorAndKeep([1,0,0])
+                mountBar(d=d);
+            topBar(d=d);
+            translate([0,-motorSeperation-d/2,0]) {
+                intersection() {
+                    mirrorAndKeep([0,0,1]) {
+                        mirrorAndKeep([1,0,0]) {
+                            translate([0,-d/2,0])
+                                cube([motorMaxWidth/2,d,motorMaxWidth/2]);
                         }
                     }
-                hull() {
                     rotate([90,0,0])
-                        cylinder(d=6.5, h=d*2, center=true);
-                    translate([0,0,-40])
-                        rotate([90,0,0])
-                        cylinder(d=6.5, h=d*2, center=true);
+                        cylinder(d=56, h=d*2, center=true);
                 }
-                translate([0,d/2,0])
-                    rotate([90,0,0])
-                    cylinder(d1=36, d2=30, h=4, center=true);
+            }
+        }
+        translate([0,-motorSeperation-d/2,0]) {
+            mirrorAndKeep([0,0,1]) {
+                mirrorAndKeep([1,0,0]) {
+                    translate([screwDist/2,0,screwDist/2])
+                        rotate([90,0,0])
+                        cylinder(d=4, h=d*2, center=true);
+                    translate([screwDist/2,-d/2,screwDist/2])
+                        rotate([90,0,0])
+                        cylinder(d1=8, d2=12, h=3, center=true);
+                }
             }
             rotate([90,0,0])
-                cylinder(d=56, h=d*2, center=true);
-        }
-    }
-
-}
-
-module motorMountPoints(d, h) {
-    translate([0,-d,0]) {
-        translate([15-d + 5,60-d,h-2])
-            cube([d,d,d]);
-        translate([motorMaxWidth/2+5,30 + 20-d,1])
-            cube([d,d,d]);
-    }
-}
-
-module topMount(d, h) {
-    translate([0,-motorSeperation,-h-d]) {
-        motorMountPlate(d);
-        translate([0,-d,0]) {
-            mirrorAndKeep([1,0,0]) {
-                hull() {
-                    cube([10,d,d]);
-                    translate([0,20,h])
-                        cube([15,d,d]);
-                }
-                hull() {
-                    translate([0,20,h])
-                        cube([15,d,d]);
-                    motorMountPoints(d=d, h=h);
-                }
-                hull() {
-                    translate([motorMaxWidth/2,0,-motorMaxWidth/2 +1])
-                        cube([d,d,15]);
-                    translate([motorMaxWidth/2+5,30,1])
-                        cube([d,20,d]);
-                }
-                hull() {
-                    motorMountPoints(d=d, h=h);
-                    translate([motorMaxWidth/2+5,30,1])
-                        cube([d,d,d]);
-                }
-                translate([motorMaxWidth/2+5,30 + 20-d,-43])
-                    cube([d,d,44]);
-                hull() {
-                translate([motorMaxWidth/2+5,30 + 20-d,-43])
-                    cube([d,d,12]);
-                    translate([motorMaxWidth/2+5 +d/2,30 + 20-d/2,-43])
-                        cylinder(d=10, h=6, $fn=6);
-                }
-            }
+                cylinder(d=25, h=d*2, center=true);
+            translate([0,d/2,0])
+                rotate([90,0,0])
+                cylinder(d1=36, d2=30, h=4, center=true);
         }
     }
 }
 
-module topStrut(d, h) {
-    hull() {
-        translate([0,-motorSeperation,-h-d])
-            motorMountPoints(d=d, h=h);
-        rotate([0,0,120])
-            mirror([1,0,0])
-            translate([0,-motorSeperation,-h-d])
-            motorMountPoints(d=d, h=h);
-    }
-}
 
-module top(d, h) {
-    rot120() { 
-        topMount(d=d, h=h);
-        topStrut(d=d, h=h);
-    }
-}
+module bottomPlate() {
+    d=4;
 
-module bottomMount(d,h) {
-    translate([0,-motorSeperation,-h-d]) {
-        mirror([0,0,1])
-            motorMountPlate(d);
-    }
-    mirrorAndKeep([1,0,0]) {
-        hull() {
-            translate([motorMaxWidth/2,-d,5])
-                translate([0,-motorSeperation,-h-d])
-                cube([d,d,15]);
-            rotate([0,0,60])
-                mirror([1,0,0])
-                translate([motorMaxWidth/2,-d,5])
-                translate([0,-motorSeperation,-h-d])
-                cube([d,d,15]);
-        }
-        hull() {
-            rotate([0,0,60])
-                mirror([1,0,0])
-                translate([motorMaxWidth/2,-d,5])
-                translate([0,-motorSeperation,-h-d])
-                cube([d,d,15]);
-            rotate([0,0,60])
-                translate([0,-motorSeperation - d/2,-12])
-                cube([34,d,4], center=true);
-        }
-    }
-}
-
-module bottomPlate(d,h) {
-    difference() {
-        union() {
+    mirrorAndKeep([1,0,0])
+        rotate([0,0,30])
+        translate([-54,0,-1.5])
+        cube([80,46,d], center=true);
+    color("DodgerBlue")
+        difference() {
             rot120()
-                translate([0,-motorSeperation - d/2,-12])
-                cube([34,d,4], center=true);
-            mirrorAndKeep([0,1,0])
-                hull()
-                rot120()
-                translate([0,-motorSeperation - d/2,-12.5])
-                cube([34,d,3], center=true);
+                hull() {
+                    mirrorAndKeep([1,0,0])
+                        rotate([0,0,30])
+                        translate([-19,0,-1.5])
+                        cube([10,46,d], center=true);
+                }
+            translate([0,13,0])
+                cylinder(d=10,h=10,center=true);
         }
-        mirrorAndKeep([0,1,0]) {
-            rot120() {
-                translate([0,motorSeperation/5,0])
-                    cylinder(d=motorSeperation/5,h=100, center=true, $fn=6);
-                translate([0,2*motorSeperation/5,0])
-                    cylinder(d=motorSeperation/5,h=100, center=true, $fn=6);
-                translate([0,3*motorSeperation/5,0])
-                    cylinder(d=motorSeperation/5,h=100, center=true, $fn=6);
-                translate([0,4*motorSeperation/5,0])
-                    cylinder(d=motorSeperation/5,h=100, center=true, $fn=6);
+
+
+    color("RoyalBlue")
+        mirrorAndKeep([1,0,0]){
+            mirrorAndKeep([0,1,0],r=[0,0,60]){
+                hull() {
+                    rotate([0,0,30])
+                        translate([-92,-22,-11.5])
+                        cube([4,2,20+d], center=true);
+                    mountBar(d);
+                }
+                hull() {
+                    rotate([0,0,30])
+                        translate([-50,-22,-11.5])
+                        cube([4,2,20+d], center=true);
+                    mountBar(d);
+                }
+                hull() {
+                    rotate([0,0,30])
+                        translate([-92,-22,-11.5])
+                        cube([4,2,20+d], center=true);
+                    rotate([0,0,30])
+                        translate([-23,-22,-11.5])
+                        cube([4,2,20+d], center=true);
+                }
+                rotate([0,0,30])
+                    translate([-93,0,-11.5])
+                    cube([2,46,20+d], center=true);
+            }
+            rotate([0,0,240]) {
+                hull() {
+                    rotate([0,0,30])
+                        translate([-50,-22,-11.5])
+                        cube([4,2,20+d], center=true);
+                    mountBar(d);
+                }
+                hull() {
+                    rotate([0,0,30])
+                        translate([-50,-22,-11.5])
+                        cube([4,2,20+d], center=true);
+                    rotate([0,0,30])
+                        translate([-23,-22,-11.5])
+                        cube([4,2,20+d], center=true);
+                }
+            }
+        }
+    hull() {
+        mirrorAndKeep([1,0,0]){
+            rotate([0,0,270])
+                translate([-50,-22,-11.5])
+                cube([4,2,20+d], center=true);
+        }
+    }
+
+    color("blue") {
+        rot120() {
+            hull() {
+                topBar(d=d);
+                translate([0,50,0])
+                    topBar(d=d);
+            }
+            hull() {
+                translate([0,50,0])
+                    topBar(d=d);
+                hull()
+                    mirrorAndKeep([1,0,0]){
+                        rotate([0,0,30])
+                            translate([-23,-22,-11.5])
+                            cube([4,2,20+d], center=true);
+                    }
             }
         }
     }
-}
-
-module bottom(d,h) {
-    rot120() {
-        bottomMount(d=d,h=h);
-        mirrorAndKeep([1,0,0])
-            translate([16,-(motorSeperation - 50)+3,-6])
-            cube([8,7,10], center=true);
-        translate([0,-(motorSeperation - 50),10])
-            rotate([180,270,90])
-            driverShield();
-    }
-    bottomPlate(d=d,h=h);
-}
-
-
-translate([300,0,0]) {
-    part("bottom.stl", s=[0,0,-motorMaxWidth])
-        bottom(d=4, h=6);
-    part("top.stl")
-        top(d=4, h=6);
-
-    /* noPart() { */
-    /*     color("ghostWhite") */
-    /*         translate([0,30,7]) */
-    /*         roundCube([72,34,14], r=3, inner=true); */
-    /* } */
-
-    /* module mcuMount(d=4) { */
-    /*     /1* tbd. *1/ */
-    /* } */
-
-    /* translate([-36,-80,15]) { */
-    /*     mcuMount(); */
-    /*     noPart() { */
-    /*         color("ghostWhite") */
-    /*             import("assets/MB1355-WB55RG-C02.stl"); */
-    /*     } */
-    /* } */
 
     rot120()
-        translate([0,-motorSeperation-2,-31.25])
-        motorWithWheel();
+        motorMountPlate(d);
+}
 
 
-    noPart() {
-        color("red")
-        translate([0,0,-61])
-            difference() {
-                cube([210.5,210.5,0.5], center=true);
-                cube([210,210,1], center=true);
-            }
+/* ########################################################################## */
+/* ########################################################################## */
+/* ########################################################################## */
+bottomPlate();
+
+
+noPart() {
+    translate([300,0,0]) {
+        bottomPlate();
+
+        composeElectronics();
     }
 }
 noPart() {

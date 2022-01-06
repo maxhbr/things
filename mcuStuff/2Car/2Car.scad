@@ -240,12 +240,62 @@ module bottom() {
     }
 }
 
+module seat() {
+    difference() {
+        hull() {
+            translate([0,0,-6])
+            intersection() {
+                scale([1,0.7,1])
+                    cylinder(d=70, h=12, center=true);
+                translate([0,-2,0])
+                    cube([80,35,20], center=true);
+            }
+            translate([0,0,25])
+                scale([1.1,1,1])
+                difference() {
+                    cylinder(d=70, h=3, center=true);
+                }
+        }
+        hull() {
+            translate([0,0,-6])
+            intersection() {
+                scale([1,0.7,1])
+                    cylinder(d=30, h=12, center=true);
+                translate([0,-2,0])
+                    cube([80,10,1], center=true);
+            }
+            translate([0,0,26])
+                scale([1.1,1,1])
+                difference() {
+                    cylinder(d=65, h=3, center=true);
+                }
+        }
+        translate([0,0,-20])
+        cube([40,80,40], center=true);
+        scale([1.03,1.03,1]) {
+            translate([0,0,-26])
+                cube([80,20,60], center=true);
+            hull() {
+                translate([0,0,0])
+                    bottom();
+                translate([0,0,-50])
+                    bottom();
+            }
+        }
+    }
+}
+
 part("top.stl", s=[0,0,35]) {
-        top0();
+    top0();
 }
 
 part("bottom.stl", s=[0,0,-15], r=[0,180,0]) {
     bottom();
+}
+
+part("seat.stl", s=[0,100,-15], r=[0,180,0], rReset=[0,180,0]) {
+    color("green")
+    seat();
 }
 
 
