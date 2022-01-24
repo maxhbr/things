@@ -81,6 +81,7 @@ data=[ ["ARTHURIANS",11,29,"2ART"]
      , ["OLMECS", 9.7,26,"2OLM"]
      , ["QIN", 9.2, 25, "2QIN"]
      , ["UTOPIANS", 7.7, 21, "2UTO"]
+
      , ["UNCIVILISED", 8.2, 22, "2UNC"]
      , ["TRIBUTARY", 4.1, 11, "2TRI"]
      , ["REGION", 5.2, 14, "2REG"]
@@ -88,6 +89,15 @@ data=[ ["ARTHURIANS",11,29,"2ART"]
      , ["UNREST", 4.4, 12, "2UNR"]
      , ["FAME", 3.3, 9, "2FAM"]
      , ["STATE & SOLSTICE", 2.5,5, undef]
+
+     , ["CARTHAGIANS", 8.6, 23, "1" ]
+     , ["CELTS",       10.4, 28, "1" ]
+     , ["GREEKS",      8.6, 23, "1" ]
+     , ["MACEDONIANS", 8.6, 23, "1" ]
+     , ["PERSIANS",    8.6, 23, "1" ]
+     , ["ROMANS",      8.6, 23, "1" ]
+     , ["SCYTHIANS",   9, 24, "1" ]
+     , ["VIKINGS",     9.7, 26, "1" ]
      ];
 
 module cardsFromRow(row) {
@@ -138,8 +148,31 @@ module commonCards(s=[0,0,0], r=[0,0,0]) {
         }
 }
 
+module classicCards(s=[0,0,0], r=[0,0,0]) {
+    part("imperium_classic_decks.stl", s=s, r=r) {
+        cardsFromRow(row=data[idx]) {
+            idx=15; cardsFromRow(row=data[idx]) {
+                idx=idx+1; cardsFromRow(row=data[idx]) {
+                    idx=idx+1; cardsFromRow(row=data[idx]) {
+                        idx=idx+1; cardsFromRow(row=data[idx]) {
+                            idx=idx+1; cardsFromRow(row=data[idx]) {
+                                idx=idx+1; cardsFromRow(row=data[idx]) {
+                                    idx=idx+1; cardsFromRow(row=data[idx]) {
+                                        idx=idx+1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 legendCards();
-commonCards(s=[0,165,0]);
+commonCards(s=[200,167,0]);
+classicCards(s=[0,167,0]);
 
 noPart() {
     color("red")
