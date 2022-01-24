@@ -27,9 +27,9 @@ module cards(d=10,text=undef) {
             translate([wall,wall,wall])
                 cube([stackD, stackH, stackW]);
 
-            translate([wall,stackH+wall,23.8])
+            translate([wall,stackH+wall,26])
                 rotate([45,0,0])
-                cube([stackD,2,2]);
+                cube([stackD,20,20]);
             translate([wall,wall,boxW-wall+0.7])
                 rotate([45,0,0])
                 cube([stackD,2,2]);
@@ -170,9 +170,45 @@ module classicCards(s=[0,0,0], r=[0,0,0]) {
     }
 }
 
+module commonCardsSlim(s=[0,0,0], r=[0,0,0]) {
+    part("imperium_common_slim.stl", s=s, r=r)
+        cardsFromRow(row=["CIV,REG,TRI,UNC,FAM", 25, 0, undef]) {
+                cardsFromRow(row=["STA,SOL,UNR", 6,5, undef]) {
+            }
+        }
+}
+
+/* WIP */
+module tray(s=[0,0,0], r=[0,0,0]) {
+    part("imperium_tray.stl", s=s, r=r) {
+        translate([2,2,2]) {
+            difference() {
+                hull(){
+                    translate([0,2,0])
+                        cube([40-4,70-4-4,2], center=true);
+                    translate([0,0,21])
+                        cube([40,70-4,2], center=true);
+                }
+                translate([0,0,2])
+                hull(){
+                    translate([0,2,0])
+                        cube([40-4-3,70-4-4-3,2], center=true);
+                    translate([0,0,21])
+                        cube([40-3,70-4-3,2], center=true);
+                }
+            }
+        }
+    }
+}
+
+$fa = 1;
+$fs = 0.4;
+
 legendCards();
 commonCards(s=[200,167,0]);
+commonCardsSlim(s=[96,96,0], r=[0,0,90]);
 classicCards(s=[0,167,0]);
+
 
 noPart() {
     color("red")
