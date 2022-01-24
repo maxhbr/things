@@ -222,14 +222,13 @@ $fa = 1;
 $fs = 0.4;
 
 legendCards();
-commonCards(s=[200,167,0]);
-commonCardsSlim(s=[96,96,0], r=[0,0,90]);
+commonCardsSlim(s=[0,96.5+70,0], r=[0,0,-90]);
 classicCards(s=[0,167,0]);
 
 
 noPart() {
     color("red")
-    translate([0,0,0])
+    translate([0,0,-1.25])
         difference() {
             translate([-1,-1,1])
                 cube([173+2,263+2,0.5]); 
