@@ -11,7 +11,7 @@ cardH=91.2;
 cardW=66.9;
 
 
-module cards(d=10,text=undef) {
+module cards(d=10,text=undef, textLine2=undef) {
     stackH=cardH+eps*3;
     stackW=cardW+2eps*2;
     stackD=d+2eps*1.8;
@@ -35,23 +35,40 @@ module cards(d=10,text=undef) {
                 cube([stackD,2,2]);
 
 
-color("lightgray")
-            translate([(stackD+2wall)/2,(stackH+2wall)/2,wall - 0.3])
-                hull()
-                rotate([0,0,270])
-                linear_extrude(0.31)
-                text(text,
-                        font = "Roboto Condensed:style=Bold",
-                        size = 6,
-                        halign = "center",
-                        valign = "center");
+            color("lightgray")
+                hull(){
+                    translate([(stackD+2wall)/2+2,(stackH+2wall)/2,wall - 0.3])
+                        rotate([0,0,270])
+                        linear_extrude(0.31)
+                        text(text,
+                                font = "Roboto Condensed:style=Bold",
+                                size = 6,
+                                halign = "center",
+                                valign = "center");
+                    translate([(stackD+2wall)/2-3.5,(stackH+2wall)/2,wall - 0.3])
+                        rotate([0,0,270])
+                        linear_extrude(0.31)
+                        text(textLine2,
+                                font = "Roboto Condensed:style=Bold",
+                                size = 5,
+                                halign = "center",
+                                valign = "center");
+                }
             color("gray") {
-                translate([(stackD+2wall)/2,(stackH+2wall)/2,wall - 0.6])
+                translate([(stackD+2wall)/2+2,(stackH+2wall)/2,wall - 0.6])
                     rotate([0,0,270])
                     linear_extrude(0.61)
                     text(text,
                             font = "Roboto Condensed:style=Bold",
                             size = 5,
+                            halign = "center",
+                            valign = "center");
+                translate([(stackD+2wall)/2-3.5,(stackH+2wall)/2,wall - 0.6])
+                    rotate([0,0,270])
+                    linear_extrude(0.61)
+                    text(textLine2,
+                            font = "Roboto Condensed:style=Bold",
+                            size = 4,
                             halign = "center",
                             valign = "center");
                 translate([(stackD+2wall)/2,0.6,(boxW)/2])
@@ -90,18 +107,18 @@ data=[ ["ARTHURIANS",11,29,"2ART"]
      , ["FAME", 3.3, 9, "2FAM"]
      , ["STATE & SOLSTICE", 2.5,5, undef]
 
-     , ["CARTHAGIANS", 8.6, 23, "1" ]
-     , ["CELTS",       10.4, 28, "1" ]
-     , ["GREEKS",      8.6, 23, "1" ]
-     , ["MACEDONIANS", 8.6, 23, "1" ]
-     , ["PERSIANS",    8.6, 23, "1" ]
-     , ["ROMANS",      8.6, 23, "1" ]
-     , ["SCYTHIANS",   9, 24, "1" ]
-     , ["VIKINGS",     9.7, 26, "1" ]
+     , ["CARTHAGIANS", 8.6, 23, "1CAR" ]
+     , ["CELTS",       10.4, 28, "1CEL" ]
+     , ["GREEKS",      8.6, 23, "1GRE" ]
+     , ["MACEDONIANS", 8.6, 23, "1MAC" ]
+     , ["PERSIANS",    8.6, 23, "1PER" ]
+     , ["ROMANS",      8.6, 23, "1ROM" ]
+     , ["SCYTHIANS",   9, 24, "1SCY" ]
+     , ["VIKINGS",     9.7, 26, "1VIK" ]
      ];
 
 module cardsFromRow(row) {
-    cards(d=row[1]*2, text=row[0]) {
+    cards(d=row[1]*2, text=row[0], textLine2=row[3]) {
         children();
     }
 }
@@ -172,8 +189,8 @@ module classicCards(s=[0,0,0], r=[0,0,0]) {
 
 module commonCardsSlim(s=[0,0,0], r=[0,0,0]) {
     part("imperium_common_slim.stl", s=s, r=r)
-        cardsFromRow(row=["CIV,REG,TRI,UNC,FAM", 25, 0, undef]) {
-                cardsFromRow(row=["STA,SOL,UNR", 6,5, undef]) {
+        cardsFromRow(row=["CIV,REG,TRI,UNC,FAM", 25, 0, "15,14,11,22,9"]) {
+                cardsFromRow(row=["STA,SOL,UNR", 6,5, "4,1,12"]) {
             }
         }
 }
