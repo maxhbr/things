@@ -233,5 +233,18 @@ noPart() {
             translate([-1,-1,1])
                 cube([173+2,263+2,0.5]); 
             cube([173,263,2]); 
-        }
+        };
+
+    /*
+    # translate([131,138.5,0]) import("./thing:4911762/Imperium_token_holder_ACTIONS.stl", convexity=3);
+    # translate([131 + 9,138.5 -7,30]) import("./thing:4911762/Imperium_token_holder_RESOURCES.stl", convexity=3);
+    */
+
+    # translate([81,107,83]) rotate([90,0,0]) import("./thing:4911762/Imperium_divider_UNREST.stl");
+    # translate([81,115,83]) rotate([90,0,0]) import("./thing:4911762/Imperium_divider_CIVILIZED.stl");
+    # translate([81,125,83]) rotate([90,0,0]) import("./thing:4911762/Imperium_divider_REGIONS.stl");
+    # translate([81,135,83]) rotate([90,0,0]) import("./thing:4911762/Imperium_divider_TRIBUTARY.stl");
+    # translate([81,145,83]) rotate([90,0,0]) import("./thing:4911762/Imperium_divider_UNCIVILIZED.stl");
+    # translate([81,155,83]) rotate([90,0,0]) import("./thing:4911762/Imperium_divider_FAME.stl");
+
 }
