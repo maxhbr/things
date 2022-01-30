@@ -240,11 +240,11 @@ noPart() {
     # translate([131 + 9,138.5 -7,30]) import("./thing:4911762/Imperium_token_holder_RESOURCES.stl", convexity=3);
     */
 
-    # translate([81,107,83]) rotate([90,0,0]) import("./thing:4911762/Imperium_divider_UNREST.stl");
-    # translate([81,115,83]) rotate([90,0,0]) import("./thing:4911762/Imperium_divider_CIVILIZED.stl");
-    # translate([81,125,83]) rotate([90,0,0]) import("./thing:4911762/Imperium_divider_REGIONS.stl");
-    # translate([81,135,83]) rotate([90,0,0]) import("./thing:4911762/Imperium_divider_TRIBUTARY.stl");
-    # translate([81,145,83]) rotate([90,0,0]) import("./thing:4911762/Imperium_divider_UNCIVILIZED.stl");
-    # translate([81,155,83]) rotate([90,0,0]) import("./thing:4911762/Imperium_divider_FAME.stl");
+    # translate([81,107,81]) rotate([90,0,0]) import("./thing:4911762/Imperium_divider_UNREST.stl");
+    # translate([81,115,81]) rotate([90,0,0]) import("./thing:4911762/Imperium_divider_CIVILIZED.stl");
+    # translate([81,125,81]) rotate([90,0,0]) import("./thing:4911762/Imperium_divider_REGIONS.stl");
+    # translate([81,135,81]) rotate([90,0,0]) import("./thing:4911762/Imperium_divider_TRIBUTARY.stl");
+    # translate([81,145,81]) rotate([90,0,0]) import("./thing:4911762/Imperium_divider_UNCIVILIZED.stl");
+    # translate([81,155,81]) rotate([90,0,0]) import("./thing:4911762/Imperium_divider_FAME.stl");
 
 }
