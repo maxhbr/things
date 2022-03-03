@@ -26,6 +26,7 @@ buildPart "stuffholder-v1a.stl"
 buildPart "stuffholder-v1b.stl"
 buildPart "stuffholder-v1c.stl"
 buildPart "stuffholder-boxes.stl"
+buildPart "stuffholder-v2.stl"
 
 wait
 times

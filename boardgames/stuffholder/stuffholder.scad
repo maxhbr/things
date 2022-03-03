@@ -294,7 +294,77 @@ module boxes() {
 
 }
 
+module v2() {
+    difference() {
+        union() {
+
+            translate([-30,0,0]) cards();
+            mirror([1,0,0]) translate([-30,0,0]) cards();
+
+            difference() {
+                translate([0, (depth / 2) + 2.5,0])
+                    cube([146,5,12], center=true);
+                translate([0, 2.5, wall])
+                    translate([0, (depth / 2) - 2.5,0])
+                    cube([245,5,12], center=true);
+            }
+            translate([0,+ (depth / 2) + 2.4,-3.5])
+                rotate([60,0,0])
+                cube([146,4,2], center=true);
+
+            cube([14,60,12],center=true);
+        }
+        translate([0,-31,0])
+            cube([38,2,13],center=true);
+        union() {
+            translate([77,0,7])
+                rotate([0,45,0])
+                cube([10,depth+15,10], center=true);
+            translate([-77,0,7])
+                rotate([0,45,0])
+                cube([10,depth+15,10], center=true);
+        }
+        union() {
+            translate([0, +depth/2+2.5/2,7])
+                rotate([45,0,0])
+                cube([245,5,5], center=true);
+            translate([0, -depth/2-2.5/2,7])
+                rotate([45,0,0])
+                cube([35,5,5], center=true);
+            translate([-139,-12,0])
+                rotate([0,-37,0])
+                cube([10, depth + 20, 30], center=true);
+
+            translate([0,40,0])
+                rotate([0,10,90])
+                cube([10, 146-4*wall, 30], center=true);
+
+            translate([73,36,0])
+                rotate([0,0,45])
+                cube([4,4,20],center=true);
+            translate([-73,36,0])
+                rotate([0,0,45])
+                cube([4,4,20],center=true);
+            /* translate([0,-10,0]) */
+            /*     cube([38,70,20],center=true); */
+            /* translate([0,-35,0]) */
+            /*     rotate([0,0,45]) */
+            /*     cube([38,38,20],center=true); */
+
+            translate([-80.5,0,-5.7])
+                rotate([180,0,270])
+                linear_extrude(0.31)
+                text("github.com/maxhbr/things",
+                        font = "Roboto Condensed:style=Light",
+                        size = 4,
+                        halign = "center");
+        }
+    }
+
+}
+
 part("stuffholder-v1a.stl") v1a();
 part("stuffholder-v1c.stl", shift=[0,90,0]) v1c();
 part("stuffholder-v1b.stl", shift=[0,180,0]) v1b();
 part("stuffholder-boxes.stl", shift=[0,90,120]) boxes();
+part("stuffholder-v2.stl", shift=[300,0,0]) v2();
