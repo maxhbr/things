@@ -315,8 +315,20 @@ module v2(dX=30) {
 
             cube([2*dX - 46,60,12],center=true);
         }
-        translate([0,-31,0])
-            cube([2*dX - 22,2,13],center=true);
+        hull() {
+            translate([-dX-10,0,0])
+                translate([0,-37,0])
+                    rotate([0,0,7])
+                    rotate([-5,0,0])
+                    translate([-4.5,0,0])
+                    cube([width+10,10,20], center=true);
+            mirror([1,0,0]) translate([-dX-10,0,0])
+                translate([0,-37,0])
+                    rotate([0,0,7])
+                    rotate([-5,0,0])
+                    translate([-4.5,0,0])
+                    cube([width+10,10,20], center=true);
+        }
         union() {
             translate([dX + 47,0,7])
                 rotate([0,45,0])
@@ -327,7 +339,6 @@ module v2(dX=30) {
         }
         union() {
             translate([0, +depth/2+2.5/2,7]) rotate([45,0,0]) cube([86+1 + 2*dX,5,5], center=true);
-            translate([0, -depth/2-2.5/2,7]) rotate([45,0,0]) cube([2*dX - 25,5,5], center=true);
 
             translate([-(50+dX),-12,0]) rotate([0,-37,0]) cube([10, depth + 20, 30], center=true);
             mirror([1,0,0]) translate([-(50+dX),-12,0]) rotate([0,-37,0]) cube([10, depth + 20, 30], center=true);
