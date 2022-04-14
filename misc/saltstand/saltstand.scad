@@ -8,12 +8,25 @@ module cutout(fn=100,addD=0,addH=0) {
 
 module cuttedout(addH=0) {
     difference() {
-        minkowski() {
-            cutout(fn=6,addD=2,addH=addH);
-            translate([0,0,-2]) cylinder(h=2,d1=6,d2=4,$fn=6);
+        intersection() {
+            minkowski() {
+                cutout(fn=6,addD=2,addH=addH);
+                translate([0,0,-2]) cylinder(h=2,d1=6,d2=4,$fn=6);
+            }
+            translate([0,0,addH/2-1]) 
+                translate([0,0,-13])
+                cylinder(h=50, d1=2,d2=100, $fn=6);
         }
-        translate([0,0,addH/2]) cutout(addH=addH);
-        translate([0,0,h-1+addH]) cylinder(h=2,d1=d,d2=d+2,$fn=100);
+        hull() {
+            translate([0,0,addH/2-1]) cutout(addH=addH,addD=-1);
+            translate([0,0,addH/2]) cutout(addH=addH);
+        }
+        translate([0,0,h-1+addH])
+        minkowski() {
+            cutout();
+            cylinder(h=2,d1=0,d2=2,$fn=6);
+        }
+        translate([0,0,addH/2-1]) translate([0,0,-11]) cylinder(h=10,d1=20,d2=1, $fn=6);
     }
 }
 
@@ -32,5 +45,4 @@ module saltstand() {
     }
 }
 
-mirror([0,1,0])
-saltstand();
+mirror([0,1,0]) saltstand();
