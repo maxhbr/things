@@ -48,7 +48,7 @@ module v2(e=0) {
     }
 }
 
-v2();
+/* v2(); */
 translate([8,4,0]) v2(e=0.1);
 translate([16,0,0]) v2(e=0.2);
 translate([24,4,0]) v2(e=0.3);
