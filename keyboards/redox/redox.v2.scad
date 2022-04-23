@@ -1,3 +1,4 @@
+type="top"; // ["top","bottom"]
 
 screws = [[0+0,0,0], [-110.49,15.287,0], [-17.145,92.202,0], [-127.635,90.297,0]];
 
@@ -6,7 +7,7 @@ module contour() {
         import("./assets/redox_rev1_contour.stl");
 }
 
-module case(right=false, trrs=true) {
+module top(right=false, trrs=true) {
     intersection() {
         translate([57.25,32.25,1])
             color("red")
@@ -29,7 +30,7 @@ module case(right=false, trrs=true) {
             minkowski() {
                 contour();
                 union() {
-                    cylinder(d1=5,d2=2,h=4);
+                    cylinder(d1=5,d2=2,h=3.4);
                     addH=4;
                     translate([0,0,-addH]) cylinder(d=5,h=addH);
                 }
@@ -68,5 +69,24 @@ module case(right=false, trrs=true) {
             }
     }
 }
-case();
+
+module bottom() {
+    translate([0,0,-1.6*2-2])
+            contour();
+}
+
+if (type=="top") {
+    mirror([0,0,1])
+        top();
+}
+if (type=="bottom") {
+    bottom();
+}
+
+if($preview) {
+    translate([0,150,0]) {
+        top();
+        bottom();
+    }
+}
 
