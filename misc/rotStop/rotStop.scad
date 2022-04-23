@@ -5,7 +5,7 @@ module v1() {
     translate([-1,-10,0])
         cube([2,10,14.5]);
 
-    translate([-1.5,0,0])
+    translate([-1.4,0,0])
         cube([2.8,15,10.7]);
 
     translate([-4.5,0,0])
@@ -52,3 +52,11 @@ v2();
 translate([8,4,0]) v2(e=0.1);
 translate([16,0,0]) v2(e=0.2);
 translate([24,4,0]) v2(e=0.3);
+
+if ($preview) {
+    translate([0,30,0])
+    difference() {
+        v1();
+        v2();
+    }
+}
