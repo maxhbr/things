@@ -177,16 +177,16 @@ module bottom() {
 // ## compose #################################################################
 // ############################################################################
 
-//part("reviung41.top.stl", s=[0,0,0], r=[0,0,0], rReset=[0,180,30]) {
-//    top();
-//}
+part("reviung41.top.stl", s=[0,0,0], r=[0,0,0], rReset=[0,180,30]) {
+    top();
+}
 part("reviung41.bottom.stl", s=[0,0,0], r=[0,0,0], rReset=[0,0,30]) {
     bottom();
 }
 
-//if ($preview) {
-//    noPart("gray") {
-//        translate([32.305,107.194,-1.6])
-//            import("./reviung41.pcb.stl");
-//    }
-//}
+if ($preview) {
+    noPart("gray") {
+        translate([32.305,107.194,-1.6])
+            import("./reviung41.pcb.stl");
+    }
+}
