@@ -112,7 +112,7 @@ module top() {
             cylinder(d=1, h=1, $fn=8);
         }
         spacyScrewHoles(h=1)
-            cylinder(h=3.3, r=1.1, $fn=20);
+            cylinder(h=3.3, r=1.2, $fn=20);
     }
     pins();
 
@@ -139,6 +139,12 @@ module bottom() {
                         import (file = "./reviung41-Nutzer_4.svg");
                     cylinder(h=2, d2=0.7, d1=2, $fn=8);
                 }
+                translate([0,0,-hSpace-1])
+                    minkowski() {
+                        linear_extrude(height = 1, convexity = 10)
+                            import (file = "./reviung41-Nutzer_5.svg");
+                        cylinder(h=2,d1=2,d2=0);
+                    }
             }
             translate([0,0,-1.6]) {
                 translate([0,0,-hSpace-hThickness])
@@ -171,16 +177,16 @@ module bottom() {
 // ## compose #################################################################
 // ############################################################################
 
-part("reviung41.top.stl", s=[0,0,0], r=[0,0,0], rReset=[0,180,30]) {
-    top();
-}
+//part("reviung41.top.stl", s=[0,0,0], r=[0,0,0], rReset=[0,180,30]) {
+//    top();
+//}
 part("reviung41.bottom.stl", s=[0,0,0], r=[0,0,0], rReset=[0,0,30]) {
     bottom();
 }
 
-if ($preview) {
-    noPart("gray") {
-        translate([32.305,107.194,-1.6])
-            import("./reviung41.pcb.stl");
-    }
-}
+//if ($preview) {
+//    noPart("gray") {
+//        translate([32.305,107.194,-1.6])
+//            import("./reviung41.pcb.stl");
+//    }
+//}
