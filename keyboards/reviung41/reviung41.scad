@@ -143,7 +143,7 @@ module bottom() {
                     minkowski() {
                         linear_extrude(height = 1, convexity = 10)
                             import (file = "./reviung41-Nutzer_5.svg");
-                        cylinder(h=2,d1=2,d2=0);
+                        cylinder(h=1.5,d1=2,d2=0.2);
                     }
             }
             translate([0,0,-1.6]) {
@@ -189,4 +189,6 @@ if ($preview) {
         translate([32.305,107.194,-1.6])
             import("./reviung41.pcb.stl");
     }
+    translate([0,-150,0]) top();
+    translate([0,150,0]) bottom();
 }
