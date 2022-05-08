@@ -43,14 +43,9 @@ module nonSpacyScrewHoles(h=10) {
 module keyCutout() {
     translate([0,0,-5]) {
         minkowski() {
-            intersection() {
-                union() {
-                    linear_extrude(height = 8.5, convexity = 10) {
-                        import (file = "./reviung41-Nutzer_2.svg");
-                        import (file = "./reviung41-Nutzer_3.svg");
-                    }
-                }
-                edge(h=8.5);
+            linear_extrude(height = 8.5, convexity = 10) {
+                import (file = "./reviung41-Nutzer_2.svg");
+                import (file = "./reviung41-Nutzer_3.svg");
             }
             translate([0,0,-1.5]) cylinder(d1=1,d2=0,h=1.5,$fn=8);
         }
