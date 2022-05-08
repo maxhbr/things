@@ -107,7 +107,7 @@ module top() {
             cylinder(d=1, h=1, $fn=8);
         }
         spacyScrewHoles(h=1)
-            cylinder(h=3.3, r=1.2, $fn=20);
+            cylinder(h=3.3, r=0.6, $fn=20);
     }
     pins();
 
