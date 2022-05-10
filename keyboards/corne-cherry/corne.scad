@@ -131,7 +131,7 @@ module top() {
     pins();
 }
 
-module bottom() {
+module bottom(mirrorText=false) {
     hSpace=2.5;
     hThickness=2;
 
@@ -168,6 +168,7 @@ module bottom() {
                 translate([64,57,-5.8])
                 rotate([0,180,0])
                 linear_extrude(0.31)
+                mirror(mirrorText ? [1,0,0] : [0,0,0])
                 text("github.com/maxhbr",
                         font = "Roboto Condensed:style=slim",
                         size = 10,
@@ -191,11 +192,19 @@ module bottom() {
 // ## compose #################################################################
 // ############################################################################
 
-part("corne-cherry.top.stl", s=[0,0,0], r=[0,0,0], rReset=[0,180,30]) {
-    top();
+module mkRight() {
+    translate([-68,23,0])
+        mirror([0,1,0])
+        children();
 }
-part("corne-cherry.bottom.stl", s=[0,0,0], r=[0,0,0], rReset=[0,0,30]) {
+
+part("corne-cherry.top.stl", s=[0,0,0], r=[0,0,0], rReset=[0,180,0]) {
+    top();
+    mkRight() top();
+}
+part("corne-cherry.bottom.stl", s=[0,0,0], r=[0,0,0], rReset=[0,0,0]) {
     bottom();
+    mkRight() bottom(mirrorText=true);
 }
 
 if ($preview) {
@@ -203,6 +212,6 @@ if ($preview) {
     /*     translate([32.305,107.194,-1.6]) */
     /*         import("./corne-cherry.pcb.stl"); */
     /* } */
-    translate([0,-150,0]) top();
-    translate([0,150,0]) bottom();
+    translate([150,100,0]) top();
+    translate([0,100,0]) bottom();
 }
