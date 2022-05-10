@@ -20370,6 +20370,7 @@
   (gr_line (start 153.05 83) (end 157.95 83) (layer "F.Fab") (width 0.1) (tstamp 8b8cbcc8-2fab-4017-82d7-9e2b0dd87d55))
   (gr_line (start 155.5 80.55) (end 155.5 85.450063) (layer "F.Fab") (width 0.1) (tstamp c40d36bb-2efa-4bc3-859b-223faaa66f3e))
   (gr_circle (center 95.5 65.5) (end 96.5 65.5) (layer "User.1") (width 0) (fill solid) (tstamp 7165b8de-423a-454e-aace-bce80a683a64))
+  (gr_circle (center 178 65.45) (end 179 65.45) (layer "User.1") (width 0) (fill solid) (tstamp 822e8040-0f90-435c-a516-20159d348c19))
   (gr_poly
     (pts
       (xy 179.5 101.05)
@@ -20379,6 +20380,15 @@
       (xy 176.85 70.425)
       (xy 179.525 70.425)
     ) (layer "User.2") (width 0.15) (fill none) (tstamp 1f513e25-9283-4864-aa7c-0fd457ed8535))
+  (gr_poly
+    (pts
+      (xy 200 119.75)
+      (xy 193.975 119.75)
+      (xy 182.675 119.75)
+      (xy 182.7 111.95)
+      (xy 193.975 111.95)
+      (xy 200 111.95)
+    ) (layer "User.2") (width 0.1) (fill none) (tstamp 3858cb50-f230-43db-ad4f-d8a281aeb7c6))
   (gr_poly
     (pts
       (xy 194.725 101.05)
@@ -20426,6 +20436,14 @@
     ) (layer "User.4") (width 0.1) (fill solid) (tstamp 802d19a7-c266-427a-83e3-d217eae3dd0d))
   (gr_poly
     (pts
+      (xy 180.25 69)
+      (xy 174.5 69)
+      (xy 172.5 65.75)
+      (xy 175.5 63.25)
+      (xy 180.25 63.25)
+    ) (layer "User.4") (width 0.1) (fill solid) (tstamp b71e7d4c-30df-4bee-b6ac-9f771208af48))
+  (gr_poly
+    (pts
       (xy 127 120.5)
       (xy 127 123.5)
       (xy 125.5 126.5)
@@ -20446,6 +20464,13 @@
       (xy 77 124)
       (xy 79.5 122)
     ) (layer "User.4") (width 0.1) (fill solid) (tstamp f984d0e7-44f1-4a74-a127-fb3373bfe0bd))
+  (gr_poly
+    (pts
+      (xy 181 68)
+      (xy 181 70.5)
+      (xy 178 67.95)
+      (xy 180.25 67.95)
+    ) (layer "User.4") (width 0.1) (fill solid) (tstamp f9c64bbe-cff9-4431-862a-ba0a8d0dadb5))
   (gr_poly
     (pts
       (xy 135.85629 61.139982)
@@ -20508,14 +20533,13 @@
     ) (layer "User.5") (width 0.15) (fill none) (tstamp 8af57cc8-3c76-4043-b698-9e80df95b47a))
   (gr_poly
     (pts
-      (xy 197 119.75)
-      (xy 193.975 119.75)
-      (xy 182.675 119.75)
-      (xy 182.7 111.95)
-      (xy 193.975 111.95)
-      (xy 197 111.95)
-    ) (layer "User.6") (width 0.1) (fill solid) (tstamp 3858cb50-f230-43db-ad4f-d8a281aeb7c6))
-  (gr_rect (start 194.875 103.975) (end 191.125 110.025) (layer "User.6") (width 0.1) (fill none) (tstamp a0c52d7f-2210-4679-8416-2b19ca8b55cb))
+      (xy 195 109.25)
+      (xy 192.75 109.25)
+      (xy 191.875 109)
+      (xy 191.875 105)
+      (xy 192.5 104.725)
+      (xy 195 104.725)
+    ) (layer "User.6") (width 0.1) (fill solid) (tstamp 4737d99f-398a-4b9e-8058-d1de175381de))
   (gr_text "GND" (at 171.9 103.3) (layer "B.SilkS") (tstamp ba54b977-6e85-4849-863a-8aba90c0983f)
     (effects (font (size 0.7 0.7) (thickness 0.125)) (justify mirror))
   )

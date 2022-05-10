@@ -29,6 +29,8 @@ module spacySelector(h=10) {
             cube([10,10,2*h], center=true);
         translate([37,88,0])
             cube([10,10,2*h], center=true);
+        translate([118,88,0])
+            cube([10,10,2*h], center=true);
     }
 }
 
@@ -61,11 +63,8 @@ module keyCutout() {
             }
             translate([0,0,-1.5]) cylinder(d1=1,d2=0,h=1.5,$fn=8);
         }
-        intersection() {
-            linear_extrude(height = 10, convexity = 10)
+        linear_extrude(height = 10, convexity = 10)
             import (file = "./corne-cherry-Nutzer_2.svg");
-            edge(h=10);
-        }
     }
 }
 // ############################################################################
@@ -86,16 +85,7 @@ module top() {
                 edge(h=3);
             render()
             minkowski() {
-                translate([0,0,-addH]) {
-                    edge(h=5);
-                    minkowski() {
-                        linear_extrude(height = 4, convexity = 10) {
-                            import (file = "./corne-cherry-Nutzer_2.svg");
-                            import (file = "./corne-cherry-Nutzer_3.svg");
-                        }
-                        cylinder(d=2,h=1,$fn=20);
-                    }
-                }
+                translate([0,0,-addH]) edge(h=5);
                 cylinder(d1=4.5,d2=1,h=addH);
             }
         }
@@ -214,4 +204,10 @@ if ($preview) {
     /* } */
     translate([150,100,0]) top();
     translate([0,100,0]) bottom();
+    translate([-150,100,0]) { 
+        keyCutout();
+        screwHoles(h=10);
+        color("red",0.2) spacySelector(h=10);
+    }
 }
+
