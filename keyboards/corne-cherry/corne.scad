@@ -18,7 +18,7 @@ module edge(h=3) {
         import (file = "./corne-cherry-Nutzer_4.svg");
     }
     screwHoles(h=h-1) {
-        cylinder(h=1, d=5);
+        cylinder(h=1, d=4.8);
     }
 }
 module spacySelector(h=10) {
