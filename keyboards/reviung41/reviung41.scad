@@ -3,11 +3,13 @@ include <../../lib.scad>
 // ############################################################################
 // ## lib #####################################################################
 // ############################################################################
-
-module edge(h=3) {
-    linear_extrude(height = h, convexity = 10)
-    translate([-2.238,-2.507])
-            import (file = "./reviung41-Edge_Cuts.flattened.svg");
+module spacySelector(h=10) {
+    color("red",0.3){
+        translate([130,20,0])
+            cube([260,40,2*h], center=true);
+        translate([130,110,0])
+            cube([260,40,2*h], center=true);
+    }
 }
 
 module screwHoles(h=10) {
@@ -18,12 +20,23 @@ module screwHoles(h=10) {
     }
 }
 
+
+module edge(h=3) {
+    linear_extrude(height = h, convexity = 10)
+        translate([-2.238,-2.507])
+        import (file = "./reviung41-Edge_Cuts.flattened.svg");
+    linear_extrude(height = h, convexity = 10)
+        import (file = "./reviung41-Nutzer_4.svg");
+    screwHoles(h=h-1) {
+        cylinder(h=1, d=4.8);
+    }
+}
+
 module spacyScrewHoles(h=10) {
     minkowski() {
         intersection() {
             screwHoles(h=h);
-            translate([130,20,0])
-                cube([130,40,2*h], center=true);
+            spacySelector(h=h);
         }
         children();
     }
@@ -33,8 +46,7 @@ module nonSpacyScrewHoles(h=10) {
     minkowski() {
         difference() {
             screwHoles(h=h);
-            translate([130,20,0])
-                cube([130,40,2*h], center=true);
+            spacySelector(h=h);
         }
         children();
     }
@@ -68,6 +80,7 @@ module pins() {
 
 module top() {
     addH=5;
+    render()
     difference() {
         union() {
             translate([0,0,2])
@@ -117,6 +130,7 @@ module bottom() {
     hSpace=2.5;
     hThickness=2;
 
+    render()
     intersection() {
         difference() {
             translate([0,0,-1.6]) {

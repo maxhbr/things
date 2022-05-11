@@ -9341,6 +9341,11 @@
   (gr_line (start 64.699705 101.284155) (end 78.388532 103.697864) (layer "F.Fab") (width 0.1) (tstamp fedb7d4b-8ca2-493c-b9a1-22e781d6d436))
   (gr_line (start 123.681697 95.894387) (end 137.370525 98.308097) (layer "F.Fab") (width 0.1) (tstamp ff579cc0-821d-40ca-8f3d-8708c2d87acb))
   (gr_line (start 154.848352 139.319964) (end 153.134891 139.319964) (layer "F.Fab") (width 0.1) (tstamp ffe6d5f3-f9a5-48a9-88db-d2d7822b944f))
+  (gr_circle (center 243.25 124.5) (end 242.25 124.5) (layer "User.1") (width 0.1) (fill none) (tstamp 2aa7f6e9-aa7c-4b55-bd36-c55ed9e71c68))
+  (gr_circle (center 37.5 57) (end 38.5 57) (layer "User.1") (width 0.1) (fill none) (tstamp 4ccb5fb4-d10d-4c7a-8ded-12dd875cceff))
+  (gr_circle (center 123.75 65) (end 124.75 65) (layer "User.1") (width 0.1) (fill none) (tstamp 7d328d81-b03a-46b4-9434-cb80d367ff66))
+  (gr_circle (center 252.069009 57) (end 251.069009 57) (layer "User.1") (width 0.1) (fill none) (tstamp 8249a24e-eb36-4b0e-a5c3-214f3c92ed1e))
+  (gr_circle (center 46.25 124.5) (end 47.25 124.5) (layer "User.1") (width 0.1) (fill none) (tstamp ca5c1e2a-b3fc-4cf0-81d6-fa44e06cc9e8))
   (gr_poly
     (pts
       (xy 177.765494 63.866201)
@@ -9389,11 +9394,34 @@
     ) (layer "User.3") (width 0.1) (fill solid) (tstamp fb45ea77-12d5-4abb-acac-7c69a214e1c9))
   (gr_poly
     (pts
+      (xy 239.785009 58.674)
+      (xy 259.089009 58.674)
+      (xy 253.319009 55.75)
+      (xy 250.819009 55.75)
+    ) (layer "User.4") (width 0.1) (fill solid) (tstamp 0422fa69-4e68-4c25-9175-6f5da83df515))
+  (gr_poly
+    (pts
       (xy 30.48 60.452)
       (xy 49.022 63.754)
       (xy 49.784 58.674)
       (xy 30.48 58.674)
     ) (layer "User.4") (width 0.1) (fill solid) (tstamp 09b91442-5508-49ad-a224-e420991150e4))
+  (gr_poly
+    (pts
+      (xy 237.5 121.75)
+      (xy 242 126.25)
+      (xy 244.5 126.25)
+      (xy 250 123.25)
+      (xy 250 123)
+      (xy 240.75 121)
+    ) (layer "User.4") (width 0.1) (fill solid) (tstamp 18153425-1532-4cd2-b646-be425da2668e))
+  (gr_poly
+    (pts
+      (xy 49.784 58.674)
+      (xy 30.48 58.674)
+      (xy 36.25 55.75)
+      (xy 38.75 55.75)
+    ) (layer "User.4") (width 0.1) (fill solid) (tstamp 32822455-9067-4ddf-b3bf-f3af562aae5b))
   (gr_poly
     (pts
       (xy 220.218 60.452)
@@ -9454,6 +9482,25 @@
     ) (layer "User.4") (width 0.1) (fill solid) (tstamp 955b7fbc-4053-4bcf-92e6-ed010b38c418))
   (gr_poly
     (pts
+      (xy 52 121.75)
+      (xy 47.5 126.25)
+      (xy 45 126.25)
+      (xy 39.5 123.25)
+      (xy 39.5 123)
+      (xy 48.75 121)
+    ) (layer "User.4") (width 0.1) (fill solid) (tstamp 9df48dbc-1a3f-4878-a7a1-ef2c38001630))
+  (gr_poly
+    (pts
+      (xy 127.5 64.5)
+      (xy 127.5 67.25)
+      (xy 126.5 68.25)
+      (xy 120.25 68.25)
+      (xy 119 67)
+      (xy 122.5 63.5)
+      (xy 125 63.5)
+    ) (layer "User.4") (width 0.1) (fill solid) (tstamp bc95d16a-d5e2-4520-b1cb-50b501d7bc33))
+  (gr_poly
+    (pts
       (xy 154.178 125.476)
       (xy 146.812 128.27)
       (xy 142.494 128.27)
@@ -9493,6 +9540,31 @@
       (xy 141.224 92.202)
       (xy 148.336 92.202)
     ) (layer "User.5") (width 0.1) (fill none) (tstamp 6c1356ff-eebd-466f-84cc-e79e8457ac57))
+  (gr_poly
+    (pts
+      (xy 58.75 120.5)
+      (xy 52 121.75)
+      (xy 48.75 121)
+      (xy 39.5 123)
+      (xy 39.25 120.5)
+      (xy 40 117.25)
+    ) (layer "User.5") (width 0.1) (fill solid) (tstamp 711d6afa-0a50-45ae-a070-40d01b55007f))
+  (gr_poly
+    (pts
+      (xy 230.75 120.5)
+      (xy 237.5 121.75)
+      (xy 240.75 121)
+      (xy 250 123)
+      (xy 250.25 120.5)
+      (xy 249.5 117.25)
+    ) (layer "User.5") (width 0.1) (fill solid) (tstamp 87148dec-25db-4358-81a1-391bf84df585))
+  (gr_poly
+    (pts
+      (xy 167.407829 68.762729)
+      (xy 128.361453 61.8778)
+      (xy 129.375028 56.129525)
+      (xy 168.421405 63.014454)
+    ) (layer "User.5") (width 0.1) (fill solid) (tstamp ca8b35a2-e6ee-40a7-9d20-5fb4e4d46b8d))
   (gr_text "COL 5" (at 160.51 59.73 80) (layer "B.SilkS") (tstamp 00000000-0000-0000-0000-00005dd5f9a8)
     (effects (font (size 0.8 0.8) (thickness 0.15)) (justify mirror))
   )
