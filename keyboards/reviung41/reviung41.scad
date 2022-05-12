@@ -5,8 +5,12 @@ include <../../lib.scad>
 // ############################################################################
 module spacySelector(h=10) {
     color("red",0.3){
-        translate([130,20,0])
-            cube([260,40,2*h], center=true);
+        difference() {
+            translate([130,20,0])
+                cube([260,40,2*h], center=true);
+            translate([130,20,0])
+                cube([40,40,2*h], center=true);
+        }
         translate([130,110,0])
             cube([260,40,2*h], center=true);
     }

@@ -9491,13 +9491,15 @@
     ) (layer "User.4") (width 0.1) (fill solid) (tstamp 9df48dbc-1a3f-4878-a7a1-ef2c38001630))
   (gr_poly
     (pts
-      (xy 127.5 64.5)
+      (xy 128.25 61.25)
+      (xy 129 62.757692)
       (xy 127.5 67.25)
       (xy 126.5 68.25)
       (xy 120.25 68.25)
-      (xy 119 67)
+      (xy 119.75 67.75)
+      (xy 119.75 66.25)
       (xy 122.5 63.5)
-      (xy 125 63.5)
+      (xy 125 62.5)
     ) (layer "User.4") (width 0.1) (fill solid) (tstamp bc95d16a-d5e2-4520-b1cb-50b501d7bc33))
   (gr_poly
     (pts
