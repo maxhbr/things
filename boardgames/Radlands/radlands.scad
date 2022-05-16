@@ -40,8 +40,8 @@ module boxBuilder() {
                     wedgedCube([outerW-9,outerL-9,20],r=3,center=true);
                 translate([0,0,cardH-wall-(cardH-innerH)/2])
                     wedgedCube([outerW-6,outerL-6,cardH-innerH],r=6,center=true);
-                translate([0,0,cardH/2-wall])
-                    wedgedCube([outerW-12,outerL-12,cardH],r=3,center=true);
+                translate([0,0,cardH/2-wall-1])
+                    wedgedCube([outerW-12,outerL-12,cardH+2],r=3,center=true);
             }
             intersection() {
                 union() {
@@ -110,10 +110,8 @@ noPart() {
             translate([0,-100,0]) cube([200,200,200]);
         }
 
-        noPart(){
-            translate([0,-55,cardH-15])
-                rotate([0,90,0])
-                cylinder(d=25, h=5, center=true);
-        }
+        translate([0,-55,cardH-15])
+            rotate([0,90,0])
+            cylinder(d=25, h=5, center=true);
     }
 }
