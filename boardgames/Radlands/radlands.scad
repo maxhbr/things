@@ -104,9 +104,16 @@ part("radlands.stl", s=[0,0,0], r=[0,0,0], rReset=[0,180,0]) {
     box();
 }
 noPart() {
-    translate([100,0,0])
+    translate([100,0,0]) {
         difference() {
             box();
             translate([0,-100,0]) cube([200,200,200]);
         }
+
+        noPart(){
+            translate([0,-55,cardH-15])
+                rotate([0,90,0])
+                cylinder(d=25, h=5, center=true);
+        }
+    }
 }
