@@ -44,9 +44,25 @@ module boxBuilder() {
                     wedgedCube([outerW-12,outerL-12,cardH],r=3,center=true);
             }
             intersection() {
-                widen() children();
+                union() {
+                    widen() children();
+                    translate([0,44-10,cardH/2])
+                        cube([outerW,wall,cardH],center=true);
+                    translate([0,44-10-48,cardH/2])
+                        cube([outerW,wall,cardH],center=true);
+                    translate([0,44-10+48,cardH/2])
+                        cube([outerW,wall,cardH],center=true);
+                    difference() {
+                        translate([0,0,cardH/2])
+                            cube([wall,200,cardH],center=true);
+                        translate([0,-52.2,0])
+                        rotate([0,90,0])
+                        cylinder(r=36, h=4, center=true);
+                    }
+                }
                 outline();
             }
+
         }
         children();
     }
@@ -64,7 +80,7 @@ module box() {
             for(t=[[0,0,0],[0,20,20],[0,-20,20]]) {
                 translate(t)
                     rotate([0,90,0])
-                    cylinder(d=20,h=outerW, center=true);
+                    cylinder(d=20,h=outerW, center=true, $fn=100);
             }
         translate([0,34,cardH-20])
         difference() {
@@ -77,8 +93,10 @@ module box() {
             for(t=[[[0,0,0],50],[[0,5,20],70],[[0,-5,20],70]]) {
                 translate(t[0])
                     rotate([0,90,0])
-                    cylinder(d=30,h=t[1], center=true);
+                    cylinder(d=30,h=t[1], center=true, $fn=100);
             }
+        translate([0,-55,cardH*1.5-8])
+            wedgedCube([innerW-20+4+8,47,cardH],r=8, center=true);
     }
 }
 
