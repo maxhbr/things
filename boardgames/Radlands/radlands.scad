@@ -53,11 +53,12 @@ module boxBuilder() {
                     translate([0,44-10+48,cardH/2])
                         cube([outerW,wall,cardH],center=true);
                     difference() {
-                        translate([0,0,cardH/2])
-                            cube([wall,200,cardH],center=true);
+                        for(t=[-20,20])
+                            translate([t,0,cardH/2])
+                                cube([wall,200,cardH],center=true);
                         translate([0,-52.2,0])
-                        rotate([0,90,0])
-                        cylinder(r=36, h=4, center=true);
+                            rotate([0,90,0])
+                            cylinder(r=36, h=70, center=true);
                     }
                 }
                 outline();
