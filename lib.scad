@@ -52,6 +52,29 @@ module roundCube(dimensions, r=1, fn=0, center=true, inner=false) {
     }
 }
 
+module wedgedCube(dimensions, r=1, center=true, justEdges=false) {
+    if (r==0) {
+        cube(dimensions, center=center);
+    } else {
+        x=dimensions[0];
+        y=dimensions[1];
+        z=dimensions[2];
+            if (justEdges) {
+                hull() {
+                    translate(center ? [0,0,0] : [r,0,0]) cube([x-2*r,y,z], center=center);
+                    translate(center ? [0,0,0] : [0,r,0]) cube([x,y-2*r,z], center=center);
+                    translate(center ? [0,0,0] : [0,0,r]) cube([x,y,z-2*r], center=center);
+                }
+            } else {
+                hull() {
+                    translate(center ? [0,0,0] : [0,r,r]) cube([x,y-2*r,z-2*r], center=center);
+                    translate(center ? [0,0,0] : [r,0,r]) cube([x-2*r,y,z-2*r], center=center);
+                    translate(center ? [0,0,0] : [r,r,0]) cube([x-2*r,y-2*r,z], center=center);
+                }
+            }
+    }
+}
+
 module mirrorAndKeep(m, r=[0,0,0]) {
     children();
     rotate(r) mirror(m) children();
