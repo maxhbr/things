@@ -2,11 +2,11 @@ include <../../lib.scad>
 
 
 wall=1.5;
-innerW=90.7;
-innerL=181;
+innerW=91.2;
+innerL=171.5;
 innerH=37;
-outerW=95.7;
-outerL=186;
+outerW=96.2;
+outerL=176.5;
 cardH=67;
 cardL=94;
 
@@ -46,11 +46,11 @@ module boxBuilder() {
             intersection() {
                 union() {
                     widen() children();
-                    translate([0,44-10,cardH/2])
+                    translate([0,39-10,cardH/2])
                         cube([outerW,wall,cardH],center=true);
-                    translate([0,44-10-48,cardH/2])
+                    translate([0,39-10-48,cardH/2])
                         cube([outerW,wall,cardH],center=true);
-                    translate([0,44-10+48,cardH/2])
+                    translate([0,39-10+48,cardH/2])
                         cube([outerW,wall,cardH],center=true);
                     difference() {
                         for(t=[-20,20])
@@ -72,18 +72,18 @@ module boxBuilder() {
 
 module box() {
     boxBuilder(){
-        translate([0,44-10,cardH/2])
+        translate([0,39-10,cardH/2])
             wedgedCube([innerW-20+4,cardL+4,cardH+4],r=2, center=true);
-        translate([0,44-10,cardH*1.5-8])
+        translate([0,39-10,cardH*1.5-8])
             wedgedCube([innerW-20+4+8,cardL+4+8,cardH],r=8, center=true);
-        translate([0,34,cardH-20])
+        translate([0,29,cardH-20])
             hull()
             for(t=[[0,0,0],[0,20,20],[0,-20,20]]) {
                 translate(t)
                     rotate([0,90,0])
                     cylinder(d=20,h=outerW, center=true, $fn=100);
             }
-        translate([0,34,cardH-20])
+        translate([0,29,cardH-20])
         difference() {
             cube([outerW,30,30],center=true);
             cube([innerW,40,40],center=true);
