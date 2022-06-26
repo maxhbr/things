@@ -26,7 +26,7 @@ module widen(r=wall) {
 module outline() {
     overlap=8;
     translate([0,0,innerH/2 + overlap/2])
-        wedgedCube([innerW,innerL,innerH+overlap],r=2,center=true);
+        wedgedCube([innerW,innerL,innerH+overlap],r=1,center=true);
     translate([0,0,(cardH-innerH)/2+innerH])
         wedgedCube([outerW,outerL,cardH-innerH],r=3,center=true);
 }
@@ -36,32 +36,12 @@ module boxBuilder() {
         union() {
             difference() {
                 outline();
-                translate([0,0,-7.5])
-                    wedgedCube([outerW-9,outerL-9,20],r=3,center=true);
-                translate([0,0,cardH-wall-(cardH-innerH)/2])
-                    wedgedCube([outerW-6,outerL-6,cardH-innerH],r=6,center=true);
-                translate([0,0,cardH/2-wall-1])
-                    wedgedCube([outerW-12,outerL-12,cardH+2],r=3,center=true);
-            }
-            intersection() {
-                union() {
-                    widen() children();
-                    translate([0,39-10,cardH/2])
-                        cube([outerW,wall,cardH],center=true);
-                    translate([0,39-10-48,cardH/2])
-                        cube([outerW,wall,cardH],center=true);
-                    translate([0,39-10+48,cardH/2])
-                        cube([outerW,wall,cardH],center=true);
-                    difference() {
-                        for(t=[-20,20])
-                            translate([t,0,cardH/2])
-                                cube([wall,200,cardH],center=true);
-                        translate([0,-52.2,0])
-                            rotate([0,90,0])
-                            cylinder(r=36, h=70, center=true);
-                    }
-                }
-                outline();
+                /* translate([0,0,-7.5]) */
+                /*     wedgedCube([outerW-9,outerL-9,20],r=3,center=true); */
+                /* translate([0,0,cardH-wall-(cardH-innerH)/2]) */
+                /*     wedgedCube([outerW-6,outerL-6,cardH-innerH],r=6,center=true); */
+                /* translate([0,0,cardH/2-wall-1]) */
+                /*     wedgedCube([outerW-12,outerL-12,cardH+2],r=3,center=true); */
             }
 
         }
@@ -98,12 +78,23 @@ module box() {
             }
         translate([0,-55,cardH*1.5-8])
             wedgedCube([innerW-20+4+8,47,cardH],r=8, center=true);
+
+        translate([0,-55,30])
+            hull()
+            for(t=[[0,0,0],[0,25,-30],[0,-20,-30]]) {
+                translate(t)
+                    rotate([0,90,0])
+                    cube([10,10,innerW -10],center=true);
+            }
     }
 }
 
-part("radlands.stl", s=[0,0,0], r=[0,0,0], rReset=[0,180,0]) {
+
+part("radlands.stl", s=[0,0,0], r=[0,0,0], rReset=[0,0,0]) {
     box();
 }
+
+
 noPart() {
     translate([100,0,0]) {
         difference() {
