@@ -151,8 +151,8 @@ module boxImpl(w, h, ds, wall, window) {
     d=dsToD(ds,wall);
     bottom(w=w, h=h, d=d, ds=ds, wall=wall, window=window);
 
-    translate([d+20,0,0])
-        rotate([180,0,0])
+    translate([0,w+15,0])
+        rotate([0,180,0])
         top(w=w, h=h, d=d, wall=wall, window=window)
         children();
 
