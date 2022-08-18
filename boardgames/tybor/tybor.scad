@@ -1,4 +1,4 @@
-include <../genbox.scad>
+include <./genbox.snapshot@61f0c6c04611fe76f4afd34072b414c9c7a64889.scad>
 
 module Logo() {
     d=0.3;
