@@ -50,4 +50,5 @@ module one() {
         cube([40,10,2]);
 }
 
-one();
+rotate([180,0,0])
+    one();
