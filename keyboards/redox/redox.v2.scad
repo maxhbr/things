@@ -7,7 +7,7 @@ module contour() {
         import("./assets/redox_rev1_contour.stl");
 }
 
-module top(right=false, trrs=true) {
+module top(right=false, trrs=false) {
     intersection() {
         translate([57.25,32.25,1])
             color("red")
