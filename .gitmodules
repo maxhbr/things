@@ -1,3 +1,6 @@
 [submodule "Round-Anything"]
 	path = Round-Anything
 	url = https://github.com/Irev-Dev/Round-Anything
+[submodule "keyboards/taira/taira-keyboard"]
+	path = keyboards/taira/taira-keyboard
+	url = https://github.com/strayer/taira-keyboard/
