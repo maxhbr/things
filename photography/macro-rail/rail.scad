@@ -1,23 +1,38 @@
 mode="develop"; // [ "print", "develop" ]
+mount_translate_x = 0; // [ 0, -200 ]
 
 $fn=100;
 
 
-railStl="./HiWin-KK5002P/KK5002P150A1F000_FILE_2.stl";
+
 
 module mirror_horizontally() {
   children();
   mirror([1,0,0]) children();
 }
 
+module mirror_vertically() {
+  children();
+  mirror([1,0,0]) children();
+}
+
+module m3screw(h=10,dh=4) {
+  cylinder(d=3.5,h=h,$fn=100);
+  translate([0,0,dh]) cylinder(d=6,h=h,$fn=100);
+}
+
 module m4screw(h=10,dh=4) {
   cylinder(d=4.6,h=h,$fn=100);
-  translate([0,0,dh]) cylinder(d=6,h=h,$fn=100);
+  translate([0,0,dh]) cylinder(d=8,h=h,$fn=100);
 }
 
 module insert(d,h) {
   translate([0,0,-h])
   cylinder(d=d,h=h,$fn=100);
+}
+
+module m3insert(addH=0) {
+  insert(4,5.7+addH);
 }
 
 module m4insert(addH=0) {
@@ -101,7 +116,7 @@ module carrigeToClamp(){
   }
 }
 
-module feet() {
+module feetVslot() {
   holeXDist = 25;
   reailWidth = 50;
   render()
@@ -130,25 +145,150 @@ module feet() {
           }
       }
       translate([holeXDist/2,0,0]) m4insert(addH=10);
-      translate([30,0,-9]) m4screw(dh=9);
+      translate([30,0,-9]) m4screw(dh=9-4);
     }
+  }
+}
+
+module feetArcaSwiss() {
+  holeXDist = 25;
+  height = 9;
+  render() 
+  mirror_horizontally() {
+    difference() {
+      union() {
+        for(t=[[0,0,0],[0,80,0]]) {
+          translate([holeXDist/2,0,0] + t) hull() {
+            cylinder(d=20-2,h=height);
+            translate([0,0,2]) cylinder(d=20,h=height-4);
+          }
+        }
+        translate([holeXDist/2-10/2,0,0]) cube([10,80,height]);
+        translate([0,-10,0]) cube([10,100,3]);
+        for(dy=[-20,100]) {
+          translate([0,dy,0]){
+            difference() {
+              hull() {
+                cylinder(d=40-4, h=height);
+                cylinder(d=40, h=height-4);
+              }
+              hull() {
+                translate([0,0,height]) cube([8,40,4], center=true);
+                translate([0,0,height+2]) cube([12,40,4], center=true);
+              }
+            }
+          }
+        }
+        difference() {
+          translate([-10,20,0]) cube([20,40,height - 2]);
+          translate([0,8,0]) cylinder(d=30, h=height);
+          translate([0,80-8,0]) cylinder(d=30, h=height);
+        }
+      }
+      for(t=[[0,0,0],[0,80,0]]) {
+        translate([holeXDist/2,0,height] + t) m4insert();
+      }
+      for(dy=[-20,40,100]) {
+        translate([0,dy,height]) m4insert();
+        translate([0,dy-10,height]) m4insert();
+        translate([0,dy+10,height]) m4insert();
+      }
+    }
+  }
+}
+
+module motorAdapterFlangeF3() {
+  height=7;
+  width=49;
+  depth=40;
+  holeDistance=31;
+  render()
+  difference() {
+    translate([0,0,3.5])
+      hull() {
+        cube([width,depth-3,height],center=true);
+        cube([width-3,depth,height],center=true);
+        translate([0,-5,0])
+        cube([width+4,20,height],center=true);
+      }
+    cylinder(h=height, d=24);
+    for(t=[[-1,-1,0],[-1,1,0],[1,1,0],[1,-1,0]]) {
+      translate(t*(holeDistance/2)) m3screw();
+    }
+    color("red")
+    mirror_horizontally() {
+      for(t=[[21.5,-1.5,0],[21.5,-11.5,0]]) {
+        translate(t+[0,0,height])
+          rotate([0,0,0])
+          m3insert();
+        translate(t)
+          cylinder(d=3.5,h=10);
+      }
+    }
+  }
+}
+
+module motorCopuling() {
+  render()
+  difference() {
+    cylinder(h=25, d=19);
+    cylinder(h=25, d=5);
+    cube([20,20,25]);
+  }
+}
+
+module ledMount() {
+  holeDistance=24;
+  render()
+  difference() {
+    hull() {
+      mirror_horizontally() {
+        translate([holeDistance/2,0,0]) {
+          cylinder(d=10-2,h=4);
+          cylinder(d=10,h=4-2);
+        }
+      }
+    }
+    mirror_horizontally() translate([holeDistance/2,0,0]) m3screw();
   }
 }
 
 
 if (mode == "develop") {
+  mount_translate = [mount_translate_x,0,0];
   if ($preview) {
-    color("lightgray") import(railStl, convexity=3);
-    color("gray")
-      translate([0,45-10,-19]) 
-      rotate([0,90,90])
-      import("./vslot/Master_20_x_80_V_Slot_small.stl", convexity=3);
+
+    railStl="./HiWin-KK5002P/KK5002P150A1F000_FILE_2.stl";
+    color("lightgray",0.8) import(railStl, convexity=3);
+
+    translate(mount_translate) {
+      color("gray",0.8)
+        translate([0,45-10,-19]) 
+        rotate([0,90,90])
+        import("./vslot/Master_20_x_80_V_Slot_small.stl", convexity=3);
+      translate([0,0,-9]) rotate([-90,0,0]) translate([-40,0,0]) import("./vslot/80x20_vslot_endcap.stl", convexity=3);
+      color("gray") translate([200-20,0,-19]) scale([1,4/3,1]) rotate([90,0,180]) import("./arcaswiss/150mm_Arcaswiss_Style_Rail.stl", convexity=3);
+    }
+
+    color("gray",0.8) translate([-3,261,16]) rotate([90,0,0]) import("./motors/NEMA_17.stl", convexity=3);
+    color("darkgray") translate([0,220-11,16]) rotate([90,0,0]) motorCopuling();
+
   }
 
-  translate([0,45,0]) feet();
-  translate([0,45+80,0]) mirror([0,1,0]) feet();
+  translate(mount_translate) {
+    translate([0,45,0]) feetVslot();
+    translate([0,45+80,0]) mirror([0,1,0]) feetVslot();
+  }
 
   translate([0,88+25,26]) carrigeToClamp();
+
+  translate([0,220+7,16]) rotate([90,0,0]) motorAdapterFlangeF3();
+
+  translate([0,5,35.5 + 0.5]) ledMount();
+
+  translate(mount_translate) {
+    translate([200,45,-9]) feetArcaSwiss();
+  }
 
 
   if ($preview) {
@@ -160,13 +300,22 @@ if (mode == "develop") {
           rotate([0,0,45]) cube([100,100,100]);
         }
       }
+      translate([100,100,0]) {
+        feetArcaSwiss();
+      }
       translate([-100,0,0]) {
-        feet();
+        feetVslot();
+      }
+      translate([-100,100,0]) {
+        motorAdapterFlangeF3();
       }
     }
   }
 } else {
   carrigeToClamp();
-  translate([0,42,0]) rotate([180,0,0]) feet();
-  translate([0,-42,0]) rotate([180,0,0]) feet();
+  translate([42,0,0]) rotate([180,0,90]) feetVslot();
+  translate([-42,0,0]) rotate([180,0,90]) feetVslot();
+  translate([0,50,0])
+  motorAdapterFlangeF3();
+  
 }
