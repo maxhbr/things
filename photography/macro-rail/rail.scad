@@ -1,5 +1,4 @@
-mode="develop"; // [ "print", "develop", "carrigeToClamp", "motorAdapterFlangeF3", "feetArcaSwiss" ]
-mount_translate_x = 0; // [ 0, -200 ]
+mode="develop"; // [ "print", "develop", "assembly", "carrigeToClamp", "motorAdapterFlangeF3", "feetArcaSwiss" ]
 
 $fn=100;
 
@@ -57,6 +56,16 @@ module m5insertShort(addH=0) {
   insert(6.4,5.8+addH);
 }
 
+module clamp() {
+  difference() {
+    union() {
+      cylinder(d=60, h=10);
+      translate([0,0,5]) rotate([-90,0,0]) cylinder(d=5, h=40);
+      translate([0,35,5]) rotate([-90,0,0]) cylinder(d=14, h=15);
+    }
+    hull() mirror_horizontally() translate([100,0,6]) cylinder(d1=40, d2=30, h=10);
+  }
+}
 
 module carrigeToClamp(){
   holeXDist = 25;
@@ -169,7 +178,10 @@ module carrigeToClampV2(){
     }
     mirror_both_directions() translate([holeXDist/2,holeYDist/2,0]) m4screw(h=baseHeight,addH=clampHeight, addD=4.5);
     rotate_four_fold() translate([clampHoleRadius,0,clampHeight]) m5insert();
-    rotate_four_fold() translate([clampHoleRadius,0,0]) cylinder(d=5.5, h=clampHeight); 
+    rotate_four_fold() hull() {
+      translate([clampHoleRadius,0,3]) cylinder(d=5.5, h=clampHeight); 
+      translate([clampHoleRadius,0,1]) cylinder(d=2.5, h=clampHeight); 
+    }
     hull() {
       cube([15,20,2], center=true);
       cylinder(h=clampHeight-1, d1=10, d2=0);
@@ -242,10 +254,7 @@ module feetArcaSwiss() {
         }
         difference() {
           translate([-10,15,0]) cube([20,50/2,height]);
-          d=15;
-          off=3;
-          translate([0,d-off/2,0]) cylinder(d=16+off, h=height,$fn=6);
-          translate([0,80-d+off/2,0]) cylinder(d=16+off, h=height,$fn=6);
+          translate([0,15,0]) cylinder(d=16, h=height,$fn=6);
         }
       }
       translate([holeXDist/2,0,height]) m4insert();
@@ -269,10 +278,10 @@ module feetArcaSwiss() {
         translate([holeXDist/2+10-10/2-3,10,(9-1)/2]) cube([10,30,1]);
         translate([holeXDist/2+10-10/2,6,(9-7)/2]) cube([10,34,7]);
       }
-      mirror_horizontally() color("red") hull(){
-        translate([11,-27,1]) cylinder(h=height+2, d=2);
-        translate([11,-10,1]) cylinder(h=height+2, d=2);
-        translate([14,-10,1]) cylinder(h=height+2, d=2);
+      mirror_horizontally() hull(){
+        translate([11,-27,1]) cylinder(h=height, d=2, $fn=8);
+        translate([11,-10,1]) cylinder(h=height, d=2, $fn=8);
+        translate([14,-10,1]) cylinder(h=height, d=2, $fn=8);
       }
 
     }
@@ -353,48 +362,59 @@ module ledMount() {
   }
 }
 
+module assembly() {
 
-if (mode == "develop") {
-  mount_translate = [mount_translate_x,0,0];
+  translate([0,88+25,26]) carrigeToClampV2();
+
+  translate([0,220+7,16]) rotate([90,0,0]) motorAdapterFlangeF3();
+
+  // translate([0,5,35.5 + 0.5]) ledMount();
+
+  translate([0,45,-9]) feetArcaSwiss();
+
   if ($preview) {
 
     // railStl="./HiWin-KK5002P/KK5002P150A1F000_FILE_2.stl";
     railStl="./HiWin-KK5002P/KK5002P150A1F00SA_FILE_1.stl";
     color("lightgray",0.8) import(railStl, convexity=3);
 
-    translate(mount_translate) {
+    color("gray",0.8) translate([-3,260,16]) rotate([90,0,0]) import("./motors/NEMA_17.stl", convexity=3);
+    color("darkgray") translate([0,220-11,16]) rotate([90,0,0]) motorCopuling();
+    color("gray") translate([-20,0,-19]) scale([1,4/3,1]) rotate([90,0,180]) import("./arcaswiss/150mm_Arcaswiss_Style_Rail.stl", convexity=3);
+
+    color("darkgray") render() translate([0,88+25,26]+[0,0,16.5]) {
+      intersection() {
+        clamp();
+        translate([-50,0,0]) cube([100,100,100],center=true);
+      }
+    }
+  }
+}
+
+
+if (mode == "assembly") {
+  assembly();
+} else if (mode == "develop") {
+  if ($preview) {
+
+    translate([0,0,-40]) {
       color("gray",0.8)
         translate([0,45-10,-19]) 
         rotate([0,90,90])
         import("./vslot/Master_20_x_80_V_Slot_small.stl", convexity=3);
       translate([0,0,-9]) rotate([-90,0,0]) translate([-40,0,0]) import("./vslot/80x20_vslot_endcap.stl", convexity=3);
-      color("gray") translate([200-20,0,-19]) scale([1,4/3,1]) rotate([90,0,180]) import("./arcaswiss/150mm_Arcaswiss_Style_Rail.stl", convexity=3);
     }
 
-    color("gray",0.8) translate([-3,260,16]) rotate([90,0,0]) import("./motors/NEMA_17.stl", convexity=3);
-    color("darkgray") translate([0,220-11,16]) rotate([90,0,0]) motorCopuling();
-
   }
 
-  translate(mount_translate) {
-    translate([0,45,0]) feetVslot();
-    translate([0,45+80,0]) mirror([0,1,0]) feetVslot();
-  }
+  translate([0,45,-40]) feetVslot();
+  translate([0,45+80,-40]) mirror([0,1,0]) feetVslot();
 
-  translate([0,88+25,26]) carrigeToClampV2();
-
-  translate([0,220+7,16]) rotate([90,0,0]) motorAdapterFlangeF3();
-
-  translate([0,5,35.5 + 0.5]) ledMount();
-
-  translate(mount_translate) {
-    translate([200,45,-9]) feetArcaSwiss();
-  }
-
+  assembly();
 
   if ($preview) {
     color("lightblue") {
-      translate([100,0,0]) {
+      translate([-200,0,0]) {
         render() difference() {
           carrigeToClampV2();
           cube([100,100,100]);
@@ -402,7 +422,7 @@ if (mode == "develop") {
           translate([-100,-120,0]) cube([100,100,100]);
         }
       }
-      translate([100,100,0]) {
+      translate([-200,100,0]) {
         render() difference() {
           feetArcaSwiss();
           translate([0,40,0]) cube([100,100,100]);
