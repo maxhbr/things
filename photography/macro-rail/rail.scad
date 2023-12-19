@@ -260,7 +260,10 @@ module feetArcaSwiss() {
           translate([0,15,0]) cylinder(d=16, h=height,$fn=6);
         }
       }
-      translate([holeXDist/2,0,height]) m4insert();
+      translate([holeXDist/2,0,height]) {
+        m4insert();
+        translate([0,0,-0.3])cylinder(d1=7.5,d2=8.5,h=0.3);
+      }
       translate([0,40,0]) hull() {
         translate([0,0,height]) cube([15,40,2], center=true);
         translate([0,-2,height+2]) cube([19,44,4], center=true);
@@ -322,10 +325,12 @@ module motorAdapterFlangeF3() {
       //     }
       //   }
       // }
+
+      translate([0,-15,0]) cylinder(d=28+8,h=height-2, $fn=6);
     }
     cylinder(h=height, d=24);
     mirror_horizontally() {
-      translate([1,1,0] * (holeDistance/2)) m3screw(addD=3.5);
+      translate([1,1,0] * (holeDistance/2)) m3screw(addD=1.5);
       translate([1,-1,0] * (holeDistance/2)) m3screw(addD=1);
     }
     mirror_horizontally() {
@@ -336,62 +341,12 @@ module motorAdapterFlangeF3() {
       }
     }
 
-    translate([0,-32,0]) rotate([0,0,0]) cylinder(d=28,h=height, $fn=6);
-  }
-
-}
-
-module motorAdapterFlangeF3WithPCB() {
-  render() {
-    motorAdapterFlangeF3();
-    translate([-30,0,0]) {
-      difference() {
-        translate([0,0,2]) {
-          hull() {
-            cube([20,40-4,4], center=true);
-            cube([20-4,40,4], center=true);
-          }
-          mirror_vertically(){
-            hull() {
-              translate([-5,15,0]) {
-                cube([10,10-4,4], center=true);
-                cube([10-4,10,4], center=true);
-              }
-              translate([-5-2,15-1,0]) cube([4,4,20]);
-            }
-            translate([-5-2,15-1,0]) hull() {
-              cube([4,4,74-4]);
-              translate([-1,-1,0]) cube([6,2,74]);
-            }
-          }
-        }
-        translate([16,-5,2]) cube([20,20,4], center=true);
-        translate([-5,-15,2])
-          minkowski() {
-            union() {
-              translate([0,30/2,70/2]) cube([1.6,30,70],center=true);
-              translate([0,30/2,74/2]) cube([1.6,30-3.5,74],center=true);
-            }
-            sphere(r=0.4);
-          }
-        hull() mirror_vertically() translate([1,4,0]) cylinder(d=6, h=4,$fn=16);
-        translate([0,-15,0]) hull() {
-          cube([3,2,7]);
-          translate([0.5,0,0]) cube([2,2.5,7]);
-        }
-      }
-      mirror_vertically() translate([-3,15,0]) {
-        hull() {
-          translate([0,0.5,0]) cube([10,2,7]);
-          cube([10,3,6]);
-        }
-        hull() {
-          translate([0,0.5,0]) cube([7,2,7]);
-          translate([-1,0.5,0]) cube([1,2,40]);
-        }
-      }
+    intersection() {
+      translate([0,-32,0]) cylinder(d=28,h=height, $fn=6);
+      translate([0,-15,0]) cylinder(d=28,h=height, $fn=6);
     }
   }
+
 }
 
 module pcbMount(shroud=false) {
@@ -453,6 +408,11 @@ module pcbMount(shroud=false) {
               }
               translate([-5-2,15-1,0]) {
                 hull() {
+                  translate([-1,-0.5,50]) cube([6,3,24]);
+                  translate([-1,0.5,60]) cube([6,3,10]);
+                  translate([-1,-1.5,60]) cube([6,3,12]);
+                }
+                hull() {
                   cube([4,4,74-4]);
                   translate([-1,-0.5,0]) cube([6,3,74]);
                 }
@@ -475,16 +435,24 @@ module pcbMount(shroud=false) {
           }
         }
         translate([30,0,0]) {
-          mirror_horizontally() translate([holeDistance/2,-20,9]) rotate([90,0,0]) m3screw();
+          mirror_horizontally() translate([holeDistance/2,-20,9]) rotate([90,0,0]) {
+            m3screw();
+            translate([0,0,3]) hull() {
+              cylinder(d1=10,d2=11,h=1);
+              translate([0,5,0]) cylinder(d1=7,d2=8,h=1);
+            }
+          }
         }
         translate([-5,-15,2])
           minkowski() {
             union() {
               translate([0,30/2,70/2]) cube([1.6,30,70],center=true);
               translate([0,30/2,74/2]) cube([1.6,30-3.5,74],center=true);
+              translate([0,30/2,74+7]) rotate([45,0,0]) cube([1.6,30,30],center=true);
             }
             sphere(r=0.4);
           }
+        translate([-8+30,-24,0]) rotate([45,0,0]) cube([60,3,3],center=true);
       }
     }
   }
@@ -624,8 +592,6 @@ if (mode == "assembly") {
   }
 } else if (mode == "motorAdapterFlangeF3") {
   motorAdapterFlangeF3();
-} else if (mode == "motorAdapterFlangeF3WithPCB") {
-  motorAdapterFlangeF3WithPCB();
 } else if (mode == "pcbMount") {
   pcbMount();
 } else if (mode == "feetArcaSwiss") {
@@ -634,9 +600,8 @@ if (mode == "assembly") {
   translate([0,-10,0]) carrigeToClampV2();
   // translate([52,0,0]) rotate([180,0,90]) feetVslot();
   // translate([-52,0,0]) rotate([180,0,90]) feetVslot();
-  translate([0,50,0]) motorAdapterFlangeF3();
-  //translate([80,50,0]) motorAdapterFlangeF3WithPCB();
-  translate([-60,-20,0]) rotate([0,0,-90]) pcbMount();
+  translate([40,50,0]) motorAdapterFlangeF3();
+  translate([-40,10,0]) rotate([0,0,-90]) pcbMount();
   translate([0,-65,0])
   rotate([0,0,90])
   translate([0,-40,0]) feetArcaSwiss();
