@@ -36,6 +36,10 @@ module m4screw(h=10,addH=0, addD=0) {
   translate([0,0,h]) cylinder(d=8+addD,h=addH,$fn=100);
 }
 
+module m5screw(h=10) {
+  cylinder(d=5.6,h=h,$fn=100);
+}
+
 module insert(d,h) {
   translate([0,0,-h])
   cylinder(d=d+0.1,h=h,$fn=100);
@@ -59,11 +63,11 @@ module m5insertShort(addH=0) {
 module clamp() {
   difference() {
     union() {
-      cylinder(d=60, h=10);
+      cylinder(d=60, h=14.5);
       translate([0,0,5]) rotate([-90,0,0]) cylinder(d=5, h=40);
       translate([0,35,5]) rotate([-90,0,0]) cylinder(d=14, h=15);
     }
-    hull() mirror_horizontally() translate([100,0,6]) cylinder(d1=40, d2=30, h=10);
+    hull() mirror_horizontally() translate([100,0,10.5]) cylinder(d1=40, d2=30, h=10);
   }
 }
 
@@ -223,7 +227,7 @@ module feetVslot() {
       }
       translate([holeXDist/2,0,0]) m4insert(addH=10);
       m5insertShort(addH=10);
-      translate([30,0,-9]) m4screw(addH=0);
+      translate([30,0,-9]) m5screw();
     }
   }
 }
@@ -507,11 +511,11 @@ module assembly() {
 
     color("darkgray") render() translate([0,88+25,26]+[0,0,16.5-7]) {
       intersection() {
-        rotate([0,0,90])
-        clamp();
+        rotate([0,0,90]) clamp();
         translate([-50,0,0]) cube([100,100,100],center=true);
       }
     }
+    color("gray", 0.2) translate([-20,20,46]) rotate([90,0,180]) import("./arcaswiss/150mm_Arcaswiss_Style_Rail.stl", convexity=3);
   }
 }
 
