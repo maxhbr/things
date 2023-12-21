@@ -500,8 +500,6 @@ module assembly() {
   translate([0,45,-9]) feetArcaSwiss();
 
   if ($preview) {
-
-    // railStl="./HiWin-KK5002P/KK5002P150A1F000_FILE_2.stl";
     railStl="./HiWin-KK5002P/KK5002P150A1F00SA_FILE_1.stl";
     color("lightgray",0.8) import(railStl, convexity=3);
 
