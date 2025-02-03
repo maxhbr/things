@@ -36,6 +36,8 @@ export -f buildPart
 
 scad="$(readlink -f ${1})"
 
+set -x
+
 buildAll "$scad" &
 getParts "$scad" | parallel --progress buildPart "$scad" {} 1>&2
 
